@@ -1,0 +1,197 @@
+Nodes
+========
+
+Node/Agents/Slave/
+
+3.143.110.105  Pub
+172.31.19.244 Private
+
+Pipelines:
+============
+
+
+Ticket--UC 001:
+  Create a zelle-app Jenkins scripted pipeline job:
+
+
+
+
+node{
+  stage('1.CodeClone'){}
+  stage('2.MavenBuild'){}
+  stage('3.CodeQualityAnalysis'){}
+  stage('4. Upload2Nexus'){}
+  stage('5.Deploy2UAT'){}
+  stage('6.ManualApproval'){}
+  stage('7.Deploy2Prod'){}
+  stage('8.Notification'){}
+
+}
+=================================
+
+https://github.com/unitedcoresystems/maven-web-application.git  public
+
+single line comment in groovy  = //  
+multi-line comment in groovy  =  /*  */
+
+
+
+
+================================================
+node{
+  stage('1.CodeClone'){} :
+  stage('2.MavenBuild'){}:
+  stage('3.CodeQualityAnalysis'){} :
+  stage('4. Upload2Nexus'){}  :
+  stage('5.Deploy2UAT'){}  :
+  stage('6.ManualApproval'){}  :
+  stage('7.Deploy2Prod'){} :
+  stage('8.Notification'){} :
+  stage('9.SlackNotify'){}  :
+
+
+
+node{
+def mavenHome = tool name: '3.9.5'
+
+def COLOR_MAP = [
+    'FAILURE' : 'danger',
+    'SUCCESS' : 'good'
+]
+
+  stage('1. CodeClone'){
+    git branch: 'main', changelog: false, credentialsId: 'Git-token', poll: false, url: 'https://github.com/unitedcoresystems/maven-web-application.git'  
+    //bat "https://github.com/unitedcoresystems/maven-web-application.git"
+
+  }
+  stage('2. MavenBuild'){
+    sh "${mavenHome}/bin/mvn package"
+  }
+
+  stage('3. CodeQualityAnalysis'){
+    sh "${mavenHome}/bin/mvn sonar:sonar"
+
+  }
+
+   stage('4. Upload2Nexus'){
+    sh "${mavenHome}/bin/mvn deploy"
+   }
+
+   stage('5. Deploy2UAT'){
+    deploy adapters: [tomcat9(credentialsId: 'tomcat-cre', path: '', url: 'http://18.116.240.90:8080/')], contextPath: null, onFailure: false, war: 'target/*.war'
+   }
+
+   stage('6. ManualApproval'){
+    sh "echo 'ready for review' "
+    timeout(time:5, unit:'HOURS') {
+    input message: 'Application ready for deployment, Please review and approve'
+   }
+
+    stage('7.Deploy2Prod'){
+    deploy adapters: [tomcat9(credentialsId: 'tomcat-cre', path: '', url: 'http://18.116.240.90:8080/')], contextPath: null, onFailure: false, war: 'target/*.war'
+    }
+
+     stage('8.Notification'){
+      emailext body: 'this is to notify the teams', recipientProviders: [contributor(), developers(), upstreamDevelopers()], subject: 'united-Zelle-App', to: 'isaac.ntim@unitedcoresystem.com'
+     }
+
+       stage('9.SlackNotify'){
+        echo 'Slack Notifications'
+        slackSend (
+            channel: '#jenkins',
+            color: COLOR_MAP[currentBuild.currentResult],
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        )
+  }
+       }
+   }
+
+
+     
+  For Slack Notifications:
+  =========================
+     def COLOR_MAP = [
+    'FAILURE' : 'danger',
+    'SUCCESS' : 'good'
+]
+
+
+stage('9.SlackNotify'){
+        echo 'Slack Notifications'
+        slackSend (
+            channel: '#jenkins',
+            color: COLOR_MAP[currentBuild.currentResult],
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        )
+
+Declarative Jenkinsfile:
+=========================
+
+pipeline{
+  agent any 
+  tools {}
+  options{}
+  triggers{}
+  stages {}
+  post{}
+}
+
+====================
+pipeline{
+  agent{ 
+ label 'Benard'
+}
+  tools {
+    maven '3.9.5'
+
+  }
+  
+  //options{}
+  //triggers{}
+  
+
+  stages {
+        stage('1Clone'){
+          steps{
+            sh "echo 'cloning the latest application version' "
+            git branch: 'main', changelog: false, credentialsId: 'Git-token', poll: false, url: 'https://github.com/unitedcoresystems/maven-web-application.git'
+            sh "echo 'latest application version available for testing and build' "
+          }
+        }
+
+  stage('2TestBuild'){
+      steps{
+        sh "echo 'running JUnit-test-cases' "
+        sh "echo 'testing must passed to create artifacts ' "
+        sh "mvn clean package" 
+      }
+    }
+
+    stage('3CodeQualityAnalysis') {
+    steps{
+        sh "echo setup sonarQube authentication"
+        sh "echo 'Perfoming CodeQualityAnalysis' "
+        sh "mvn sonar:sonar"      
+    }
+   }
+
+   stage('4UploadArtifacts') {
+    steps{
+      sh "echo configure nexus authentication"
+      sh "mvn deploy"
+      sh "echo artifacts uploaded"
+    }
+   }
+  stage('5deploy') {
+    steps{
+deploy adapters: [tomcat9(credentialsId: 'tomcat-cre', path: '', url: 'http://18.116.240.90:8080/')], contextPath: null, onFailure: false, war: 'target/*.war'
+
+    }
+}
+
+ // post{}
+  }
+}
+
+
+

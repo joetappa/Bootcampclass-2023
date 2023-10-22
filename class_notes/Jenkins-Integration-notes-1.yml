@@ -223,4 +223,187 @@ add url of tomcat server
          allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />  -->
 
 ===============================================================================
+11 October 2023:
+====================
+Zelle-webapp =  
+Onboard a new project for Zelle  web-app =  
+Create a Jenkins job to test, build and deploy the application to a tomcat server
+Requirements:
+  1. Create Team in our GitHub company a/c add and and assign member's roles and tasks
+  2. Create a github repository for the  project  
+  3. share the repository details for Team members and developers  
+  4. Install and configure:
+      jenkins and setup for ci/cd
+      setup jenkins-maven integration for builds   
+      jenkins-SonarQube integration for CodeQualityAnalysis  
+      jenkins-nexus integration for artifactory   
+      jenkins-tomcat integration as appSever Deployment
+      nginx as web server
+  6. Create a Jenkins job for the project  
+  7. configure Jenkins:
+        maven Integration  
+        SonarQube Integration  
+        nexus integration  
+        tomcat integration  
+        git Integration
+        GitHub  Integration
+        notification [slack, email]
 
+  git clone https://github.com/unitedcoresystems/maven-web-application.git   = privateRepo 
+   
+  git clone https://github.com/unitedcoresystems/maven-web-application.git  = publicRepo
+
+1. Clone, Import or fork the project repo:  
+    https://github.com/unitedcoresystems/maven-web-application.git 
+
+   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 
+
+   [ERROR] Failed to execute goal org.sonarsource.scanner.maven:sonar-
+   maven-plugin:3.9.1.2184:sonar (default-cli) on project maven-web-application: 
+    Not authorized. Please check the properties sonar.login and sonar.password. -> [Help 1]
+[ERROR] 
+
+
+   http://3.16.23.13:8081/repository/zelle-releases/    
+
+   http://3.16.23.13:8081/repository/zelle-snapshot/
+
+
+    http://44.204.71.5:8177/Zelle  
+
+========================
+How do you automate builds in Jenkins?   
+======================================
+Build Now:  is a limited measure of automation  
+
+Automate builds using build triggers.
+===================================== 
+1. build periodically = Timer [cronjob ] =   :
+     run this job every mid night [database backup]  
+     run this job every 2am       [database backup] 
+     run this job every minute * * * * *    min--hr--day--wk--month
+     run this job every HOUR H * * * * 
+   Started by timer:
+     database backup
+     system Monitoring   
+     system update   
+     application performance Monitoring
+        minutes =    1  2  3      ... 100
+        jobs    =    j1 j2 j3         j100 
+
+2. poll SCM - Timer + Changes in SCM via   :
+     * * * * * Every minute Jenkins will check for changes in the src to trigger a build  
+     H * * * * Every hour Jenkins will check for changes in the src to trigger a build
+     Software builds 
+     application build and Deployment
+     Started by an SCM change:
+ demo: please change the SRC on git 
+
+
+Started by user: unitedcore
+Started by timer: 
+
+3. GitHub-webhook :
+    GitHub will notify Jenkins to trigger a build once there is a change in the scm [src]  
+     
+    Jenkins Server url =  http://13.58.77.16:8080/
+    GitHub-webhook     =  http://13.58.77.16:8080/github-webhook/   
+
+     Software builds 
+     application build and Deployment
+     Started by GitHub push by tiffy2009 
+
+    Started by GitHub push by tiffy2009
+
+ As soo as a code is commited in Git and  API-CALLS to jenkins is made 
+
+1:00PM ----   
+1:05PM ---- 
+2:00PM ----  
+
+4. Build other projects:  
+5. Build after other projects:  
+     Upstrean project  
+       1. app-Test   
+       2. app-Build+Release
+       3. app-deployment-UAT/QA  
+       4. app_deployment-Production   
+       5. app_apm  ( appliction Performance monitoring)
+       6. app-logMGT  
+       7. app-discovery[webSevers/Services]       
+
+
+Started by upstream project "Zelle-dev" build number 12
+originally caused by:
+ Started by user United Core Systems
+
+       Downstream project 
+             deploy2Tomcat
+
+Started by user United Core Systems
+  Project Zelle-uat
+  Upstream Projects
+    Zelle-dev
+Downstream Projects
+    Zelle-prod
+
+  Zelle-dev---->Zelle-uat---->Zelle-prod  
+=====================================
+Types of Jenkins jobs:
+======================
+- Freestyle  project  ===   :
+     Software build
+     application deployment     
+     server Monitoring / apm    
+ clone--mvn package sonar:sonar deploy  40mins
+
+- Maven project  :
+    - reduces the configurations to build with Maven    
+          mvn package  [ pom.xml, src]   
+          apple [ apple.xml, src]      
+    - clean package 
+   clone--mvn package sonar:sonar deploy  25mins
+  install Maven integration plugin to run jobs using maven project: in plugins
+
+ look for  maven Integration
+  
+Run only if build succeed
+- Pipeline projects  :
+
+- Mulit-Branch Pipeline projects  :
+
+Jenkins options:
+  1. Discard Old Build
+     Building in workspace /var/lib/jenkins/workspace/Zelle-app
+
+  2. Disable this project = Zelle-app: maven / sonarqube / nexus / tomcat  
+          This project is currently disabled 
+      schedule Maintainance of servers 
+         Jenkins--Git/GitHub--Maven--sonarqube--nexus---tomcat 
+            H * * * * 
+      database backup 
+
+  3. Delete workspace before build starts 
+
+  4. Add timestamps to the Console Output 
+      sudo timedatectl set-timezone America/New_York
+
+  5. build with parameters  :
+
+Building in workspace /var/lib/jenkins/workspace/Zelle-app
+
+Jenkins Home Directory = /var/lib/jenkins/
+Jenkins User = jenkins  
+su - jenkins  = run as a normal user  
+sudo su - jenkins  = run as the root user      
+
+mavenHomeDir = /opt/maven   
+JHD = /var/lib/jenkins/:
+   workspace/Zelle-app/src pom.xml    
+   jobs/Zelle-app/1 2 3 4 5 6 7 8 
+   users/users.xml     
+   plugins/deploy.jpi 
+   credentials.xml
+   config.xml 
+      <useSecurity>true</useSecurity>
+      <useSecurity>false</useSecurity>
