@@ -1,0 +1,282 @@
+Teaching Note for DNS (Route 53)
+
+Objective:
+The primary goal of this lecture is to provide an in-depth understanding of Amazon's DNS service, 
+Route 53, and its components. The lecture also aims to prepare students to understand Route 53 
+in the AWS Certified Solutions Architect Associate.
+
+# Overview 
+1. What is Amazon Route 53:   
+   Amazon Route 53 is a scalable and highly available *Domain Name System (DNS)* web service. 
+   The "53" in its name refers to the DNS port 53, which handles DNS queries. Amazon Route 53 
+   connects user requests to infrastructure running in Amazon Web Services (AWS) – such as 
+   Amazon EC2 instances, Elastic Load Balancing load balancers, and Amazon S3 buckets – and 
+   can also be used to route users to infrastructure outside of AWS.
+
+#### AWS Route 53 mainly performs three functions:-
+    - It registers the name for the website (Domain name) which needs a name. Like if you 
+    want to buy a domain name, you that domain name through Route 53.
+
+    - It helps the user to connect the website or web application with the browser in the 
+    server when he/she enters the website name.
+
+    - It keeps checking the health of resources before the customer notices it by 
+    sending an automated request over the internet to resources.
+
+2. DNS (Domain Name System):
+   - Converts human-friendly domain names into IP addresses (IPv4 or IPv6).
+   - Acts like a phone book for the internet.
+   Example : Imagine you want to call a local pizzeria, but you don't know the phone 
+   number. In the past, you might have turned to a phone directory or the Yellow Pages 
+   to look up the pizzeria by name and find its phone number.
+
+3. IP Addresses:
+   - IPv4: 32-bit field with over 4 billion addresses.
+   - IPv6: 128-bit field with 340 undecillion addresses.
+   - Transition from IPv4 to IPv6 due to address exhaustion.
+
+   IP addresses are numerical labels that are used to identify devices on a network. 
+   They are an essential component of the Internet Protocol, which is the set of rules 
+   that governs how data is sent and received over the internet.
+
+There are two types of IP addresses:
+
+IPv4 (Internet Protocol version 4):
+
+It is the fourth version of the Internet Protocol and the first one to be widely deployed.
+IPv4 addresses are 32-bit numerical labels, which means there are 2^32 possible addresses, 
+totaling over 4 billion (around 4.3 billion to be exact).
+These addresses are typically written in decimal form as four octets separated by periods, for example, 192.168.0.1.
+Although there are over 4 billion possible IPv4 addresses, the actual number of available 
+addresses is less due to reserved addresses for private networks and other special purposes.
+IPv6 (Internet Protocol version 6):
+
+It is the most recent version of the Internet Protocol.
+IPv6 addresses are 128-bit labels, allowing for 2^128 possible addresses, totaling approximately 340 undecillion (3.4 × 10^38) addresses.
+These addresses are typically written in hexadecimal form as eight groups of four hexadecimal digits, 
+separated by colons, for example, 2001:0db8:0000:0042:0000:8a2e:0370:7334.
+IPv6 was introduced to address the exhaustion of IPv4 addresses, as the internet has grown and more devices have come online.
+Transition from IPv4 to IPv6:
+
+The transition from IPv4 to IPv6 is necessary because we have exhausted the available IPv4 addresses.
+IPv6 provides a much larger address space, which is necessary to accommodate the increasing number of devices connected to the internet.
+The transition is a complex process that involves updating network infrastructure, software, and devices to support IPv6.
+Many devices and networks now support both IPv4 and IPv6, and the transition is ongoing
+
+4. Top-Level Domains (TLDs) and Second-Level Domains (SLDs):
+   - Last word in a domain name is the TLD (e.g., .com, .gov, .edu).
+   - Second word is the SLD (e.g., .co in .co.uk).
+   - Managed by the Internet Assigned Numbers Authority (IANA).  http://www.iana.org/domains/root/db
+
+5. Domain Registrars:
+   - Authorities that assign domain names under TLDs.
+   - Examples include Amazon, GoDaddy, and 123-reg.
+   
+   Domain Registrars:
+
+Domain registrars are accredited organizations or companies that manage the reservation 
+of domain names on the internet. They have the authority to assign domain names under 
+the various top-level domains (TLDs) as per the guidelines of the Internet Corporation 
+for Assigned Names and Numbers (ICANN), which is the organization responsible for 
+overseeing the domain name system (DNS).
+
+Key Points:
+
+Role and Responsibility of Domain Registrars:
+
+Domain registrars are responsible for managing the reservation of domain names 
+and ensuring that each domain name is unique and not duplicated.
+They provide a platform for users to search and register available domain names.
+Domain registrars also manage the renewal and transfer of domain names.
+Examples of Domain Registrars:
+
+There are numerous domain registrars available, catering to different needs and preferences.
+Some popular examples of domain registrars include Amazon Route 53, GoDaddy, 123-reg, Namecheap, and Bluehost.
+Each registrar offers various services and pricing options, and users are encouraged 
+to research and compare different registrars to find the best fit for their needs.
+Top-Level Domains (TLDs):
+
+TLDs are the highest level of domain names on the internet and are found at the end of a web address (e.g., .com, .org, .net).
+Domain registrars have the authority to assign domain names under specific TLDs.
+Some registrars may specialize in certain TLDs, while others offer a range of options.
+Purchasing a Domain Name:
+
+When purchasing a domain name, users typically have the option to register the domain for one or more years.
+Some registrars may offer additional services such as domain privacy, web hosting, and email hosting as part of a package deal.
+It's important to read the terms and conditions carefully and understand the renewal process 
+to avoid losing the domain name when the registration period expires.
+
+6. DNS Records:
+   - Start of Authority (SOA): Contains information about the server that supplied the data for the zone.
+   - Name Server (NS): Directs traffic to the content DNS server containing authoritative DNS records.
+   - Address (A) Record: Translates domain names to IP addresses.
+   - Time To Live (TTL): The length of time a DNS record is cached.
+   - Canonical Name (CName): Resolves one domain name to another.
+   - Alias Record: Maps resource records to other AWS resources (similar to CName but can be used for naked domain names).
+
+Activities:
+- Set up three EC2 instances to understand the practical application of DNS and Route 53. 
+Note that this may incur additional costs if not within the AWS Free Tier.
+- Explore the IANA root-zone database to understand the available TLDs.
+
+
+Here are the step-by-step instructions to purchase a domain in Amazon Route 53:
+
+### Step 1: Sign in to AWS
+1. Open the AWS Management Console and sign in to your AWS account. If you do not have 
+an AWS account, you will need to create one.
+
+### Step 2: Open Route 53
+2. In the AWS Management Console, navigate to the "Services" menu and select "Route 53".
+
+### Step 3: Open the Domain Registration Page
+3. On the Route 53 home page, choose "Domain Registration".
+
+### Step 4: Start Domain Registration Process
+4. Click the "Register Domain" button.
+
+### Step 5: Choose a Domain Name
+5. Enter the domain name that you want to register and choose a domain extension (TLD) from the list.
+6. Click the "Check" button to see if the domain name is available.
+
+### Step 6: Add Domain to Cart
+7. If the domain name is available, click "Add to cart".
+
+### Step 7: Configure Domain Settings
+8. On the next page, enter your contact information. This information will be associated with the domain name.
+9. Choose whether you want to enable or disable privacy protection. Privacy protection 
+hides your contact information in the public WHOIS database.
+10. Choose whether you want to automatically renew the domain registration.
+
+### Step 8: Review Order and Add to Cart
+11. Review your order and click "Continue".
+
+### Step 9: Payment
+12. On the next page, review your order and click "Add to cart" if everything is correct.
+13. Enter your payment information and click "Place Order".
+
+### Step 10: Confirm Registration
+14. After your payment is processed, you will see a confirmation page with your order details. 
+Amazon Route 53 will also send you an email to confirm your domain registration.
+
+After completing these steps, your domain will be registered, and you will be able to 
+manage it from the Route 53 dashboard. You can then create DNS records and configure 
+other settings as needed.
+
+Demo:
+
+   lunch 3 instances from Diff region
+
+   1: add bit scrips on all instances
+
+
+Amazon Route 53 provides various routing policies that help to define how the DNS queries are routed to the endpoints. Here are some of the Route 53 policies explained:
+
+1. *Simple Routing Policy*
+   It allows configuring DNS with no unique Route 53 Routing. It is mainly used when you have a single resource that performs a given function for your domain.
+
+So so simple routing policy is basically
+where you can only have one record
+with multiple IP addresses
+and if you specify multiple values in a record,
+Route 53 returns all values to the user in a random order.
+So we've got our user, they're making a DNS request
+to Route 53 and we've got two IP addresses in here.
+Our first is 30.0.0.1.
+Our second is 30.0.0.2
+and basically Route 53 just picks these in random orders.
+
+Demo Go into:
+
+   1: EC2 and grab all IP address
+   2:  go to route 53---Hosted sign----unitedcoresystems
+   3: Creat Record Set
+         Name: UnitedCoressstems
+         type: A-IPv4
+         Alias: No
+         TTL: 300  change to 60
+         Value: past all 3 Pub IPs on seperate lines
+         Creat:
+Test sign----unitedcoresystems.com url
+
+2. *Weighted Routing Policy*
+    It routes multiple resources with a single domain name and controls 
+    the traffic to be routed to each resource. It is mainly useful for 
+    testing and load-balancing new versions of the software.
+
+So, weighted routing policies allows you to
+split your traffic based on different weights assigned.
+For example, you can send 10% of your traffic
+to go to US-EAST-1,
+and 90% of your traffic to go to EU-WEST-1.
+
+So basically, it works like this,
+your user types in the domain name
+into their browser, and they navigate to Route 53.
+Route 53 sends 20% of the traffic
+over to US-EAST-1, and 80% of the traffic
+over to US-WEST-1.
+
+
+2:  go to route 53---Hosted sign----unitedcoresystems
+   3: delete Record Set
+         Creat Record Set  relunch url again to show error
+         Name: UnitedCoressstems
+         type: A-IPv4
+         Alias: No
+         TTL: 300  change to 60
+         Value: paste just 1 IP---------- 
+         routing policy: weighted
+         weight: 20
+         Set ID: Name of the server
+         Creat:
+
+            
+   Associate with health check: yes 
+
+   go to console and creat health check: for all 3 regions
+
+            name: server names
+            what to monitor: endpoint
+            specify endpoint : Ip 
+            IP address: server IP----------
+            hostname: unitedcoresystems.com
+            port:80
+            path : index.html
+
+
+      Advance Config
+
+      assicoate will all servers
+
+      delete all records
+
+
+
+3. *Latency Routing Policy*
+    - Use when you have resources in multiple AWS regions and you want to route traffic to the resource that provides the lowest latency.
+    - Amazon Route 53 responds to DNS queries with the IP address of the resource in the region that provides the lowest latency.
+
+4. *Failover Routing Policy*
+    It routes traffic to another or alternate resource when the previous resource is unhealthy. It makes one ELB (Elastic Load Balancing) on active mode and the other on standby mode. It switches automatically when there is a failover.
+
+5. *Geolocation Routing Policy*
+    It routes the resources based on the geographic location of the users. It localizes the content or website in the language of the user. These are specified by continent, or by country.
+     
+6. *Geoproximity Routing Policy*
+   It routes the resources based on the geographic location of the users. It localizes the content or website in the language of the user. These are specified by continent, or by country.
+
+Dashboard:
+      Trafic Policies
+      1: Creat
+         Policy Name
+
+         Add IPv4 format---- connect Geoproxyrule
+7. *Multivalue Answer Routing Policy*
+    - Use when you want to route traffic approximately randomly to multiple resources, such as web servers.
+    - Responds to DNS queries with up to eight healthy records selected at random.
+
+
+
+
+These routing policies in Amazon Route 53 provide a lot of flexibility and control in how DNS queries are handled and routed to the appropriate resources based on various factors.

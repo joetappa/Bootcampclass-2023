@@ -50,7 +50,7 @@ mvn --version
 
 #### 1. Configure nexus login credentials in settings.xml file in the conf directory in the maven server 
 ```sh 
-sudo vi /opt/maven/settings.xml          
+sudo vi /opt/maven/conf/settings.xml          
 ```
 
 #### 2. Edit and add credentials as shown below under commentted <server> </server> tag  

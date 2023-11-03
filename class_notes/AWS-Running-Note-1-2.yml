@@ -1,0 +1,308 @@
+Introduction to AWS Identity and Access Management (IAM):
+
+	Regions:
+Importance of selecting a region:
+
+	1: Proximity
+	2: Cost
+	3: Location( Compliance) GDPR/ PCI-DSS/ NIST/ISO 270000
+	4: Redundancy
+
+MFA:
+Multi Factor Authentication
+
+
+
+1: Create Group
+2: Creat User
+#: Add User to the group
+
+Ticket#001 for UC: 
+=====================
+Group Name:           permissions policies
+
+1:	admin-full-access =  ec2fullAccess
+2:	support           =  C2ContainerServiceRole
+3:	montoring         =  ec2Read 
+
+
+Users:
+
+User1-Alex -------->support
+user2-Mena -------------> monitoring
+user3-michael -------- Admin-full-access    8aYMV0E}
+
+
+oles are used in the following scenarios:
+
+1. *Cross-Account Access:*
+   - Allows users from one AWS account to access resources in another AWS account.
+
+2. *Federated User Access:*
+   - Enables identities from your corporate directory to access AWS resources without creating an IAM user for each identity.
+
+3. *AWS Service Access:*
+   - Grants permissions for AWS services to interact with other AWS resources. For example, you 
+   might create a role that allows an EC2 instance to access an S3 bucket.
+
+   Key points about roles:
+ Roles do not have long-term credentials (such as a password or access keys) associated with them.
+- Temporary security credentials are generated dynamically and provided to the trusted entity when it assumes the role.
+- The permissions of the role are defined by the policy or policies attached to the role.
+- The trusted entities that are allowed to assume the role are defined in the role's trust policy.
+
+
+SSO
+
+
+28 October 2023:
+===================
+
+
+Elastic Compute Cloud (EC2)
+===================================================
+
+Definition: What is an EC2 ?
+	- 	EC2 instances are virtual servers in Amazon's Elastic Compute 
+		Cloud (EC2) that can run applications on the AWS infrastructure.
+
+	- 	EC2 stands for Elastic Compute Cloud, and instances are the virtual 
+		servers within EC2 where users can run their applications.
+
+	- 	EC2 instances provide scalable computing capacity, allowing users to 
+		run workloads in the cloud by leveraging Amazon's vast global infrastructure.
+
+	- 	Users can choose from a variety of instance types and sizes to customize 
+		the compute, memory, and storage needs for their applications.
+
+	- 	EC2 instances can be controlled through a web-based interface, AWS CLI, or SDKs.
+
+	- 	EC2 instances can be used for a range of applications, from hosting websites
+		to running complex machine learning models.
+
+	- 	Users can launch single or multiple instances as needed, and the instances 
+		can be stopped or terminated when they are no longer needed.
+
+	- 	EC2 instances are built on a virtualization technology, and users can 
+		choose from different operating systems, including Linux and Windows.
+
+
+Instance Types:
+=======================================
+	Different types (general purpose, compute optimized, memory optimized, 
+	storage optimized, GPU instances) to meet various application needs.
+
+	General-Purpose Instances:
+		usage:
+		-	Web servers and web applications
+		- 	Small to medium-sized databases
+		-	Development and test environments
+		-	Application hosting
+
+		Industry:
+		-	Startups and Small Businesses: Many startups and small businesses use general-purpose instances 
+											to host their web applications, websites, and basic infrastructure.
+		- 	E-commerce Websites: 	Online retailers often rely on general-purpose instances to handle 
+									their e-commerce platforms and manage customer orders.
+
+	Compute-Optimized Instances:
+		usage:
+		-	Data analytics and processing
+		-	Scientific modeling and simulations
+		-	Rendering and encoding tasks
+		-	High-performance computing (HPC) clusters
+
+		Industry:
+		- 	Data Analytics Companies: Companies specializing in data analytics and data processing 
+								use compute-optimized instances for running complex data queries and analysis.
+		-	Scientific Research Institutions: Scientific research organizations leverage these instances 
+									for simulations, modeling, and data analysis.
+
+	Memory-Optimized Instances:
+		usage:
+		-	In-memory databases (e.g., Redis, Memcached)
+		-	Big data analytics with in-memory processing
+		-	Java-based applications with large heap requirements
+		-	SAP HANA-based applications
+
+		Industry:
+		-	In-Memory Database Providers: Companies like SAP, which provide in-memory database solutions, 
+									utilize memory-optimized instances to run large-scale in-memory databases.
+		-	Big Data Analytics Firms: Businesses involved in big data analytics rely on these instances 
+								to handle memory-intensive data processing tasks.
+
+	Storage-Optimized Instances:
+		usage:
+		-	Big data processing and analytics
+		-	Data warehousing
+		-	NoSQL databases with high storage requirements
+		-	Log and data streaming applications
+
+		Industry:
+		-	Cloud Storage Providers: Cloud storage providers use storage-optimized instances to offer 
+								high-capacity, low-latency storage solutions to their customers.
+		-	Log Management and Analytics Services: Companies that provide log management and analytics 
+											services use these instances to handle vast amounts of log data.
+	GPU Instances:
+		usage:
+		-	Machine learning and deep learning model training
+		-	Data-intensive scientific simulations
+		-	Video transcoding and rendering
+		-	Graphic rendering for gaming and visualization
+
+		Industry:
+		-	AI and Machine Learning Startups: Startups specializing in AI and machine learning use 
+										GPU instances to train and deploy machine learning models.
+		- 	Gaming Companies: Game developers leverage GPU instances for graphic rendering, 
+						game physics simulations, and other gaming-related tasks.
+		-	Healthcare and Life Sciences: Organizations in healthcare and life sciences use GPU 
+									instances for tasks like medical image analysis and drug discovery simulations.
+
+
+Instance Template : Demo
+=======================================
+
+	1. Switch Ohio Region to demo launch Template 
+	2: create lunch template
+		- add SG 
+		- add user data from next tab
+	3: lunch instance 1 (web-server1) using template in subnet 1a and instance 2 (web-server2) in subnet 2a
+	4: Create LB and Demo using the DNS url
+
+
+
+
+
+
+
+
+
+
+	10 October 2023:
+  =====================
+
+
+Pricing Options: 
+================================
+
+	On-Demand Instances:
+	Pay for compute capacity by the hour or the second, depending on which instances you run.
+	No long-term commitments or upfront payments required.
+	Ideal for applications with short-term, irregular workloads that cannot be interrupted.
+
+	Reserved Instances:
+	Commit to a specific instance type in a specific region for a term of one or three years.
+	In return, you receive a significant discount over the same period compared to On-Demand instance pricing.
+	Suitable for applications with steady state or predictable usage.
+
+	Spot Instances:
+	Purchase unused EC2 capacity at a potentially lower price.
+	Instances can be terminated by AWS with little notice if AWS needs the capacity back.
+	Good for applications that are flexible with when they run.
+
+	Savings Plans:
+	Commit to a consistent amount of usage (measured in $/hour) for a 1- or 3-year period.
+	In return, you receive a discount over On-Demand pricing.
+
+	Two types of Savings Plans: Compute Savings Plans (flexible across instance family and region) 
+								and EC2 Instance Savings Plans (commit to a specific instance family in a region).
+	Dedicated Hosts:
+	Physical servers with EC2 instance capacity fully dedicated to your use.
+	Helps address compliance requirements and reduce costs by using your existing per-socket, per-core, or per-VM software licenses.
+
+	Dedicated Instances:
+	Run instances on hardware that's dedicated to a single customer.
+	Slightly different from Dedicated Hosts, as the instance is dedicated 
+	at the host level, not the physical server level. 
+
+
+AMI:
+=======================================
+
+	Amazon Machine Image (AMI) is used to create instances. AMI includes 
+	the OS, application server, applications, and configurations.
+
+
+EBS:
+=================================
+	
+	- Volume 
+	Elastic Block Store provides persistent storage volumes for data.
+	
+	- Snapshot
+	In Amazon Web Services (AWS), an EBS (Elastic Block Store) snapshot is 
+	a point-in-time copy of an EBS volume. EBS is a block storage service that 
+	provides scalable and high-performance storage volumes for use with Amazon EC2 
+	(Elastic Compute Cloud) instances. EBS snapshots are a critical feature for data 
+	backup, disaster recovery, and data migration within AWS.
+
+	Point-in-Time Copy: An EBS snapshot captures the data on an EBS volume at a specific 
+						moment in time. This allows you to create a backup or copy of your 
+						data at a particular state.
+
+	Incremental Backup: EBS snapshots are incremental, which means that only the data that has changed since
+						the last snapshot is stored in subsequent snapshots. 
+						This helps reduce storage costs and speeds up the snapshot creation process.
+
+	Data Migration: 	Snapshots can be used to migrate data between AWS regions or AWS accounts. 
+						You can create a snapshot in one region or account and then use it to create
+						a new volume in a different region or account.
+
+
+
+Load Balance :
+=================================
+
+	A load balancer is a crucial component of network and application architecture designed to distribute incoming network traffic or 
+		application requests across multiple servers or resources. Its primary purpose is to ensure that no single server or 
+    resource becomes overloaded,
+		which helps improve the availability, fault tolerance, and scalability of a system or application.
+	
+	-  Application Load Balancer
+					Choose an Application Load Balancer when you need a flexible feature
+					set for your applications with HTTP and HTTPS traffic. Operating at 
+					the request level, Application Load Balancers provide advanced routing 
+					and visibility features targeted at application architectures, including 
+					microservices and containers.
+	
+	-  Network Load Balancer
+					Choose a Network Load Balancer when you need ultra-high performance, TLS 
+					offloading at scale, centralized certificate deployment, support for UDP, 
+					and static IP addresses for your applications. Operating at the connection 
+					level, Network Load Balancers are capable of handling millions of requests 
+					per second securely while maintaining ultra-low latencies. 
+	
+	-	Gateway load Balancer
+					Choose a Gateway Load Balancer when you need to deploy and manage 
+					a fleet of third-party virtual appliances that support GENEVE. These 
+					appliances enable you to improve security, compliance, and policy controls.  
+
+
+	Here are some key characteristics and benefits of load balancers:
+
+	Traffic Distribution: Load balancers evenly distribute incoming network traffic or application requests across multiple backend servers or resources.
+	 This distribution helps prevent any single server from being overwhelmed, ensuring that resources are utilized efficiently.
+	High Availability: Load balancers can enhance the availability of a system by distributing traffic across redundant servers. If one server fails,
+	 the load balancer can automatically redirect traffic to healthy servers, minimizing downtime and maintaining uninterrupted service.
+	Scalability: As traffic to a system or application grows, load balancers allow you to add additional servers or resources to handle the increased load. 
+	This scalability ensures that the system can accommodate more users or requests as needed.
+	Fault Tolerance: Load balancers monitor the health of backend servers and can automatically remove or divert traffic from servers that are experiencing issues or are unresponsive.
+	 This helps improve the overall fault tolerance of the system.
+
+Security Groups:
+=================================================
+	Acts as a firewall, controlling inbound and outbound traffic.
+
+
+Key Pairs:
+=====================================================
+	EC2 uses public-private key pairs to securely SSH into Linux instances.
+
+
+Elastic IP Addresses:
+=========================================================
+	Static IPv4 address for dynamic cloud computing.
+
+
+
+
