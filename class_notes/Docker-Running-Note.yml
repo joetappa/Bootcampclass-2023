@@ -1,0 +1,670 @@
+Docker 
+======
+7 years Experience in IT and DevOps:
+How applications were deployed in the past and today:
+1.  1990S --- 10 years 
+2.  2000S ---   
+3.  TODAY  
+
+ 1) Traditional/Physical Deployment
+ 2) Virtualized Deployment (Hardware level Isolation) 
+ 3) Containerized Deployment(OS/Process level Isolation)
+
+====================================
+Docker -- Is a containerization software use to create, build and 
+          deploy applications as containers
+            Build applications  
+            ship applications  
+            deploy applications  
+
+IQ: How many environment are you supporting in your CURRENT role??
+         Development environment    
+         Testing/QA environment    
+         Production environment 
+In docker applications run as containers   
+
+Containers --> contains everything required for an application to run create
+               (App Files (code), Dependencies 
+              (Softwares +Libraries), ENV vars & Other Configuration files) 
+              which is required for a piece of application/process to run.
+          app.war   -----> Virtual Machine  
+                           java and Tomcat installed and configured  
+
+   app code     = app.war + 
+   dependencies = openjdk11+ + tomcat9  
+
+   app code     = app.ear + 
+   dependencies = openjdk11+ + jboss/wildFly  
+
+   app code     = app.jar + 
+   dependencies = java
+
+Containerization Software/Runtime --> :
+  Docker, = over 80% usage  
+  Rocket, 
+  Pod man, 
+  CRI-O, 
+  Core-OS,
+  Container-D. 
+
+Docker:  
+  Is a containerization multi-platform software use to;    
+  create, build, ship, share and deploy containerize applications  
+
+O.S --> Cross Platform (Docker can be installed in any O.S)
+        Docker Can Be Installed on Linux, Windows OS, macOS  
+        Desktops as well as servers.
+
+Docker is available in 2 Editions:
+
+ 1) Docker CE: --> Community Edition (Free to use)
+ 2) Docker EE: --> Enterprise Edition (Commercial/Licensed)
+     CE+
+     ---
+      1) Vendor Support = docker.io 
+      2) Additional Features like DTR (Docker Trusted Registry),
+      3) UCP (Universal Control Plane) GUI.
+
+Docker is developed in Go Lang/Go Language. 
+
+Docker Desktop (Local Laptops/Desktops) --> 
+https://docs.docker.com/engine/install/#desktop
+  Developers/DevOps Engineers Systems
+
+Linux Flavors :
+ CentOS
+ Amazon Linux
+ Red Hat   :
+ Ubuntu
+ Debian
+ Fedora
+ SUSE Linux …etc.
+ 
+Officially, Docker CE is not supported for Red Hat. 
+
+app1:
+    appCode      = app.war  +   
+    Dependencies = openjdk11+ + tomcat9
+
+app1:
+    appCode      = app.ear  +   
+    Dependencies = openjdk11 + JBoss/WildFly
+
+app3: python app 
+    appCode      = app  +   
+    Dependencies = python
+
+app3: nodeJS app 
+    appCode      = app  +   
+    Dependencies = npm 
+
+create, build, ship, share and deploy:
+Ticket001: Create a Dockerfile to containerize a javabased web application
+SCM-GitHub/GitLab/BitBucket -- projectRepo[src/pom.xml/Dockerfile/Jenkinsfile]
+
+
+Install Docker on  Ubuntu
+###########################
+#!/bin/bash
+sudo apt update -y
+sudo apt install docker.io -y
+sudo service docker start
+sudo docker info
+sudo hostnamectl set-hostname docker 
+sudo usermod -aG docker ubuntu
+sudo su - ubuntu    
+ 
+# Amazon Linux
+###########################
+sudo yum update -y    
+sudo yum install docker -y
+sudo service docker start
+sudo usermod -aG docker ec2-user
+sudo su - ec2-user
+
+
+Add Regular user to docker group
+sudo usermod -aG docker  <username>
+
+ex:
+sudo usermod -aG docker ec2-user
+
+docker pull tomcat
+
+docker pull sonarqube
+
+docker pull jenkins/jenkins
+
+
+
+install maven and git:
+    sudo apt install git maven -y
+
+Automated:
+  sudo apt install maven -y  
+manual: 
+  download the maven software
+   and extract it 
+   and add to the PATH 
+
+clone project from git:
+    git clone repor Url 
+     
+
+Build with Maven:
+
+mvn clean package
+target/core.war   
+
+THD = /usr/local/tomcat/ 
+THD = /opt/tomcat9  
+
+Dockerfile: --> Dockerfile is a file which contains instructions 
+                needed to create a docker image. 
+   Dockerfile contains Specific Keywords use to build images by   
+   the Docker Daemon
+
+Create Dockerfile:
+    vi Dockerfile 
+    
+      FROM tomcat:8.0.20-jre8
+      -# [FROM defines the baseImage containing dependencies]
+      COPY target/core.war /usr/local/tomcat/webapps/core.war
+
+https://github.com/unitedcoresystems/maven-web-application.git
+  
+
+Docker Image: --> It's a package which contains
+                 everything (Libraries, Softwares+ENV+Application Code)
+                 needed to run your application.
+
+                Creating a docker image:
+              ==========================
+
+              Docker build -t name:tag .
+                  - docker build -t image:tag  . 
+                  docker build -t unitedwebapp:v1 .
+
+
+             Docker build -t Unitedwebapp:v1
+                  - create  the repo images on dockerhub
+                    - copy repo docker file
+                  
+
+                  - Authenticate Server with dockerhub
+                      - $ docker login
+                        Enter username & password
+
+Results: Login Succeeded
+ubuntu@docker:~/maven-web-application$
+
+
+docker push tiffy2009/unitedwebapp1:v1
+
+
+docker tag unitedwebapp1:v1 tiffy2009/unitedwebapp1:v1
+docker push tiffy2009/unitedwebapp1:v1
+
+
+docker tag local-image:tagname new-repo:tagname
+docker push new-repo:tagname
+
+        Create a tag for the image:   
+                      - docker tag united:latest tiffy2009/united
+
+
+Docker containers: Run time instance of a docker image. 
+     
+     If you execute: docker run, a container is created from the image 
+
+
+
+Run the Container:
+
+
+        docker run --name united -d -p 300:8080 united:latest 
+                docker run --name -d -p 70:8080 image1
+                docker run --name -d -p 70:8080 image1:v1 
+                docker run --name -d -p 70:8080 image1:v6 
+
+                docker run --name containerName -d -p hostPort:containerPort image:tag 
+                  -d = detachable mode  
+                  -p = port Forwarding 
+
+Docker Commands:
+====================
+    - docker ps 
+      You will get permission denied error as a regular user 
+      doesn't have permissions to execute docker commands. 
+
+      Add  the regular user to the docker group.
+
+            sudo usermod -aG docker ubuntu
+            sudo su - ubuntu   
+
+
+-# Exit From Current SSH Terminal & SSH(Login) again . Then execute 
+docker ps 
+
+
+Push repo to Dockerhub:
+      - docker push tiffy2009/united
+
+
+ubuntu@docker:~/maven-web-application$ cat Dockerfile 
+Dockerfile
+FROM tomcat:8.0.20-jre8
+COPY target/*.war /usr/local/tomcat/webapps/tesla.war
+
+ docker build   
+ docker run 
+
+Docker Registry:
+1. DockerHub public [80% usage]
+2. DTR 
+3. AmazonECR 
+4. Nexus/
+5. JFrog
+
+
+Docker images :
+Docker containers  
+Dockerfile 
+Docker Networks 
+Docker volumes  
+Docker compose  
+Docker swarm 
+
+
+
+Deploy a java web application using docker: 
+    1. use/Create/modify a Dockerfile   
+    2. Use the Dockerfile to build a docker image  
+    3. Push the image to an image registry[dockerhub/ecr/nexus/JFrog]
+    4. pull, inspect and scan the docker image
+    5. deploy the application using the image
+
+
+RUN instructions will be executed while creating a image. 
+CMD Instructions will be executed while creating a container.
+We can have more than one RUN keyword in a docker file.
+All the RUN keywords will be processed while creating an image in the defined order(top to bottom).
+
+
+Docker images :
+2. Docker containers :
+3. Dockerfile :
+4. Docker Networks :
+5. Docker volumes  :
+6. Docker compose  :
+7. Docker swarm :
+
+1. Docker images :
+========================
+
+ Commands:
+
+ 	build:       Build an image from a Dockerfile 
+      docker build -t image-name:tag .
+      
+     history:     Show the history of an image
+      docker history image-name:tag
+
+      import:      Import the contents from a tarball to create a filesystem image
+      docker import /path/to/example.tar example/image
+
+      inspect:     Display detailed information on one or more images
+      docker inspect image-name:tag
+      
+      save:         Save one or more images to a tar archive (streamed to STDOUT by default)
+      docker save image-name > image-name.tar
+
+      load:         Load an image from a tar archive or STDIN
+      docker load < image-name.tar
+
+      ls :         List images
+      docker image ls or docker images
+
+      prune :       Remove unused images
+      docker image prune
+
+      pull :      Pull an image or a repository from a registry
+      docker pull image-name
+     
+      push:        Push an image or a repository to a registry
+      docker push repo-username/image-name
+
+      rmi:         Remove one or more images
+      docker rmi image-name
+
+      tag:         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+      docker tag image-name my-username/image-name:newtag
+
+IQ: What is required to build an image? Dockerfile  
+IQ: what is required to deploy an application? docker image   
+
+
+Creating Docker file : 
+=======================
+
+- Creating a Docker file with jboss: 
+
+	Dockerfile
+    
+    FROM jboss/wildfly
+    COPY target/*war /opt/jboss/wildfly/standalone/deployments/
+
+
+   - Creating a Docker file with tomcat: 
+        Dockerfile
+        FROM tomcat:8.0.20-jre8
+        COPY target/*.war /usr/local/tomcat/webapps/unitedwebapp.war
+
+
+    - Creating a container from a non default Dockerfile name : 
+
+  $ vi Dockerfile1
+        FROM tomcat:9.0.74-jre8
+        COPY target/*.war /usr/local/tomcat/webapps/unitedwebapp.war
+
+
+   Command : 
+    docker image build -t image-name:tagname -f DockerfileName path/to/Dockerfile
+    
+  Options:
+    docker image build -t unitedapp:1 -f Dockerfile3 . (. means Dockerfile3 is located in the current folder )
+    docker image build -t unitedapp:1 -f Dockerfile3 ~ (~ means Dockerfile3 is located in the current folder )
+    docker image build -t unitedapp:1 -f Dockerfile3 path/to/Dockerfile (Dockerfile3 is located in the absolute path) 
+
+   docker image build -t onlinebookstore:1 -f Dockerfile1
+
+    How to run Docker containers : 
+
+
+    docker run --name united -d -p 100:8080 tiffy2009/unitedwebapp1:v1
+
+
+    how to delete an image from a running container? : 
+===================================
+
+ docker rmi imageID/name:tag  
+
+  NB:  stop the container and force delete the image by running the commands below;  
+      docker stop containerName/ID  && 
+      docker rmi -f imageID/name:tag  
+
+  How to Pull images from Public registry [dockerhub] : 
+    No athentication is required
+    docker pull image-name 
+
+How to Pull images from private registry [Elastic Conatiner Registry ECR/dockerhub/nexus/JFrog] :
+    Authentication is required   
+    docker login -u username -p password 
+
+push images to Public registry [dockerhub] :
+      Authentication is required   
+      docker login -u username -p password 
+
+push images to private registry [dockerhub] :
+      Authentication is required   
+      docker login -u username -p password 
+
+
+
+
+
+ aws ecr private docker registry: ( Elastice Container Regisrty) private registry:
+=======================================
+
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 587541855995.dkr.ecr.us-east-1.amazonaws.com
+aws ecr private docker registry:  Pull & Push 
+===============================
+deploy an application with docker images in aws ecr:
+( Elastice Container Regisrty) private registry: 
+
+Amazon Elastic Container Registry (ECR) is a fully managed container 
+registry service provided by Amazon Web Services (AWS). It enables you to 
+store, manage, and deploy Docker container images. With Amazon ECR, you 
+can seamlessly integrate container images into your existing development 
+and deployment processes.
+
+ECR--->Getstarted-->Private--> repoName9 (Nexus)---> create
+
+Retrieve an authentication token and authenticate your Docker client to your registry.
+        
+        aws configure:
+
+
+        To Create Secrete and Access Key:
+              - Profile---> Security---> Security Credentials---> Create access key.
+
+              - Secrete: xxxxxxxxxxxxxxxxx
+
+              - Access Key: xxxxxxxxxxxxxxxx
+
+Select repo--> View Push commands--->McOs--1.:
+
+
+Use the AWS CLI:
+    1: Install AWS CLI ubuntu/windows
+        - sudo apt install awscli (unbuntu)
+        - choco install awscli(PS admin ) windows
+Copy:
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 587541855995.dkr.ecr.us-east-1.amazonaws.com
+Note: If you receive an error using the AWS CLI, make sure that you have the 
+latest version of the AWS CLI and Docker installed.
+
+
+Build your Docker image using the following command. For information on building 
+a Docker file from scratch see the instructions here . You can skip this step if 
+your image is already built:
+
+      docker build -t onlinebookstore1 .
+
+
+After the build completes, tag your image so you can push the image to this repository:
+
+      docker tag onlinebookstore1:latest 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1:latest
+
+
+
+Run the following command to push this image to your newly created AWS repository:
+
+
+
+Copy the Url: 
+            587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1
+
+            docker tag onlinebookstore1:v2 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1
+
+            docker push 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1:v2
+
+
+Results:
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 587541855995.dkr.ecr.us-east-1.amazonaws.com
+
+
+Push to AWS ECR:
+docker push 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1:latest
+
+
+
+
+delete all images using:   
+===========================
+docker images -q  = List image IDs  
+docker rmi $(docker images -q)   
+docker rmi -f $(docker images -q)  
+
+docker build/ps/images     
+
+docker ps    = List running containers  
+docker ps -a = List all containers+ hidden 
+
+docker ps -q   = List running containers IDs
+docker ps -aq  = List all containers IDs 
+docker stop containerName/ID  
+docker stop   
+
+Stop containers actively running before deleting images
+
+docker stop $(docker ps -aq)
+
+How to delete dangling images:
+------------------------------
+docker system prune  
+docker image prune 
+
+Docker images commands:
+  docker build   = create images from a Dockerfile  
+  docker tag     = assigns repository name to images 
+  docker images    = list images
+  docker image ls  = list images
+  docker images -q = list image ids 
+
+  docker rmi imageID/name:tag     = delete an image
+  docker rmi -f imageID/name:tag  = force delete an image
+
+  docker rmi -f a848f84f4894 
+  docker rmi -f  $(docker images -q) = deletes all images 
+  docker run image2 
+  docker pull nginx  
+  docker pull alpine  
+  docker images prune   
+
+  Docker container commands  :    
+=========================
+containers are created from docker images  
+  a container is a running process/instance of a docker image 
+
+  docker pull   = pull the docker image from the registry
+  docker create = use the image to create a container   -      
+  docker start  = start the container   
+  docker stop   =  stop container
+  docker run = docker create + docker start  
+docker run --help  
+docker container --help  
+
+
+Docker flow:
+  Dockerfile---->DockerImage---->Containers 
+
+  Ticket0011 -
+  Deploy a java web application using docker: 
+    1. use/Create/modify a Dockerfile   
+    2. Use the Dockerfile to build a docker image  
+    3. Push the image to an image registry[dockerhub/ecr/nexus/JFrog]
+    4. pull, inspect and scan the docker image
+    5. deploy the application using the image  
+
+docker pull---> git repo/docker reg, ecr
+
+docker inspect
+
+
+Ticket0012 -
+ https://github.com/UnitedCoreSystems/python-flask-app
+  Deploy a pythonapp application using docker: 
+    1. use/Create/modify a Dockerfile   
+    2. Use the Dockerfile to build a docker image  
+    3. Push the image to an image registry[dockerhub/ecr/nexus/JFrog]
+    4. pull, inspect and scan the docker image
+    5. deploy the application using the image [docker run]  
+
+
+Dockerfile:
+---------------
+
+FROM python:3.7
+
+WORKDIR /opt/app
+
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements-prod.txt
+
+EXPOSE 5000
+
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+
+
+Ticket0012 -
+  Deploy a nodeJS web application using docker: 
+    1. use/Create/modify a Dockerfile   
+    2. Use the Dockerfile to build a docker image  
+    3. Push the image to an image registry[dockerhub/ecr/nexus/JFrog]
+    4. pull, inspect and scan the docker image
+    5. deploy the application using the image  
+
+    https://github.com/UnitedCoreSystems/nodejs-application
+
+
+
+ Delete all running Containers
+================================
+docker rm -f $(docker ps -aq --filter  status="running")
+docker rm -f $(docker ps -q)
+
+docker pull   = pull the docker image from the registry
+  docker create = use the image to create a container   -      
+  docker start  = start the container   
+  docker stop   =  stop container
+  docker run = docker create + docker start  
+  docker run --help  
+docker container --help  
+
+
+
+Ticket0017:
+  Deploy jenkins as a container
+  docker pull jenkins/jenkins 
+
+
+  Docker exec
+
+  Avoid address/port binding:
+===========================
+netstat -tulpn  
+
+stop/kill the container
+========================
+  docker stop <containerId/Name>
+    gives warning before stopping the container process 
+  docker kill <containerId/Name>
+    gives no warning before stopping the container process  
+
+
+pause/unpause 
+============
+    docker pause <containerId/Name>
+    docker unpause <containerId/Name>
+
+
+ In docker applications are deployed in containers:
+==============================================  
+
+
+
+How to resolves issues occuring in a docker container??:
+How to troubleshoot or debug applications running as docker containers? :
+1. docker ps -a =  
+    = This will check if the container is running, paused or exited
+      docker unpause; docker start  
+2. docker top containerNAME/ID = check resources 
+3. docker stats containerNAME/ID    
+4. docker logs containerNAME/ID
+5. docker exec  = run commands inside the container
+   docker exec jenkins ls  
+   docker exec -it jenkins   /bin/bash
+7. docker inspect containerNAME/ID
+8. docker attach containerNAME/ID 
+9.  netstat -tulpn  
+
+
+
+Docker cp  = use to copy files into the container from the dockerhost  
+             and vise versa    
+
+
+docker cp javaapp:/usr/local/tomcat/logs /home/ubuntu

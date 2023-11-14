@@ -1,0 +1,361 @@
+AWS VPC: Amazon's Virtual Private Cloud, Amazon VPC
+=============
+* what is a VPC?:
+Basically, just think of a VPC as a virtual data center in the cloud.
+
+
+1: VPC lets you provision a logically isolated section of the Amazon Web Services Cloud
+    where you can launch AWS resources in a virtual network that you define.And you have 
+    complete controlover your virtual networking environment,including selecting your own 
+    IP address ranges,creation of subnets and configuration of route tables as well as 
+    network gateways.
+
+    *Analogy:* Think of a VPC as your own private space in a large office complex. 
+    It's your rented area where you can set up your office, partition it, and 
+    decide who can come in or out.
+
+*You should be able to build out your own VPC from memory.
+
+Example: For example, you can create a public-facing subnet for your web servers that has 
+         access to the internet, and then you can place your backend systems such as your 
+         databases, your application serversin a private-facing subnet with no internet access.
+
+2: web servers are exposed to the internet but your sensitive application and database servers
+    are not exposed to the internet.
+
+3: We can leverage multiple layers of security, including security groups as well as network 
+    access control lists to help you control access to Amazon EC2 instances in each subnet
+
+4: VPC will allow us to create a Hardware Virtual Private Network or VPN connection between 
+    your corporate data center and your VPC,and leverage the AWS cloud as an extension
+    of your corporate data center.
+
+
+Components of a VPC:
+====================
+
+Subnets:
+      A subnet is a range of IP addresses in your VPC. Subnets can be used to separate 
+      resources and manage access. Public subnets have routes to the Internet, while 
+      private subnets do not, offering internal-only access.
+
+*Analogy:* Within your office space (VPC), you can have different rooms (subnets) 
+          for various departments like sales, development, and support. Some rooms 
+          may be accessible to everyone (public subnets), while others may be 
+          restricted (private subnets).
+
+Route Tables:
+        These are sets of rules (routes) that determine where network traffic 
+        from your subnets or gateways is directed.
+
+*Analogy:* Route tables are like the office directory that lists which rooms 
+          (subnets) are on which floor and how to get to them.
+
+Internet Gateways:
+          This is a horizontally scaled, redundant, and highly available VPC component 
+          that allows communication between your VPC and the Internet.
+
+*Analogy:* An Internet Gateway is like the main entrance to your office complex 
+          that connects to the public streets. It allows people (data) to enter or leave 
+          the complex (VPC).
+
+
+Security Groups and Network ACLs:
+
+      - *Security Groups:* Act as a virtual firewall for your instances to control 
+         inbound and outbound traffic.
+      - *Network ACLs:* Act as a firewall for controlling traffic in and out of your subnets.
+
+*Analogy:* Think of Security Groups as the security guards at the doors of your 
+            office who check ID badges (access rules) before letting people in or 
+            out of the rooms (instances). Network ACLs are like the building 
+            security at the entrance of the complex, checking everyone at the subnet level.
+
+NAT Gateways/Instances:
+          Network Address Translation (NAT) devices enable instances in a private subnet 
+          to connect to services outside your VPC without exposing those instances to the 
+          public Internet.
+
+*Analogy:* NAT gateways are like mailrooms in your office that handle mail (Internet 
+          requestsfrom the private rooms without revealing the room number (IP addresses) 
+          to the external world.
+
+
+VPC Endpoints:
+          VPC endpoints allow you to privately connect your VPC to AWS services and VPC 
+          endpoint services powered by AWS PrivateLink without requiring an Internet 
+          gateway, NAT device, VPN connection, or AWS Direct Connect connection.
+
+*Analogy:* VPC Endpoints are like direct phone lines from your office to your business 
+          partners. They allow you to privately connect your VPC to supported AWS 
+          services without using the public Internet.
+
+
+VPN Connections and Virtual Private Gateway:
+          VPN connections provide secure IPSec connections from your on-premise 
+          network or data center to your AWS VPC. The Virtual Private Gateway is 
+          the AWS side of a VPN connection that attaches to your VPC.
+
+*Analogy:* These are like secure, encrypted tunnels from your office to your home 
+            network, allowing you to access office resources while away from the office.
+
+Peering Connections:
+            A VPC peering connection allows you to connect one VPC with another via 
+            a direct network route using private IP addresses. Instances in either 
+            VPC can communicate with each other as if they are within the same network.
+
+*Analogy:* Office peering is like an agreement between two companies in the same complex 
+            to allow employees to visit each other's spaces without going outside. 
+
+
+VPC Architecture:
+====================
+Typically you will have a three tier architechure:
+ 
+ 1) Web server : Public-facing subnet ie. they are internet accessible, and 
+                 this can be done through port 80 or 443 (HTTP or HTTPS).
+
+ 2) Application server : private subnet. can only speak to the web tier and Databse tier.
+
+ 3) Database server : private subnet. can only speak to the application tier. work at the backend.
+
+ So this is an example of a fully customizable network and the only front facing service is the web server
+
+
+Demo the diagram:
+
+
+CIDR s a notation for describing blocks of IP addresses and is used heavily in various 
+networking configurations.
+
+IP addresses contain 4 octets, each consisting of 8 bits giving values between 0 and 255. 
+The decimal value that comes after the slash is the number of bits consisting of the routing  
+a netmask, and also designates how many available addresses are in the block.
+
+Interactive IP ADDRESS and CIDR Range Visualizer.:
+    
+    CIDR.xyz for IP ranges  on the internet
+
+
+Network Diagram:  
+   it consist of,
+   A. Region (us-east-1) 
+     1. IP address range. VPC- 10.0.0.0/16
+     2. public subnet (10.0.1.0/24); Front End: instance, security group, Network ACL, 
+                                                Route Table, Router, Internet Gateway or 
+                                                virtual private Gateway.
+     3. Private subnet (10.0.2.0/24); Back End: instance, security group, Network ACL, Route 
+                                                Table, Router, internet Gateway or virtual 
+                                                private Gateway.
+
+VPC Features:
+        What can we do with a VPC?
+           1: launch instances into a subnet of your choosing.
+           2: Assign custom IP address ranges in each subnet.
+           3: Route Tables configure route tables between subnets.
+           4: internet Gateway create internet gateway and attach it to our VPC
+           5: More Control much better security control over your AWS resources.
+           6: Access Control lists subnet network access control lists.
+              you can use network access control lists (NACLs) to block specific IP addresses.
+
+Comparing VPCs :
+          Default VPC vs Custom VPC
+
+          Default VPC : it is user friendly, All subnets have a route out to the internet, 
+                        Each EC2 instance has both a public and private IP address.
+          Custom VPC : fully co=ustomizable, takes time to set up
+
+
+Benefits of Using a VPC:
+
+      - *Security:* Your VPC’s default security settings can be adjusted to create a secure, 
+        virtual network infrastructure tailored to your specific needs.
+      
+      - *Customization:* You can create a network that suits your business requirements, 
+        such as specifying the IP address range and creating subnets.
+      
+      - *Isolation:* Being logically isolated from other virtual networks, VPCs provide a 
+        high degree of privacy and security.
+      
+      - *Connectivity Options:* You can connect your VPC to the Internet, to your corporate 
+        data center, or to other VPCs, depending on the needs of your application.
+
+
+
+what can we do with the VPC?:
+      - launch instances into a subnet of our choosing,
+      - choose our own subnet address ranges.
+      - assign custom IP address ranges in each subnet
+      - configure route tables between our subnets.
+      - create Internet Gateways and attach it to our VPC.
+      - Better security controls over our AWS resources.
+      - assign security groups to individual instances.
+      - we can also have subnet network Access Control Lists
+        or "ACLs" as well.
+
+
+
+Default VPC / Custom VPC:
+
+            we're going to create our own custom VPC. And you might be wondering what's the 
+            difference is between a default VPC and a custom VPC. Well, the default VPC 
+            is super user-friendly. It allows you to immediately deploy instances.
+            
+            You don't need to know anything about networking to be able to provision an EC2 
+            instance in the AWS console. So, that's why Amazon gives us a default VPC,
+            they're trying to make it easier for our developers to use AWS. And all subnets 
+            in a default VPC have a route out to the internet.
+
+            That means they're all internet accessible. And each EC2 instance has both a 
+            public and private IP address.
+
+So, those are the main differences.
+
+        1: the default VPC is super user-friendly. It allows you to 
+          immediately deploy instances.You don't need to know anything about networking
+          to be able to provision an EC2 instance in the AWS console.
+
+        So, that's why Amazon gives us a default VPC, they're trying to make it easier
+        for our developers to use AWS.
+
+        2: All subnets in a default VPC have a route out to the internet.
+            That means they're all internet accessible.
+        3: Each EC2 instance has both a public and private IP address.
+
+
+
+
+
+
+Remember:    If you do delete a default VPC, you can recover it now.
+
+
+VPC peering:
+            This allows you to connect one VPC with another via a direct network route using private IP addresses
+
+
+
+
+
+It's a collection of Internet Gateways, route tables, network ACLs, security groups, EC2 instances
+and then of course, your public subnets and your private subnets.
+
+Provisioning a VPC part 1.
+
+-On the AWS console, scroll down to Network & content Delivery then to VPC. or you can search for it in the search bar.
+-You can then go into Resources by Region. then to VPC's, you will then see all the regions available.
+-if you go into US east1 N. Virginia, you will see default VPC in blue. it also create both Main route table and main network ACL by Default.
+-You can then go ahead and click on Route tables to see our subnet associations.
+-You can also go to the side bar and click on subnets, from there you each of the six subnets to see the availability zone under details.
+- Go to create VPC in yellow. then click on VPC and more it will show you the subnet and all. when you click on the VPC only, you will have to manually create all your subnets and all.
+Use the link below for the documentation for creating VPC.
+https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
+
+Create VPC:
+=================
+
+VPC and More:
+name: United-VPC
+IPv4 CIDR : 172.16.0.0/16
+
+IPv6: Amazon's Provided IPv6
+Tenancy: default
+Create
+Demo the panels on the right
+ Subnet ----Route tables----Internet gateways----NAT gateways---Network ACLs---Security groups
+
+
+
+Create Internet Gateway:
+  1: Name tag: united-IGW ---> Creat
+  2: Attached it to a VPC---> Actions---attached---Select the VPC
+
+
+Create 2 Subnet: Pub and Pri
+
+            VPC ID: Select VPC created
+            subnet settings: Public 1
+                  172.16.1.0/24
+
+
+                  Private:
+                  ===========
+            VPC ID: Select VPC created
+            subnet settings: Private 1
+                  172.16.2.0/24
+
+
+Create route table:
+        name:  PublicRT
+        VPC: Sellect
+        Create
+
+        name:  PrivateRT
+        VPC: Sellect
+        Create
+
+Add entries to the Pub route talble:
+========================================
+1: Select PublicRT-- Routes--edit routes----add route----internet Gateway
+
+2: input distination 0.0.0.0/0----
+
+3: Target:  internet gateway--selct IGW----Save changes
+
+4: Route tables---edit subnet associations---Pub---save
+
+5: Route Tables---edit subnet associations---priv---save
+
+
+
+Configure out Newtwork Access Control List (NACL):
+====================================================
+
+1: Security---> Network ACLs---> creat New ACL.
+2:      Name: PublicNACL
+        VPC: Select VPC
+        Create
+        Click on Inboud/outbount and explain the rules
+
+        - edit inbound rules--Add new rules-- 80,22
+
+
+
+      - edit outbound rules--Add new rules-- 1024-65535--Save
+
+
+      Public----subnet Association--Edit subnet association---
+
+
+      Private:
+     Public----subnet Association--Edit subnet association--- 
+
+      lick on Network ACL 
+      - edit inbound rules--Add new rules-- 
+
+              100: ssh tcp 22  Public(172.16.1.0/24)
+
+       - edit outbound rules--Add new rules-- 1024-65535--Save
+
+
+Associate it the NACL: Private---->1024-65535---->Save
+
+Error
+
+Setup Nat gateway:
+  Edit route table 
+
+  Private RT----edit --add route - 0.0.0.0---nat gateway--- Save
+
+
+
+
+Bastion host:
+it's a special purpose computer on the network,
+specifically designed and configured to withstand attacks and the computer
+generally hosts a single application. For example, a proxy server,
+and all other services are removed or limited to reduce the threat to this
+computer. It is hardened in this manner,
+primarily due to its location and purpose,
+which is either on the outside of a firewall or inside a demilitarized zone and
+what do they mean by demilitarized zone?

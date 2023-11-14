@@ -1,0 +1,223 @@
+*AWS S3 (Simple Storage Service)*
+
+1. *Overview:*
+   - A scalable storage service in AWS.
+   - Used to store and retrieve any amount of data at any time from anywhere on the web.
+   - Data is organized in buckets (containers) with a unique user-defined name within S3.
+
+Well S3 basically stands for simple storage service.
+So it's three S's, that's why it's called S3.
+And it provides developers and IT teams
+with secure, durable, highly scalable object storage.
+And S3 is easy to use, the simple web services interfaces
+to store and retrieve any amount of data
+from anywhere on the web.
+
+
+well, basically, S3 is a safe place to store your files.
+And that's all it means by objects.
+So when we say object storage,
+we're talking about things flat files, basically.
+So Word documents, pictures, movies, et cetera, et cetera.
+So S3 is basically a safe place to store your files.
+It's object based storage,
+and the data is spread across multiple devices
+and multiple facilities.
+
+The basics of S3 are as follows:
+    -  It's object based, 
+    - It allows you to upload files.And your files can be anywhere from 
+      zero bytesall the way up to five terabytes.
+    - There is unlimited storage and files are stored
+      in these things called buckets.
+
+
+Bucket:
+  Bucket is basically just a folder,in which to put your files that's all it is.
+
+
+S3 is a universal namespace. So what does that actually mean?
+Well, all that means is that the names must be unique globally.
+
+
+File Uploads in to S3 Results:
+    - when you upload a file to S3, you're going to receive an HTTP 200 code
+      if the upload was successful, and that's going to come back to your browser.
+
+    - S3 allows you to have multiple versions of your file
+
+
+S3 is Object base:
+    - key: And this is simply the name of the object.
+    - value: And this is simply the data that is made up of a sequence of bytes
+    - version ID: , and this is important for versioning.
+    - metadata: If you've never heard the term metadata before, it just simply 
+                means data about data. So it's data about the data that you're storing.
+    - subresources:
+                  - access control lists
+                  - torrents
+
+We are going to cover all the access control lists
+and bucket policies coming up.
+
+
+Data consistency model for S3:
+    - read after write consistency for PUTS of new objects
+    - eventual consistency for overwrite PUTS and DELETES
+
+S3- Guarantees:
+    - Built for 99.99% availability,
+    - Amazon guarantee 99.9% availability.
+    - Amazon guarantees 99.99999999999
+
+
+S3 Features:
+    - Tiered storage Available ( Exam 5 points)
+    - Lifecycle Management  (o you could say, "Hey, when this file is 30 days old,
+        "move it to this tier, when it's 90 days old, "archive it off to Glacier.")
+    - versioning
+    - encrypt your objects at rest
+    - multi factor authentication (MFA)
+    - secure your data using access control lists and bucket policies
+
+S3 Storage Classes:
+    - S3 standard, this is the one with 99.99% availability and 11 nines of durability.
+    - S3 infrequently accessed
+    - S3 one zone infrequently access
+    - S3 Intelligent Tiering (This is really cool technology. This is using machine learning.
+          And basically what it does, is it looks at how often you use your objects,
+          and then it will move your objects around the different storage classes based on what it's learned.
+          So it will move it from S3 standard to S3 infrequently accessed because it knows
+          that you don't access those files.)
+    - Glacier
+          1: S3 Glacier
+          2: S3 Glacier Deep Archive  (7years)
+
+    show the Comparism Chart
+    ===========================
+
+S3 Charges- Bills $$:
+
+    - more storage - increased bills
+    - more request to objects ------> charges increase
+    - storage management  
+
+S3 Data Tranfer pricing:
+
+    - cross region replication. (Well, let's say you've got a bucket and it's in US East one.
+      And you want to automatically replicate your objects to another bucket that's in, let's 
+      say, in Sydney, and you want to do that for high availability as well as, you know, 
+      disaster recovery.
+      So what will happen is as soon as you upload an object
+      to your bucket in US East one,
+      and you've got cross region replication turned on,
+      those objects will automatically be replicated
+      over to your bucket in Sydney.)
+
+
+    - Transfer Acceleration (his enables fast, easy and secure transfers
+      of files over long distances between your end users and an S3 bucket.
+      And basically, it's taking advantage of Amazon's CloudFront's globally 
+      distributed edge locations.)
+      
+        - Uses Amazon network as the backbone
+
+
+S3 Region is global show it to the class
+
+Demo: Create a bucket at objects to it and try to access it. Access Denide 
+
+      - make it accessible
+          - go to file --> action--> make public (error)
+          - go to permissions--->edit----uncheck block all pub access--- save 
+          - go to file --> action--> make public
+
+          demo the next file to show errors
+
+
+Restricting Bucket Access:
+      - bucket policy and this is going to apply across the entire bucket.
+      - object access is using object policies (applied to individual files within your bucket)
+      - IAM policies to users and groups within your AWS account to control bucket access.
+
+===============================================================================================
+
+Creating a Static Website Using Amazon S3:
+
+    - Use the Git repo
+    - creat S3 Bucket viewable to the public
+    - add dowloaded files from repo
+    - select properties -----> static website hosting---Edit---->enable
+    - index Document--- put (index.html)
+    - error Document--- put (error.html)
+    - Save changes
+
+    - static web hosting has not endpoint
+    - error ------- Permissions to read the content of the files
+
+    - go to permission---Bucket policy--> edit--- copy the ARN---- Select policy generator
+    - ---->select  S3 bucket policy----> principal (*)---Action(Get Objects)---- Paste the ARN copied( add /* to the ARN)
+    - Add statement----> Generate policy--->copy the entire policy
+    - paste in S3 bucket policy
+
+    - Select properties---> static website hosting---Edit---->enable
+
+       force the error page:
+
+
+
+2. *Key Concepts:*
+   - *Bucket:*
+     - A container for storing data.
+     - Globally unique name.
+     - Defined in a specific region.
+   - *Object:*
+     - Fundamental entity stored in S3.
+     - Consists of data, key (unique within a bucket), and metadata.
+   - *Key:*
+     - The unique identifier for an object within a bucket.
+   
+3. *Data Consistency:*
+   - Offers strong read-after-write consistency automatically for all objects, without any additional cost.
+
+4. *Storage Classes:*
+   - *S3 Standard:*
+     - For frequently accessed data.
+   - *S3 Intelligent-Tiering:*
+     - Automatically moves objects between two access tiers (frequent and infrequent) when access patterns change.
+   - *S3 One Zone-Infrequent Access:*
+     - For infrequently accessed data that can be recreated if lost, stored in a single availability zone.
+   - *S3 Glacier:*
+     - For long-term archival.
+   - *S3 Glacier Deep Archive:*
+     - For long-term archival with retrieval times in hours.
+   
+5. *Durability and Availability:*
+   - 99.999999999% (11 9's) durability over a given year.
+   - Availability depends on the storage class.
+
+6. *Data Management:*
+   - Lifecycle policies for automating transition between storage classes or expiration.
+   - Versioning to keep all versions of an object.
+   - Tagging for easy organization and management.
+
+7. *Data Security:*
+   - Data is encrypted at rest and in transit.
+   - Supports user policies, bucket policies, and ACLs for access control.
+   - MFA Delete and Versioning can be used for additional security.
+   
+8. *Access Control:*
+   - *IAM:*
+     - Use IAM users, groups, and roles to manage access to S3 resources.
+   - *Bucket Policies:*
+     - JSON-based policies to define permissions at the bucket level.
+   - *ACLs:*
+     - Grants read or write permissions to specific AWS accounts.
+
+9. *Data Transfer Acceleration:*
+   - Use Amazon CloudFront's globally distributed edge locations to accelerate uploads to S3.
+
+10. *Pricing:*
+    - Based on the storage class, amount of storage used, number of requests, data transfer out, and additional features used.
+
+These are some of the key points to understand about Amazon S3. It is a powerful and versatile service with many features to support different storage needs.
