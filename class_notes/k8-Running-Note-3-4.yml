@@ -1,0 +1,653 @@
+Kubernetes:
+
+CONTAINERISATION:
+  Rocket
+  CoreOS
+  Docker  - 85%
+    engine  / cli=docker and docker service/daemon / 
+    registry=dockerHub / ECR / Nexus/JFrog / DTR
+      docker build
+      docker /run/create/start/pull/push/login/ps/ps-a/kill/images
+    Dockerfile = List of instructions that will be executed 
+                 orderly from top to bottom to create docker images.
+                 This file contain key words
+                 FROM / CMD/ENTRYPOINT/ RUN/ EXPOSE / COPY/ADD/ENV/etc.       
+    BEST PRACTICES: use minimun RUN instructions to create lightweight 
+                    use docker official images 
+                    use alpine linux where possible  
+                    Avoid installation of unnecessary applications
+                    use docker-compose file for deployment  
+========================================================================
+
+
+Docker is not scalable 
+Docker does not support overlay network
+
+Overlay networks:
+
+An overlay network is a computer network that is built on top 
+of an existing network infrastructure, creating a virtual network 
+that can span multiple physical networks or data centers. Overlay 
+networks are commonly used in cloud computing and container 
+orchestration systems like Kubernetes to provide network 
+connectivity and isolation for applications and services.
+
+
+CONTAINER ORCHESTRATION:
+   Docker Swarm
+   Kubernetes
+   OpenShift
+
+
+Kubernetes:
+Containerization --> Docker, Rocket(Rkt),Container-d
+   Containerization involves writing/modifying Dockerfiles and using those files
+   to create images and shipping the images to image registries.  
+   From the registries these images can be distributed  
+
+  We could also use Containerization softwares like Docker to deploy and manage Containers
+
+Container Orchestration Tools --> 
+   Docker Swarm,
+   Kubernetes,
+   OpenShift
+
+Kubernetes:
+ 
+  21 July 2014  --- 2023-2014=8years 
+
+kubectl create/delete/apply/get/describe/run/expose 
+   authentication  = .kube/config  
+   authorisation   = RBAC  
+
+kubernetes architecture:
+controlPlane:
+  apiServer
+  etcd  
+  scheduler  
+  controllerManagers   
+workerNodes:
+  kubelet   
+  container runtime [Container-d]
+  kube-proxy
+kubernetes-client:
+  kubectl  
+      kubectl create/delete/get/describe/apply/run/expose 
+      kubeconfig [.kube/config ] file will authenticate 
+                                 the caller admin/Developer/Engineer  
+  ui  
+  api  
+
+kubernetes security - RBAC:
+  Developers [ Paul, Joyce, Chidi ] 
+  Engineers  [ James, Dominion, Janet ] 
+
+authentication via kubeconfig : 
+authorisation via RBAC:
+
+Installation:
+============
+Local K8s Cluster(Single Node K8s Cluster)
+------------------------------------------
+   minikube
+       choco install minikube
+       brew install minikube 
+       minikube start  
+   Kind   = 
+   Docker Desktop 
+      https://docs.docker.com/desktop/kubernetes/
+  POC = 
+
+
+
+P
+====
+POD --> Pod is the smallest building block which we can deploy applications in k8s.
+Pod represents running process. Pod can contains one or more containers.
+These container will share same network, storage and any other specifications.
+Pod will have unique IP Address in k8s cluster.
+
+Pods
+ SingleContainerPods --> Pod will have only one container. 98%
+
+
+   No more than 110 pods per node
+   No more than 5,000 nodes
+   No more than 150,000 total pods
+   No more than 300,000 total containers
+
+Installation:
+============
+Local K8s Cluster(Single Node K8s Cluster)
+------------------------------------------
+   minikube
+       choco install minikube
+       brew install minikube 
+       minikube start  
+   Kind   = 
+   Docker Desktop 
+      https://docs.docker.com/desktop/kubernetes/
+
+
+
+
+ creating  a K8s master and 2 worker nodes:  kubernetes
+
+Follow instruction on Git 
+
+ kubeadm join 172.31.44.24:6443 --token 6zb8rw.svzv6q6qq9daggmd \
+        --discovery-token-ca-cert-hash sha256:82c83fa5be39aa4216ac21229718554297220b67a272e6a8e7ff2adcfe6f8abc
+
+  RBAC - Security:
+  NameSpace
+  Role 
+  RoleBinding  
+  ClusterRole  
+  ClusterRoleBinding
+  ServiceAccounts  
+
+Namespace:
+  In Kubernetes, a namespace is a way to logically divide 
+  cluster resources between multiple users, teams, or projects. 
+  It provides a scope for names, avoiding naming collisions 
+  between different entities within the same cluster. 
+  Namespaces are a fundamental concept for multi-tenancy and 
+  organizational structuring within Kubernetes.
+  
+  fintech / 
+  ecommerce 
+
+kubernetes uses the kubectl client or the UI to run workloads.
+  kubectl get namespace
+  kubectl get ns
+
+
+20 November 2023:
+=====================
+
+Use the declarive to deploy workloads in kubernetes:
+
+  Manifest files = kAMS 
+Manifest files are written in yaml/yml language 
+
+key:values pairs:
+  key1: value1  
+  key11: value11 
+  name: isaac   
+dictionary: number of key:values pairs: 
+  name: isaac  
+  age: 40 
+  sex: male   
+
+list:
+  - name: isaac 
+    age: 50 
+  - name: benjamin 
+    age: 55 
+  - name: emmanuel 
+    age: 60  
+
+
+
+KAMS: Kind, apiVersion, Metadata, Spec
+
+
+apiVersion: v1 kind: Pod metadata: name: …
+spec:
+containers:
+name: …
+---
+apiVersion: v1 kind: Pod metadata: name: …
+spec: containers:
+name: …
+
+
+apiVersion: - version of the Kubernetes API
+used to create the object 
+kind: - kind of object being created 
+
+metadata: - Data that helps uniquely identify
+the object, including a name and
+optional namespace
+spec: - configuration that defines the desired for the object
+
+Commands:
+================
+kubectl version
+kubectl get node -o wide
+
+kubectl create pods 
+
+kubectl run <pod-name> --image <image-name> 
+
+kubectl describe pod 
+kubectl describe pod spring-controller-twj9k
+Curl IP
+
+
+creating Pods:
+    Imperative way:
+
+      kubectl run test --image nginx --port 80
+
+
+Declarative Way:
+================
+vi pod.yml
+KAMS
+====
+
+apiVersion: v1    
+kind: Pod     
+metadata:
+  name: <podName>
+  namespace: <namespaceName>
+  lables:
+    key: <value> 
+    key: <value> 
+spec:
+  containers:
+  - name: containerName   
+    image: imageName  
+    ports:
+    - containerPort: podNumber
+
+---
+
+apiVersion: v1    
+kind: Pod     
+metadata:
+  name: myapp
+  labels:
+    app:  myapp
+    tier: fe   #(front end)
+spec:
+  containers:
+  - name: webapp   
+    image: unitedcore/spring-boot-app  
+    ports:
+    - containerPort: 8080
+
+
+ServiceDicovery:
+=================
+vi service.yml
+  KAMS
+
+apiVersion: v1    
+kind: Service     
+metadata:
+  name: myappsvc
+spec:
+  type: NodePort
+  Ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: myapp
+
+Run----> kubectl apply -f service.yml (to create a pod)
+
+
+kubectl get svc -n <namespace>
+kubectl describe svc  
+kubectl get ep  
+kubectl describe svc   
+kubectl delete svc (Name of SVC pod)
+
+
+What is FQDN?
+Fully Qualified Domain name. 
+If one POD need access to service & which are in differnent names space 
+we have to use FQDN of that service.
+
+controllerManagers:
+  ReplicationControllers 
+  ReplicaSets, 
+  Deployments, 
+  DaemonSets  
+
+
+ 1. ReplicationControllers =rc
+================================ kams:
+
+Kind: ReplicaSet    
+apiVersion: apps/v1    
+metadata:
+  name: <RSName> 
+  labels:
+    <key>: <value> 
+spec:
+  selector:
+    matchLabels:
+      <key>: value           
+    matchExpressions:
+    - key: <key>
+      operator: <in /not in>  
+      values: 
+      - <value1> 
+      - <value3>      
+  replicas: 3   
+  template:
+    metadata:
+      name: podName  
+    labels:
+      <key>: <values>  
+    spec:
+      containers:
+      - name: containerName  
+        image: imageName:tag    
+        ports:
+        - containerPort: <ContainerpodNumber>
+
+
+
+NodePort Service:  KAMs
+===============
+appsvc.yml  
+----------
+kind: Service   
+apiVersion: v1  
+metadata:
+  name: appsvc    
+spec:
+  selector:
+    app: fe  
+  type: NodePort 
+  ports:
+  - targetPort: 8080
+    nodePort: 31000 # 30000 - 32676   
+    port: 80 
+
+
+kubectl apply -f <filename.yml>
+kubectl get rc 
+kubectl get rc -n <namespace>
+kubectl get all
+kubectl scale rc <rcName> --replicas <noOfReplicas>
+
+
+Scale Up and Scale Down
+
+
+--- rs.yml  ------KAMS
+kind: ReplicaSet
+apiVersion: apps/v1   
+metadata:
+  name: webrs  
+spec:
+  selector: 
+    matchLabels:
+      app: web 
+  replicas: 4   
+  template:
+    metadata:
+      name: webapp  
+      labels:
+        app: web  
+    spec:
+      containers:
+      - name: web 
+        image: unitedcore/united-web-app    
+        ports:
+        - containerPort: 8080 
+---
+
+ kind: Service
+apiVersion: v1  
+metadata:
+  name: websvc  
+spec:
+  type: NodePort  
+  selector:
+    app: node 
+  ports:
+  - targetPort: 8080
+    port: 80 
+    nodePort: 32000    
+===================================================
+
+54.80.76.20:32000
+
+
+
+
+
+Node-app-rs.yml = kams 
+================
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+  name: nodeapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      name: nodeweb-app
+      labels:
+        app: node
+    spec:
+      imagePullSecrets:
+      - name: dockerhublogin
+      containers:
+      - name: nodeapp
+        image: unitedcore/nodejs-app
+        ports:
+        - containerPort: 9981
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: websvc
+spec:
+  type: NodePort
+  selector:
+    app: node
+  ports:
+  - targetPort: 9981
+    port: 80  # Fixed indentation here
+    nodePort: 32000
+
+
+ngnix.yaml
+============ KAMS
+
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+  name: nginx-deployment 
+  labels:
+    app: nginx 
+spec:
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: nginx 
+  template: 
+    metadata:
+      labels:
+        app: nginx 
+    spec: 
+      containers:
+      - name: nginx-container 
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-deployment
+spec:
+  type: NodePort
+  selector:
+    app: nginx 
+  ports:
+  - targetPort: 80
+    port: 80
+    nodePort: 32222
+
+
+54.80.76.20:32222
+
+
+Kubernetes Deployments:
+======================================
+
+Deployment:
+
+
+
+By default Kubernetes performs deployments in rolling update strategy.
+
+
+Features of deployment:
+        Easily deploy a RS
+        Rolling updates pods
+        Rollback to previous deployment versions
+        Scale deployment
+        Pause and resume deployment
+
+Deployment Strategy:
+
+
+    - Whenever we create a new deployment, K8s triggers a Rollout.
+    - Rollout is the process of gradually deploying or upgrading your application containers
+    - For every rollout/upgrade, a version history will be 
+      created, which helps in rolling back to working version in case of an update failure
+
+
+Rolling Update Strategy:
+
+    - By default, deployment ensures that only 25% of your pods are unavailable during an update and does not
+update more that 25% of the pods at a given time
+
+It does not kill old pods until/unless enough new pods come up
+
+It does not create new pods until a sufficient number of old pods are killed
+
+There are two settings you can tweak to control the process: maxUnavailable and maxSurge. Both have the
+default values set - 25%
+
+The maxUnavailable setting specifies the maximum number of pods that can be unavailable during the rollout
+process. You can set it to an actual number(integer) or a percentage of desired pods
+
+The maxSurge setting specifies the maximum number of pods that can be created over the desired number of pods
+
+
+Ticket-UCS001: Deploy Nginx image scale to 4 ReplicaSet
+
+ngnix.yaml
+============ KAMS
+
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+  name: nginx-deployment 
+  labels:
+    app: nginx 
+spec:
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: nginx 
+  template: 
+    metadata:
+      labels:
+        app: nginx 
+    spec: 
+      containers:
+      - name: nginx-container 
+        image: nginx
+        ports:
+        - containerPort: 80
+
+
+Commands:
+kubectl status deployment.app/nginx-deployment
+kubectl rollout undo deployment <deployment -name> --to-revision=1
+kubectl rollout pause deployment <deployment -name>
+kubectl rollout resume deployment <deployment -name>
+kubectl delete -f <deployment-yaml-file> - deletes deployment and related dependencies
+kubectl delete all --all –----> deletes pods, replicasets, deployments and services in current namespace
+kubectl scale deployment nginx-deployment --replicas=4
+kubectl apply -f {deployment-yaml-file}
+
+
+
+Namespaces:
+In Kubernetes, a namespace is a way to logically divide 
+  cluster resources between multiple users, teams, or projects. 
+  It provides a scope for names, avoiding naming collisions 
+  between different entities within the same cluster. 
+  Namespaces are a fundamental concept for multi-tenancy and 
+  organizational structuring within Kubernetes.
+  
+  fintech / 
+  ecommerce 
+
+kubernetes uses the kubectl client or the UI to run workloads.
+  kubectl get namespace
+  kubectl get ns
+
+
+Create a namespace:
+  kubectl create ns [namespaceName]
+
+  kubectl create ns dev # Namespace for Developer team 
+  kubectl create ns qa # Namespace for QA team
+  kubectl create ns production # Namespace for Production team
+
+Deploy objects in a namespace:
+
+  kubectl run nginx --image=nginx -n dev
+  kubectl get pod/nginx -n dev
+  kubectl apply --namespace=qa -f pod.yml
+
+
+
+Kubernetes Services:
+--------------------
+
+    ClusterIP:
+
+clusterservice.yml
+
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: ingress-nginx 
+spec:
+  type: ClusterIP
+  ports:
+  - name: http 
+    port: 80
+    targetPort: 80 
+    protocol: TCP 
+  selector:
+    app: nginx-backend
+
+
+
+
+
+Services
+Load Balancer
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: lb-service 
+  labels:
+  app: hello 
+spec:
+  type: LoadBalancer 
+  selector:
+  app: hello ports:
+  - port: 80
+  targetPort: 80
+  protocol: TCP
+
+loadbalancer-service.ym

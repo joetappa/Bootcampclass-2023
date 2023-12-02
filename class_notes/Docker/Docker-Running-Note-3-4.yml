@@ -1,0 +1,1299 @@
+1. Docker images :
+2. Docker containers :
+3. Dockerfile :
+4. Docker Networks :
+5. Docker volumes  :
+6. Docker compose  :
+7. Docker swarm :
+
+1. Docker images :
+========================
+
+ Commands:
+
+ 	build:       Build an image from a Dockerfile 
+      docker build -t image-name:tag .
+      
+     history:     Show the history of an image
+      docker history image-name:tag
+
+      import:      Import the contents from a tarball to create a filesystem image
+      docker import /path/to/example.tar example/image
+
+      inspect:     Display detailed information on one or more images
+      docker inspect image-name:tag
+      
+      save:         Save one or more images to a tar archive (streamed to STDOUT by default)
+      docker save image-name > image-name.tar
+
+      load:         Load an image from a tar archive or STDIN
+      docker load < image-name.tar
+
+      ls :         List images
+      docker image ls or docker images
+
+      prune :       Remove unused images
+      docker image prune
+
+      pull :      Pull an image or a repository from a registry
+      docker pull image-name
+     
+      push:        Push an image or a repository to a registry
+      docker push repo-username/image-name
+
+      rmi:         Remove one or more images
+      docker rmi image-name
+
+      tag:         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+      docker tag image-name my-username/image-name:newtag
+
+IQ: What is required to build an image? Dockerfile  
+IQ: what is required to deploy an application? docker image   
+
+
+Creating Docker file : 
+=======================
+
+- Creating a Docker file with jboss: 
+
+	Dockerfile
+    
+    FROM jboss/wildfly
+    COPY target/*war /opt/jboss/wildfly/standalone/deployments/
+
+
+   - Creating a Docker file with tomcat: 
+        Dockerfile
+        FROM tomcat:8.0.20-jre8
+        COPY target/*.war /usr/local/tomcat/webapps/unitedwebapp.war
+
+
+    - Creating a container from a non default Dockerfile name : 
+
+  $ vi Dockerfile1
+        FROM tomcat:9.0.74-jre8
+        COPY target/*.war /usr/local/tomcat/webapps/unitedwebapp.war
+
+
+   Command : 
+    docker image build -t image-name:tagname -f DockerfileName path/to/Dockerfile
+    
+  Options:
+    docker image build -t unitedapp:1 -f Dockerfile3 . (. means Dockerfile3 is located in the current folder )
+    docker image build -t unitedapp:1 -f Dockerfile3 ~ (~ means Dockerfile3 is located in the current folder )
+    docker image build -t unitedapp:1 -f Dockerfile3 path/to/Dockerfile (Dockerfile3 is located in the absolute path) 
+
+   docker image build -t onlinebookstore:1 -f Dockerfile1
+
+    How to run Docker containers : 
+
+
+    docker run --name united -d -p 100:8080 tiffy2009/unitedwebapp1:v1
+
+
+    how to delete an image from a running container? : 
+===================================
+
+ docker rmi imageID/name:tag  
+
+  NB:  stop the container and force delete the image by running the commands below;  
+      docker stop containerName/ID  && 
+      docker rmi -f imageID/name:tag  
+
+  How to Pull images from Public registry [dockerhub] : 
+    No athentication is required
+    docker pull image-name 
+
+How to Pull images from private registry [Elastic Conatiner Registry ECR/dockerhub/nexus/JFrog] :
+    Authentication is required   
+    docker login -u username -p password 
+
+push images to Public registry [dockerhub] :
+      Authentication is required   
+      docker login -u username -p password 
+
+push images to private registry [dockerhub] :
+      Authentication is required   
+      docker login -u username -p password 
+
+
+
+
+
+ aws ecr private docker registry: ( Elastice Container Regisrty) private registry:
+=======================================
+
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 587541855995.dkr.ecr.us-east-1.amazonaws.com
+aws ecr private docker registry:  Pull & Push 
+===============================
+deploy an application with docker images in aws ecr:
+( Elastice Container Regisrty) private registry: 
+
+Amazon Elastic Container Registry (ECR) is a fully managed container 
+registry service provided by Amazon Web Services (AWS). It enables you to 
+store, manage, and deploy Docker container images. With Amazon ECR, you 
+can seamlessly integrate container images into your existing development 
+and deployment processes.
+
+ECR--->Getstarted-->Private--> repoName9 (Nexus)---> create
+
+Retrieve an authentication token and authenticate your Docker client to your registry.
+        
+        aws configure:
+
+
+        To Create Secrete and Access Key:
+              - Profile---> Security---> Security Credentials---> Create access key.
+
+              - Secrete: xxxxxxxxxxxxxxxxx
+
+              - Access Key: xxxxxxxxxxxxxxxx
+
+Select repo--> View Push commands--->McOs--1.:
+
+
+Use the AWS CLI:
+    1: Install AWS CLI ubuntu/windows
+        - sudo apt install awscli (unbuntu)
+        - choco install awscli(PS admin ) windows
+Copy:
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 587541855995.dkr.ecr.us-east-1.amazonaws.com
+Note: If you receive an error using the AWS CLI, make sure that you have the 
+latest version of the AWS CLI and Docker installed.
+
+
+Build your Docker image using the following command. For information on building 
+a Docker file from scratch see the instructions here . You can skip this step if 
+your image is already built:
+
+      docker build -t onlinebookstore1 .
+
+
+After the build completes, tag your image so you can push the image to this repository:
+
+      docker tag onlinebookstore1:latest 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1:latest
+
+
+
+Run the following command to push this image to your newly created AWS repository:
+
+
+
+Copy the Url: 
+            587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1
+
+            docker tag onlinebookstore1:v2 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1
+
+            docker push 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1:v2
+
+
+Results:
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 587541855995.dkr.ecr.us-east-1.amazonaws.com
+
+
+Push to AWS ECR:
+docker push 587541855995.dkr.ecr.us-east-1.amazonaws.com/onlinebookstore1:latest
+
+
+
+
+delete all images using:   
+===========================
+docker images -q  = List image IDs  
+docker rmi $(docker images -q)   
+docker rmi -f $(docker images -q)  
+
+docker build/ps/images     
+
+docker ps    = List running containers  
+docker ps -a = List all containers+ hidden 
+
+docker ps -q   = List running containers IDs
+docker ps -aq  = List all containers IDs 
+docker stop containerName/ID  
+docker stop   
+
+Stop containers actively running before deleting images
+
+docker stop $(docker ps -aq)
+
+How to delete dangling images:
+------------------------------
+docker system prune  
+docker image prune 
+
+Docker images commands:
+  docker build   = create images from a Dockerfile  
+  docker tag     = assigns repository name to images 
+  docker images    = list images
+  docker image ls  = list images
+  docker images -q = list image ids 
+
+  docker rmi imageID/name:tag     = delete an image
+  docker rmi -f imageID/name:tag  = force delete an image
+
+  docker rmi -f a848f84f4894 
+  docker rmi -f  $(docker images -q) = deletes all images 
+  docker run image2 
+  docker pull nginx  
+  docker pull alpine  
+  docker images prune   
+
+  Docker container commands  :    
+=========================
+containers are created from docker images  
+  a container is a running process/instance of a docker image 
+
+  docker pull   = pull the docker image from the registry
+  docker create = use the image to create a container   -      
+  docker start  = start the container   
+  docker stop   =  stop container
+  docker run = docker create + docker start  
+docker run --help  
+docker container --help  
+
+
+Docker flow:
+  Dockerfile---->DockerImage---->Containers 
+
+  Ticket0011 -
+  Deploy a java web application using docker: 
+    1. use/Create/modify a Dockerfile   
+    2. Use the Dockerfile to build a docker image  
+    3. Push the image to an image registry[dockerhub/ecr/nexus/JFrog]
+    4. pull, inspect and scan the docker image
+    5. deploy the application using the image  
+
+docker pull---> git repo/docker reg, ecr
+
+docker inspect
+
+
+Ticket0012 -
+ https://github.com/UnitedCoreSystems/python-flask-app
+  Deploy a pythonapp application using docker: 
+    1. use/Create/modify a Dockerfile   
+    2. Use the Dockerfile to build a docker image  
+    3. Push the image to an image registry[dockerhub/ecr/nexus/JFrog]
+    4. pull, inspect and scan the docker image
+    5. deploy the application using the image [docker run]  
+
+
+Dockerfile:
+---------------
+
+FROM python:3.7
+
+WORKDIR /opt/app
+
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements-prod.txt
+
+EXPOSE 5000
+
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+
+
+Ticket0012 -
+  Deploy a nodeJS web application using docker: 
+    1. use/Create/modify a Dockerfile   
+    2. Use the Dockerfile to build a docker image  
+    3. Push the image to an image registry[dockerhub/ecr/nexus/JFrog]
+    4. pull, inspect and scan the docker image
+    5. deploy the application using the image  
+
+    https://github.com/UnitedCoreSystems/nodejs-application
+
+
+
+ Delete all running Containers
+================================
+docker rm -f $(docker ps -aq --filter  status="running")
+docker rm -f $(docker ps -q)
+
+docker pull   = pull the docker image from the registry
+  docker create = use the image to create a container   -      
+  docker start  = start the container   
+  docker stop   =  stop container
+  docker run = docker create + docker start  
+  docker run --help  
+docker container --help  
+
+
+
+Ticket0017:
+  Deploy jenkins as a container
+  docker pull jenkins/jenkins 
+
+
+  Docker exec
+
+  Avoid address/port binding:
+===========================
+netstat -tulpn  
+
+stop/kill the container
+========================
+  docker stop <containerId/Name>
+    gives warning before stopping the container process 
+  docker kill <containerId/Name>
+    gives no warning before stopping the container process  
+
+
+pause/unpause 
+============
+    docker pause <containerId/Name>
+    docker unpause <containerId/Name>
+
+
+ In docker applications are deployed in containers:
+==============================================  
+
+
+
+How to resolves issues occuring in a docker container??:
+How to troubleshoot or debug applications running as docker containers? :
+1. docker ps -a =  
+    = This will check if the container is running, paused or exited
+      docker unpause; docker start  
+2. docker top containerNAME/ID = check resources 
+3. docker stats containerNAME/ID    
+4. docker logs containerNAME/ID
+5. docker exec  = run commands inside the container
+   docker exec jenkins ls  
+   docker exec -it jenkins   /bin/bash
+7. docker inspect containerNAME/ID
+8. docker attach containerNAME/ID 
+9.  netstat -tulpn  
+
+
+
+Docker cp  = use to copy files into the container from the dockerhost  
+             and vise versa    
+
+
+docker cp javaapp:/usr/local/tomcat/logs /home/ubuntu
+
+
+13 November 2023:
+===================
+Common Commands:
+
+run         Create and run a new container from an image
+  exec        Execute a command in a running container
+  ps          List containers
+  build       Build an image from a Dockerfile
+  pull        Download an image from a registry
+  push        Upload an image to a registry
+  images      List images
+  login       Log in to a registry
+  logout      Log out from a registry
+  search      Search Docker Hub for images
+  version     Show the Docker version information
+  info        Display system-wide information
+
+  Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  wait        Block until one or more containers stop, then print their exit codes
+
+  images:
+  -a, --all             Show all images (default hides intermediate
+                        images)
+      --digests         Show digests
+  -f, --filter filter   Filter output based on conditions provided
+      --format string   Format output using a custom template:
+                        'table':            Print output in table
+                        format with column headers (default)
+                        'table TEMPLATE':   Print output in table
+                        format using the given Go template
+                        'json':             Print in JSON format
+                        'TEMPLATE':         Print output using the
+                        given Go template.
+                        Refer to
+                        https://docs.docker.com/go/formatting/ for
+                        more information about formatting output
+                        with templates
+      --no-trunc        Don't truncate output
+  -q, --quiet           Only show image IDs
+
+
+docker images --help   
+docker containers --help 
+
+
+
+Dockerfiles:
+================================================================== 
+
+
+Dockerfiles:
+============ 
+Dockerfiles are input use to build docker images    
+Docker images are input needed/used to create containerised applications  
+
+Dockerfile
+        FROM tomcat:8.0.20-jre8
+        COPY target/*.war /usr/local/tomcat/webapps/unitedwebapp.war
+
+        FROM  openjdk11
+   java-web applications
+
+   FROM  tomcat:9.0.7-openjdk11 
+FROM  jboss/wildfly
+
+Dockerfile keywords:
+===================
+
+FROM
+MAINTAINER
+COPY
+ADD
+RUN
+CMD
+ENTRYPOINT
+WORKDIR
+ENV
+EXPOSE
+USER
+VOLUME
+LABEL
+ARG
+
+FROM:
+
+
+1#
+FROM tomcat:8.0.20-jre8
+COPY target/*war /usr/local/tomcat/webapps/zelle.war
+
+2#
+FROM tomcat:8.0.20-jre8  
+COPY target/app.ear /usr/local/tomcat/webapps/app.war  
+3#
+FROM jboss/wildfly:latest  
+ADD target/*war /opt/jboss/wildfly/standalone/deployments/
+
+Syntax: 
+FROM  <ImageName>
+Example:
+FROM tomcat:8.0.20-jre8
+FROM openjdk:8-alpine
+FROM nginx
+FROM nodejs
+FROM python
+
+MAINTAINER:
+
+MAINTAINER <name>
+MAINTAINER <UnitedCoreSystems unitedcoresystems@gmail.com>
+MAINTAINER <Docker Community>
+
+COPY:
+
+
+	SYNTNAX:
+======
+COPY <source>                <destination> 
+      ServerFile/FolderPath   PathInsideImage
+
+Example:
+FROM ubuntu
+COPY /home/ubuntu /home/ubuntu  
+COPY . . 
+
+Dockerfile_CP
+FROM tomcat:8.0.20-jre8
+COPY target/zelle.war /usr/local/tomcat/webapps/ 
+
+
+Dockerfile_cp2
+FROM jboss/wildfly:latest  
+COPY target/*war /opt/jboss/wildfly/standalone/deployments/
+
+ADD:
+	DD -->
+     ADD also can copy files to the image while creating image. 
+     ADD can copy local files from host server(build context) 
+     and also  can download files from remote HTTP/S locations 
+     while creating a image.
+
+     YTNAX:
+======
+ADD <source>                <destination> 
+      ServerFile/FolderPath   PathInsideImage
+
+      NEXUS REPO  : https://8.25.3.9:8081/repo/zelle/zelle.war  
+
+ Example-1: 
+FROM tomcat:8.0.20-jre8
+ADD https://8.25.3.9:8081/repo/zelle/zelle.war /usr/local/tomcat/  
+
+Example-2:
+FROM ubuntu
+ADD https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.71/bin/apache-tomcat-9.0.71.tar.gz /opt/
+
+
+
+
+FROM
+MAINTAINER
+COPY
+ADD
+RUN
+CMD
+ENTRYPOINT
+WORKDIR
+ENV
+EXPOSE
+USER
+VOLUME
+LABEL
+ARG
+
+RUN, CMD, ENTRYPOINT:
+
+	1) -#Shell Form
+
+RUN <command> <arg1> <arg2>
+     mkdir /opt/class 
+
+CMD <command> <arg1> <arg2>
+      catalina.sh  start 
+
+ENTRYPOINT <commond> <arg1> <arg2>
+      /bin/bash -c catalina.sh  start 
+     /bin/bash -c catalina run 
+
+
+
+     Dockerfile_RUN:  
+  FROM tomcat:9.0.71-jdk8-corretto-al2
+  RUN mkdir /opt/class
+  CMD catalina.sh  start
+
+
+
+  ) -#Executable Form
+
+&& RUN ["command/executable" , "arg1","arg2"]
+    ["mkdir" , "/opt/class30"]
+
+&&CMD ["commond/executable" , "arg1","arg2"]
+    ["catalina" , "run"]
+
+ENTRYPOINT ["commond/executable" , "arg1","arg2"]
+           ["catalina" , "run"]
+
+
+Dockerfile_RUN:  
+  FROM tomcat:9.0.71-jdk8-corretto-al2
+  ADD target/zelle.war  /usr/local/tomcat/   
+  CMD sh catalina.sh run 
+  CMD ["catalina", "run"]
+
+Dockerfile_CMD:  
+FROM ubuntu
+RUN mkdir /opt/class30
+RUN touch /opt/class30/jobs
+&& ADD . /opt/class30
+CMD pwd  
+CMD ["echo", "I am rich"]
+
+IQ: What is difference b/w RUN & CMD?
+
+RUN instructions will be executed while creating a image. 
+CMD Instructions will be executed while creating a container.
+
+
+ENTRYPOINT --> ENTRYPOINT configures a container that will run as an executable.
+           ENTRYPOINT is a command or script that is executed when you run the docker container.
+
+Dockerfile_EP:  
+FROM ubuntu
+RUN mkdir /opt/class30
+RUN touch /opt/class30/jobs
+ADD . /opt/class30  
+ENTRYPOINT ["echo", "I am rich from ENTRYPOINT"]
+
+
+How is ENTRYPOINT different from CMD?
+1. Both are command instructions executed while creating a container 
+2. ENTRYPOINT can't be over riden while we can over ride CMD 
+
+ENV --> ENV instruction sets the environment variable and this sets the environment for the subsequent build instructions. It takes two forms: one with a single variableENV <key> <value> and another with multiple variables ENV <key> =<avlue> <key> = <value>.
+
+
+
+ARG -> ARG Instruction defines a variable that can be passed at build time. 
+Once it is defined in the Dockerfile you can pass with this flag --build-arg 
+while building the image. We can have multiple ARG instruction in the Dockerfile. 
+ARG is the only instruction that can precede the FROM instruction in the Dockerfile.
+
+ARG values are not available after the image is built. A running container won’t have access to an ARG variable value
+
+
+EX:
+
+ARG TAG=latest
+FROM centos:$TAG
+docker build -t <image-name>:<tag> --build-arg TAG=centos8 .
+
+
+WORKDIR --> WORKDIR  is used to define the working directory of a Docker container 
+at any given time. The command is specified in the Dockerfile.It is optional (default is / , but base image might have set it), 
+but considered a good practice. Subsequent instructions in the Dockerfile, such as RUN , CMD and ENTRYPOINT will operate in this dir.
+
+
+multi Stage Docker files:
+1. Clone  
+2. Build  
+3. DeployAsContainer 
+
+FROM ubuntu:git 
+WORDIR /home/ubuntu/
+RUN clone https://git/repo/webapps \ 
+    && cd  webapps
+    && mvn install 
+FROM tomcat:71-jdk8-corretto-al2   
+
+
+#git
+FROM alpine/git as repo
+MAINTAINER unitedcoresystems@gmail.com
+WORKDIR /app
+RUN git clone https://github.com/UnitedCoreSystems/maven-web-application
+
+#Maven
+FROM maven:3.5-jdk-8-alpine as build
+WORKDIR /app
+COPY --from=repo /app/maven-web-application  /app
+RUN mvn install
+
+#Tomcat
+FROM tomcat:8.0.20-jre8
+#COPY  /app/target/*war /usr/local/tomcat/webapps/maven-web-app.war
+COPY --from=build /app/target/*war /usr/local/tomcat/webapps/
+
+
+ubuntu@docker:~/web/laps$ docker system prune
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all dangling images
+  - all dangling build cache
+
+
+
+FROM ubuntu:latest
+RUN apt-get -y update && apt-get -y upgrade \
+RUN apt-get -y install openjdk-8-jdk wget
+RUN mkdir /usr/local/tomcat
+RUN wget http://apachemirror.wuchna.com/tomcat/tomcat-8/v8.5.46/bin/apache-tomcat-8.5.46.tar.gz -O /tmp/tomcat.tar.gz
+RUN cd /tmp && tar xvfz tomcat.tar.gz \
+    && cp -Rv /tmp/apache-tomcat-8.5.46/* /usr/local/tomcat/
+EXPOSE 8080
+CMD /usr/local/tomcat/bin/catalina.sh run
+
+FROM ubuntu:latest
+RUN apt-get -y update && apt-get -y upgrade \
+    && apt-get -y install openjdk-8-jdk wget \
+    &&  mkdir /usr/local/tomcat \
+    && wget http://apachemirror.wuchna.com/tomcat/tomcat-8/v8.5.46/bin/apache-tomcat-8.5.46.tar.gz -O /tmp/tomcat.tar.gz
+    && cd /tmp && tar xvfz tomcat.tar.gz \
+    && cp -Rv /tmp/apache-tomcat-8.5.46/* /usr/local/tomcat/
+EXPOSE 8080
+CMD /usr/local/tomcat/bin/catalina.sh run
+
+
+Dockerfile Best practices:
+==========================
+
+1. We should use executable over shell form for CMDs and ENTRYPOINTs instructions 
+2. Reduce the number of RUN instructions as much as possible. 
+   This will reduce the number Layers and keep our images light weight.
+
+     FROM ubuntu:git 
+WORDIR /home/ubuntu/
+RUN clone https://git/repo/webapps \ 
+    && cd  webapps
+    && mvn install 
+
+3. Use Official/Trusted docker base images in your Dockerfile 
+    FROM ubuntu/tomcat 
+4. Use light weight alpine linux where ever possible
+   https://hub.docker.com/_/alpine
+   ubuntu/centos/alpine   
+5. scan images before usage 
+     docker scan imageID/Name 
+
+6) Don't install/have unnecassary packages(Softwares) & Don't
+   copy unnecassary files & Folders .
+
+7) Don't run container process as root user. Start container
+   process(Application) as non root user. 
+
+8) Try to Scan images for vulnerabilites(Clair ,Anchor or Trivy or Inbuilt Scaning in ECR/GCR/ACR).
+
+9) Try to use multi Stage Docker files to reduce size of the image where ever it's applicable 
+https://github.com/UnitedCoreSystems/Dockerfiles
+
+10. Keywords should be in uppercase to distinguish it from arguments 
+
+
+
+Monolithic & Micro-services:
+
+
+
+
+	Pros
+•Simpleto develop
+•Simple to deploy single package(war/jar/ear,..etc.).
+•Easy to debug Error tracing.
+•Simple to test.
+
+
+
+
+Docker networks:
+================
+What is a network ?
+Group of servers/devices connected to each other in a specific network. If Servers
+are in same network each one can talk to another server.
+
+Docker network
+=============
+If One Container has to talk to another Container Using ContainerIP/Name(DNS) in Docker.
+Both has to created under same docker network.
+
+If Containers are in two different networks. They can't access each other.
+
+Container Ips are dynamic ======= custom bridge container cummunicate using 
+Hostname and container IP.net work to soulve the issue
+
+
+NETWORK ID     NAME      DRIVER    SCOPE
+cc6c9bda26d7   bridge    bridge    local
+069f83314032   host      host      local
+de3ee8976d38   none      null      local
+
+
+Bridge 
+
+Host 
+
+Null
+
+Run 'docker network COMMAND --help' for more information on a command.
+ubuntu@docker:~$ docker network create united
+cc9bd618a05910d00ee2a4c7227093e7b07965ac66d6f063d4f2768ec1f7c626
+ubuntu@docker:~$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+cc6c9bda26d7   bridge    bridge    local
+069f83314032   host      host      local
+de3ee8976d38   none      null      local
+cc9bd618a059   united    bridge    local
+ubuntu@docker:~$ docker create -d bridge zara
+unknown shorthand flag: 'd' in -d
+See 'docker create --help'.
+ubuntu@docker:~$ docker network create -d bridge zara
+eeb39e8bff256f7f06bbf6878ab5a018bbdb067cab60cee5869b485a1bbda08d
+ubuntu@docker:~$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+cc6c9bda26d7   bridge    bridge    local
+069f83314032   host      host      local
+de3ee8976d38   none      null      local
+cc9bd618a059   united    bridge    local
+eeb39e8bff25   zara      bridge    local
+ubuntu@docker:~$
+
+
+nodejs App
+
+
+Assignment:
+https://github.com/unitedcoresystems/NodeJS-app ---> united 
+
+
+
+docker run --name springbootcontainer -d -p 3000:8080 --network united -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongo spring-boot-app
+
+
+
+docker run --name mongo -d --network united -e MONGO_INITDB_ROOT_PASSWORD=admin123 -e MONGO_INITDB_ROOT_USERNAME=root mongo
+ -e MONGO_INITDB_ROOT_USERNAME=root mongo
+
+
+-e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
+	-e MONGO_INITDB_ROOT_PASSWORD=secret \
+
+
+	#### Creating a Docker container in a default Bridge Network
+
+
+Creating a Docker container in a default Bridge Network:
+
+docker  pull unitedcore/springboot-app
+docker pull mongo
+
+	docker network create -d bridge spring-network
+
+	netstat -tulpn
+
+
+	docker run --name springboot-app -d -p 2000:8080 --network spring-network -d \
+    -e MONGO_DB_USERNAME=root \
+    -e MONGO_DB_PASSWORD=admin123 \
+    -e MONGO_DB_HOSTNAME=mongodb unitedcore/spring-boot-app 
+
+    docker run --name mongodb -d --network spring-network -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo
+
+
+    3. Connect - Connect a container to a network:
+#### How to connect applications to multiple network: 
+
+
+
+                    "Subnet": "172.23.0.0/16",  65,656
+                    "Gateway": "172.23.0.1"
+ - get ip address of both application  
+    docker inspect springboot-app
+
+    "Gateway": "172.23.0.1",
+                    "IPAddress": "172.23.0.2",
+
+4. disconnect - Disconnect a container from a network
+#### How to disconnect applications from multiple network 
+
+Remove mongodb from spring-network:
+
+docker ndocker etwork disconnect spring-network mongodb
+
+- Test application to see if its working 
+
+5. Prune - Remove unused networks:
+Docker
+docker network prune 
+
+## 6. Remove Network
+Docker
+docker network rm <networkNameOrId>
+
+# Demo - Docker Network - 
+#### Creating a Docker container in a Host Network
+
+If we create containers in host network. Container will not have an IP Address. Container will be created in a system network.
+
+But we can't create more than one container with same container port in host network.
+
+#### Example of bridge network; 
+   java-web-app      = containerPort,  EXPOSE=8080  
+   maven-web-app     = containerPort,  EXPOSE=8080  
+
+   docker run --network bridge --name javaapp -d -p  7000:8080
+   docker run --network bridge --name mavenapp -d -p 5500:8080
+
+#### Example of Host network:
+We no need to do port publish to access containers.
+
+docker pull hello-world
+docker pull nginx 
+
+   docker run --name hello-world --network host -d  unitedcore/hello-world
+  
+ 
+ docker run --network host -d --name webserver nginx
+
+ Docker Volumes(Storage): 
+==============================
+## 1. Types of Docker Volumes(storage)
+
+*Bind Mounts:* 
+    - Bind Mounts Map a specific file or directory on the host machine to a 
+    container. Unlike volumes, bind mounts are dependent on the filesystem of the host machine.
+
+*Persistent Volume*
+   - Docker volumes are a mechanism to persist data generated by and used by Docker 
+     containers. They are stored in a part of the host filesystem 
+
+     managed by Docker (/var/lib/docker/volumes/) on Linux.
+
+
+     2. Benefits of Using Volumes:
+
+   - *Data Persistence:* Data in volumes persists beyond the life of a single container.
+   - *Data Sharing:* Volumes can be shared or reused among multiple containers.
+   - *Data Security:* Using volumes can enhance the security of sensitive data.
+
+
+   3. Use Cases: 
+   - Storing database files to persist database state.
+   - Sharing configuration files between the host and containers.
+   - Providing a storage mechanism for logs and other files that need to 
+     be persisted or analyzed outside of the container.
+
+
+     *Advanced Features:*
+   - Docker also supports volume drivers, which allow you to store volumes 
+     on remote hosts or cloud providers.
+   - Volume plugins can be used to extend the capabilities of Docker 
+     volumes, providing features like encryption or compression.
+
+
+Docker Volume Commands: docker volume --help
+     Commands:
+  create      Create a volume
+  inspect     Display detailed information on one or more volumes
+  ls          List volumes
+  prune       Remove all unused local volumes
+  rm          Remove one or more volumes
+
+
+How to list volumes in docker?:
+
+docker volume ls
+
+local     5f030a5d6d4167a84ef90d78b18d2021f951e34c58805f41659a290079df8274
+local     7ee1ab53880ca797c189a4e71c9d1b5e3d6721bf55688809d7f4d297b04595da
+local     8f8e7dc48bbd328e06fada4e6d9f93314b85fd886c874e0d47011fd48cb0fc99
+
+
+create - Create a volume:
+	docker volume create
+
+	Types of volume  
+  - Bind Mounts  
+  - Peristent
+
+  Bind Mounts:
+Bind mounts may stored data anywhere on the host system. 
+They may even be important system files or directories. 
+
+  	Stateful Applications:
+A stateful application is one that saves client information or data 
+over multiple requests. 
+
+Stateless Applications:
+A stateless application does not save any information or data between requests. 
+
+H
+
+	- Requirement for Volume : 
+Stateful application : mongo
+Host mount point : /tmp/mongodb
+Container mount point : /data/db
+
+
+BindMount:
+  /tmp/mongo:/data/db
+  /home/ubuntu/data:/data/db
+
+
+  How to add bind mount in docker?':
+*deploying BindMount*
+  	docker run --name mongo -d --network spring-network \
+    -v /tmp/mongo:/data/db \
+    -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
+    -e MONGO_INITDB_ROOT_USERNAME=root mongo 
+
+    Results:
+    	ls: cannot access '-': No such file or directory
+/tmp/mongo:
+WiredTiger                           index-1--801247158297708968.wt
+WiredTiger.lock                      index-3--801247158297708968.wt
+WiredTiger.turtle                    index-5--801247158297708968.wt
+WiredTiger.wt                        index-6--801247158297708968.wt
+WiredTigerHS.wt                      index-8--801247158297708968.wt
+_mdb_catalog.wt                      index-9--801247158297708968.wt
+collection-0--801247158297708968.wt  journal
+collection-2--801247158297708968.wt  mongod.lock
+collection-4--801247158297708968.wt  sizeStorer.wt
+collection-7--801247158297708968.wt  storage.bson
+diagnostic.data
+
+
+Docker Peristent Volumes:'
+================================
+
+Volumes stored data in a part of the host filesystem managed by docker
+Docker Home Directory (DHD) on host machine 
+DHD = /var/lib/docker
+
+Host mount point : /var/lib/docker/volumes/data
+
+ Commands:
+  create      Create a volume
+  inspect     Display detailed information on one or more volumes
+  ls          List volumes
+  prune       Remove all unused local volumes
+  rm          Remove one or more volumes
+
+
+'Docker Peristent Volumes:'
+
+
+to creat volume: 
+
+  docker volume create mongodata
+
+outcome:
+local     cf7beaf8ec41691a159ce1dd933c65577873b0a8129982168f8feeec41eb1db5
+local     e76699b87ea1042260d88175bd1b91be40f7ae261574ec6564414c7d49eebd01
+local     mongodata
+
+
+docker inspect mongodata
+ results:
+
+ "CreatedAt": "2023-11-16T01:51:35Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/mongodata/_data",
+        "Name": "mongodata",
+        "Options": null,
+        "Scope": "local"
+    }
+
+Results:
+"CreatedAt": "2023-11-16T01:54:56Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/data/_data",
+        "Name": "data",
+        "Options": null,
+        "Scope": "local"
+
+
+
+docker run --name mongodb -d --network spring-network  \
+  -v data:/data/db \
+  -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
+  -e MONGO_INITDB_ROOT_USERNAME=root mongo
+
+  docker run --name mongo -d --network springboot-network \
+  -v mongodata:/data/db \
+  -e MONGO_INITDB_ROOT_PASSWORD=admin123 \
+  -e MONGO_INITDB_ROOT_USERNAME=root mongo 
+
+
+
+  Disadvantages* 
+    When the host machine goes down the volume will be lost. 
+    You can add more than 1 volume to an application.
+
+ 'External Volumes:'
+ =================
+
+ these are third party services such as AWS - EBS/EFS/S3FS , Azure Disk , GCE
+ *Requirement* : 
+External storage application : AWS - EBS (Elastic Block Store)
+Plugin : Rexray docker-plugins for storage
+external mount point : ebs
+Container mount point : /data/db
+
+Installation guide : https://rexray.readthedocs.io/en/v0.8.2/user-guide/docker-plugins/
+
+
+install plugins*
+  docker plugin install rexray/ebs \
+  EBS_ACCESSKEY="accesskey" \
+  EBS_SECRETKEY="secret"
+
+"$ docker plugin install rexray/ebs \
+  EBS_ACCESSKEY=abc \
+  EBS_SECRETKEY=123"
+
+  docker volume create -d rexray/ebs ebs30
+
+
+Docker Compose:
+=======================
+
+
+1. *Version:*
+   - version: '3.1': Specifies the version of the Docker Compose 
+            file format. This version determines which features 
+            and syntax are available.
+
+2. *Services:*
+   - This section defines two services, springboot and mongo, 
+   which correspond to two containers that will be created.
+
+3. *Springboot Service:*
+   - image: unitedcore/spring-boot-app: Specifies the Docker 
+            image to use for the Spring Boot application.
+   - restart: always: Configures the container to restart 
+             automatically if it stops. This is ignored in 
+             Docker Swarm mode.
+   - container_name: spring-boot-app: Sets the name of the container.
+   - environment: Defines environment variables for the Spring Boot 
+                  application, including MongoDB connection details.
+   - ports: Maps port 8080 of the container to port 8080 of the host, 
+            allowing access to the Spring Boot application from the host machine.
+   - networks: Assigns this service to the spring-network network.
+   - working_dir: /opt/app: Sets the working directory inside the container.
+   - depends_on: Ensures that the MongoDB container (mongo) is started before 
+                 the Spring Boot application.
+
+4. *Mongo Service:*
+   - image: mongo: Specifies the official MongoDB Docker image.
+   - container_name: mongodb: Sets the name of the MongoDB container.
+   - environment: Configures MongoDB with a root username and password.
+   - volumes: Maps a volume called data to /data/db inside the container, 
+      which is the default directory MongoDB uses to store database data.
+   - networks: Also part of the spring-network network.
+   - restart: always: Ensures the MongoDB container restarts automatically if it stops.
+
+5. *Volumes:*
+   - data: Defines a named volume for MongoDB data storage. 
+   The #external: true line is commented out, meaning the volume 
+   is managed by Docker Compose and not an external volume.
+
+6. *Networks:*
+   - spring-network: Defines a custom network using the bridge driver, 
+   which allows containers to communicate with each other.
+
+   Creating a docker-compose file:
+Requirement - 
+  docker create volume      
+  docker create network  
+  docker create containers/services
+
+
+
+ yaml/yml: kubernetes/Anisible/docker-compose
+
+ key:value pairs 
+  name: isaac     
+dictionary 
+  name: isaac   
+  age: 25  
+  company: unitedcore 
+list/array:
+students:
+  - Angel  
+  - Benard 
+  - Jonas 
+environment:
+- hostname 
+- username  
+- password
+
+
+Creating a docker-compose file:
+
+Step 1: Docker component*   vi docker-compose2.yml
+	Service:
+	volume:
+	network:
+
+*Step 2: Create resources under each components*
+
+services:
+    springboot:
+    mongo:
+volume:
+    data:
+network:
+    spring-network
+
+
+*Step 3: Create resources under each components*
+version: '3.1'
+version: '3.1'
+
+services:
+	springboot:
+		image:  
+        container_name: 
+        environment:
+        ports:
+        networks:
+        depends_on:
+        mongo:
+        working_dir: 
+        restart: 
+
+	mongo:
+		image: 
+        container_name: 
+        environment:
+        volumes:
+        networks:
+        restart: 
+volume:
+	data:
+	mongodb:
+network:
+	spring-network:
+
+
+Step 4: Provide resources information under each resource components*
+
+services:
+  springboot:
+    image: unitedcore/spring-boot-app
+    restart: always 
+    container_name: spring-boot-app
+    environment:
+    - MONGO_DB_HOSTNAME=mongodb
+    - MONGO_DB_USERNAME=root
+    - MONGO_DB_PASSWORD=admin123
+    ports:
+      - 3000:8080
+    networks:
+      - spring-network
+    working_dir: /opt/app
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    container_name: mongodb
+    environment:
+    - MONGO_INITDB_ROOT_USERNAME=root
+    - MONGO_INITDB_ROOT_PASSWORD=admin123
+    volumes:
+      - data:/data/db
+    networks:
+      - spring-network
+    restart: always
+
+
+    docker rm $(docker ps -aq)
+
+    docker rmi $(docker images -q)
+
+
+to run our docker-compose files
+
+command:
+
+	docker-compose up -d

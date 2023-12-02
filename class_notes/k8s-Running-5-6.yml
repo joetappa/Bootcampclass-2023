@@ -1,0 +1,1308 @@
+Kubernetes:
+Containerization --> Docker, Rocket(Rkt),Container-d
+   Containerization involves writing/modifying Dockerfiles and using those files
+   to create images and shipping the images to image registries.  
+   From the registries these images can be distributed  
+
+  We could also use Containerization softwares like Docker to deploy and manage Containers
+
+Container Orchestration Tools --> 
+   Docker Swarm,
+   Kubernetes,
+   OpenShift
+
+Kubernetes:
+  10 years 
+  July 2015  --- 2023-2015=7years 
+
+kubectl create/delete/apply/get/describe/run/expose 
+   authentication  = .kube/config  
+   authorisation   = RBAC  
+
+kubernetes architecture:
+controlPlane:
+  apiServer
+  etcd  
+  scheduler  
+  controllerManagers   
+workerNodes:
+  kubelet   
+  container runtime [Container-d]
+  kube-proxy
+kubernetes-client:
+  kubectl  
+      kubectl create/delete/get/describe/apply/run/expose 
+      kubeconfig [.kube/config ] file will authenticate 
+                                 the caller admin/Developer/Engineer  
+  ui  
+  api  
+
+kubernetes security - RBAC:
+  Developers [ Paul, Joyce, Chidi ] 
+  Engineers  [ James, Dominion, Janet ] 
+
+authentication via kubeconfig : 
+authorisation via RBAC:
+
+Installation:
+============
+Local K8s Cluster(Single Node K8s Cluster)
+------------------------------------------
+   minikube
+       choco install minikube
+       brew install minikube 
+       minikube start  
+   Kind   = 
+   Docker Desktop 
+      https://docs.docker.com/desktop/kubernetes/
+  POC = 
+
+Multi Node Kubernetes Clusters:
+================================
+1. Self Managed Kubernetes [k8s] Cluster = IaaS--EC2  :
+    kubeadm --> We can setup multi node k8's cluster using kubeadm.
+    kubespray --> We can setup multi node k8s cluster using kubespray
+     (Ansbile Playbooks Used internally by kubespray).
+
+     controlPlane [apiServer, etcd, scheduler, Controller Managers] 
+      and 
+     workerNodes [  kubelet, container runtime-Container-d, kube-proxy]  
+  are managed by the Admin/Kubernetes/DevOps Engineers
+
+2. Managed k8s Cluster  (Cloud Services) = PaaS  : 
+   The controlPlane and all it components are managed by the Cloud provider 
+   EKS --> Elastic Kubernetes Service(AWS)
+   AKS --> Azure Kubernetes Service(Azure)
+   GKE --> Google Kubernetes Engine(GCP)
+   IKE --> IBM K8s Engine(IBM Cloud)
+
+Kubernetes Cluster = k8s  
+
+3. KOPS: is a software use to create production GRADE/ready k8s in AWS and  
+         azure for the kops beta version  
+         highly available kubernetes services in Cloud like AWS.
+            KOPS will leverage Cloud Sevices like:
+              vpc, 
+              AutoScaling Groups, 
+              LoadBalancer, 
+              Launch Template/configuration
+              ec2-instances nodes [workerNodes and masterNodes]  
+   kops create cluster --name mycluster --az us-east-2b nodes-4 master 3    
+
+ iam role/user  
+ 
+
+Rancher: - Using Rancher we can deploy both managed and self managed k8s
+           Rancher serves as a glass to access and manage multiple k8s  
+           from the dashboard [UI]  - rancher dashboard 
+           authentication and authorisation: EKS/AKS/GKE/IKE 
+
+Ticket 001:
+  Setup a multi nodes self Managed kubernetes cluster using kubeadm.
+  requirements -- 
+1. check the kubernetes official documentation  
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+2. check the company's documentation for kubeadm setup  
+https://github.com/LandmakTechnology/package-management/blob/master/kubeadm/READme.md
+
+kubeadm join 10.0.0.20:6443 --token pqupgp.skh0fxwca870hh3n \
+        --discovery-token-ca-cert-hash sha256:72f30fc8be50aaf665f7837834736cfbfa80c00cdeb64326c5ddd4cafb7792d6
+
+docker resources/objects use to deploy applications:
+  Dockerfiles/images/networks/volumes/docker-compose.yml/etc.  
+
+kubernetes resources/objects used to deploy application:
+    Pod or   
+    controllerManagers:
+    Replication Controller
+    ReplicaSet
+    DaemonSet
+    StatefulSets
+    Deployment
+    Volume
+    Job  
+
+Exposing/accessing applications = Service Discovery:
+    Service Types:
+    ClusterIP
+    NodePort
+    LoadBalancer
+    ExternalName  
+  ingress 
+  networkPolicy 
+
+
+34.238.233.46
+
+
+Namespace:
+  It is virtual cluster inside your cluster 
+  [ dev / uat / prod ], [sales, accounts, cs, payroll]
+  pros:
+    isolation  
+    permissions 
+       dev  - Developers
+       prod - Engineers
+    resource utilisation  
+       dev  - cpu=5Gi mem=1000Mi 
+       prod - cpu=25Gi mem=8000Mi 
+    performance
+       High priority   
+
+
+RBAC - Security:
+  NameSpace
+  Role 
+  RoleBinding  
+  ClusterRole  
+  ClusterRoleBinding
+  ServiceAccounts  
+
+Namespace:
+  fintech / 
+  ecommerce 
+
+kubernetes uses the kubectl client or the UI to run workloads.
+  kubectl get namespace
+  kubectl get ns
+
+NameSpaces via team:
+   Developers = dev-ns   
+   QA         = qa-ns
+   Engineers  = prod-ns   
+
+NameSpaces via projects:
+    Customer care  
+    Sales 
+    Claims 
+    Refunds 
+
+https://kubernetes.io/docs/setup/best-practices/cluster-large/
+   No more than 110 pods per node
+   No more than 5,000 nodes
+   No more than 150,000 total pods
+   No more than 300,000 total containers
+
+kubectl get namespaces
+kubectl get ns   
+
+-#Create Name Space Using Imperative Command
+    kubectl create namespace <nameSpaceName>
+    kubectl create namespace dev  
+
+declarive approach
+-# Using Declarative Manifest file 
+
+apiVersion: v1   
+kind: Namespace      
+metadata:
+  name: prod  
+
+kubectl api-resources | grep namespace
+
+PODS:
+====
+POD --> Pod is the smallest building block which we can deploy applications in k8s.
+Pod represents running process. Pod can contains one or more containers.
+These container will share same network, storage and any other specifications.
+Pod will have unique IP Address in k8s cluster.
+
+Pods
+ SingleContainerPods --> Pod will have only one container. 98%
+ 
+ MultiContainerPods(SideCar) --> POD with two or more containers. 2%  
+         application Container  
+         SideCar containers:
+         logMgt  container  
+         utility Container [ Truck = ]
+
+How to deploy run/execute tasks/workloads in kubernetes??
+   1. Imperative  approach 
+        By using commands   
+   2. Declarative approach
+        By using files [manifests files]  
+
+-# Create POD Using Command
+
+kubectl run <podName> --image=<imageName> --port=<containerPort> -n <namespaceName>
+
+kubectl run hello --image=mylandmarktech/hello --port=80 -n dev  
+
+Docker images = dockerHub other registries:
+-- python-web-app
+   nodeweb-app 
+   net-webapp 
+   mylandmarktech/hello
+   nginx 
+   mysql  
+   mongo  
+   jenkins  
+   sonarqube  
+   nexus 
+
+
+To deploy workloads in kubernetes we must have a running cluster.
+We deploy applications in isolated virtual clusters/environments call
+
+Use the declarive to deploy workloads in kubernetes:
+  Manifest files = kams 
+Manifest files are written in yaml/yml language 
+key:values pairs:
+  key1: value1  
+  key11: value11 
+  name: simon   
+dictionary: number of key:values pairs: 
+  name: simon  
+  age: 50 
+  sex: male   
+
+list:
+  - name: simon 
+    age: 50 
+  - name: paul 
+    age: 55 
+  - name: james 
+    age: 60  
+pod.yml
+======
+apiVersion: v1    
+kind: Pod     
+metadata:
+  name: <podName>
+  namespace: <namespaceName>
+  lables:
+    key: <value> 
+    key: <value> 
+spec:
+  containers:
+  - name: containerName   
+    image: imageName  
+    ports:
+    - containerPort: podNumber  
+---
+kind: Pod  
+apiVersion: v1 
+metadata: 
+  name: myapp  
+  namespace: dev     
+  labels:
+    app: myapp 
+    tier: fe  
+spec: 
+  containers:
+  - name: webapp 
+    image: mylandmarktech/hello
+    ports: 
+    - containerPort: 80 
+
+
+
+myappsvc--->
+kubectl config set-context --current --namespace=dev
+
+kubectl get all
+kubectl delete all --all 
+kubectl delete all --all -n dev     
+kubectl delete pod --all
+kubectl get pods 
+kubectl get pods -o yaml  
+kubectl get pods --show-labels
+kubectl get pods -o wide
+kubectl get pods -o wide --show-labels
+
+kubectl  describe pod <podName>
+kubectl  describe pod <podName> -n <namespace>
+
+ServiceDicovery:
+===============
+ClusterIP is the default kubernetes service type that support communication  
+within the cluster.  
+kams  
+service.yml
+
+service.yml
+===========
+kind: Service
+apiVersion: v1  
+metadata:
+  name: myappsvc
+  namespace: dev
+spec:
+  type: ClusterIP  
+  ports:
+  - port: 80  
+    targetPort: 8080
+  selector:
+    app: myapp
+
+kubectl get svc -n <namespace>
+kubectl describe svc  
+kubectl get ep  
+kubectl describe svc   
+kubectl delete svc   
+
+kubernetes Service:
+  In Kubernetes Service makes our pods accessible/discoverable 
+  within the cluster or exposing them outside  the cluster.
+  service will identify pods using it's labels And Selector. 
+  Whenever we create a service a ClusterIP (virtual IP) Address 
+  will be allocated for that serivce and DNS entry will be created for that IP.
+  So internally we can access using service name(DNS).
+
+
+What is FQDN?
+Fully Qualified Domain name. 
+If one POD need access to service & which are in differnent names space 
+we have to use FQDN of the service.
+Syntax: <serivceName>.<namespace>.svc.cluster.local
+ex: myappsvc.dev.svc.cluster.local
+
+root@webapp:/usr/local/tomcat#
+      curl -v 
+
+
+IQ: what is Static Pods ?
+    Static Pods are controlled by the kubelet service  
+
+sudo vi /etc/kubernetes/manifests/file.yml  
+kind: Pod  
+apiVersion: v1 
+metadata: 
+  name: webapp  
+  namespace: dev     
+  labels:
+    app: webapp 
+spec: 
+  containers:
+  - name: app 
+    image: mylandmarktech/maven-web-app
+    ports: 
+    - containerPort: 8080 
+
+NB:
+We should not create pods directly to deploy applications.
+If a node  goes down in which pods are running, Pods will not be rescheduled.
+We have to create pods with help of controllers which manages POD life cycle.
+
+controllerManagers:
+  ReplicationControllers 
+  ReplicaSets, 
+  Deployments, 
+  DaemonSets  
+
+A workload is an application running on Kubernetes consisting of a single component 
+or several components that work together inside a set of pods. 
+In Kubernetes, a Pod represents a set of running containers on your cluster.
+
+Kubernetes pods have a defined lifecycle. 
+For example, once a pod is running in your 
+cluster and the node hosting the pod fails then pods running on the node will fail. 
+Kubernetes treats that level of failure as final. 
+You would need to create a new Pod to recover,even if the node later becomes healthy.
+
+ReplicationControllers = rc   
+========================== kams:
+kind:  ReplicationController
+apiVersion: v1   
+metadata:  
+  name: apprc   
+  namespace: dev    
+  labels:
+    app: myapp 
+spec:
+  selector: 
+    app: fe  
+  replicas: 2    
+  template:  #podTemplate 
+    metadata: 
+      name: apppod  
+      labels:
+        app: fe 
+    spec:  
+      containers:
+      - name: app 
+        image:  mylandmarktech/java-web-app
+        ports: 
+        - containerPort: 8080
+
+NodePort Service:
+===============
+Manages external traffic in the cluster  
+
+appsvc.yml  
+----------
+kind: Service   
+apiVersion: v1  
+metadata:
+  name: appsvc    
+spec:
+  selector:
+    app: fe  
+  type: NodePort 
+  ports:
+  - targetPort: 8080
+    nodePort: 31000 # 30000 - 32676   
+    port: 80 
+
+54.209.151.57
+44.192.109.203
+34.238.233.46
+
+
+kubectl apply -f <filename.yml>
+kubectl get rc 
+kubectl get rc -n <namespace>
+kubectl get all
+kubectl scale rc <rcName> --replicas <noOfReplicas>
+
+kubectl describe rc <rcName>
+kubectl delete rc <rcName>
+
+
+44.192.109.203:31000/java-web-app  
+
+curl 44.192.109.203:31000/java-web-app   
+
+
+ReplicaSet = RS :
+==========
+What is difference b/w replicaset and replication controller?
+
+RS is the next generation of replication controller. 
+Both RS and RC manages the pod replicas and state. But only difference as now is
+selector support.
+
+RC --> Supports only equality based selectors.
+key == value(Equal Condition)
+selector:
+    app: javawebapp
+    tier: fe    
+    client: tesla  
+
+RS --> Supports eqaulity based selectors and also set based selectors.  
+eqaulity based:
+key == value(Equal Condition)  
+set based:
+  key in [ value1, value2, value3 ]
+selector:
+   matchLabels:   -# Equality Based
+     key: value
+    app: javawebapp
+    tier: fe    
+    client: tesla  
+   matchExpressions: -# Set Based
+   - key: app
+     operator: in
+     values:
+     - javawebpp
+     - myapp  
+     - fe  
+
+rs.yml  = kams 
+--------------
+kind: ReplicaSet    
+apiVersion: apps/v1    
+metadata:
+  name: <RSName> 
+  labels:
+    <key>: <value> 
+spec:
+  selector:
+    matchLabels:
+      <key>: value           
+    matchExpressions:
+    - key: <key>
+      operator: <in /not in>  
+      values: 
+      - <value1> 
+      - <value3>      
+  replicas: 3   
+  template:
+    metadata:
+      name: podName  
+    labels:
+      <key>: <values>  
+    spec:
+      containers:
+      - name: containerName  
+        image: imageName:tag    
+        ports:
+        - containerPort: <ContainerpodNumber>      
+--- rs.yml  
+kind: ReplicaSet
+apiVersion: apps/v1   
+metadata:
+  name: webrs  
+spec:
+  selector: 
+    matchLabels:
+      app: web 
+  replicas: 2   
+
+  template:
+    metadata:
+      name: webapp  
+      labels:
+        app: web  
+    spec:
+      containers:
+      - name: web 
+        image: mylandmarktech/python-flask-app:2    
+        ports:
+        - containerPort: 5000      
+
+node-app-rs.yml = kams 
+================
+kind: ReplicaSet    
+apiVersion: apps/v1     
+metadata:
+  name: nodeapp   
+spec:
+  replicas: 2    
+  selector:
+    matchLabels:
+      app: node   
+  template:
+    metadata:
+      name: nodeweb-app  
+      labels:
+        app: node 
+    spec:
+      imagePullSecrets:
+      - name: dockerhublogin      
+      containers:
+      - name: nodeapp   
+        image: mylandmarktech/nodejs-fe-app
+        ports:
+        - containerPort: 9981      
+---
+kind: Service
+apiVersion: v1  
+metadata:
+  name: websvc  
+spec:
+  type: NodePort  
+  selector:
+    app: node 
+  ports:
+  - targetPort: 9981
+    ports: 80 
+    nodePort: 32000
+
+
+
+kubectl create secret docker-registry regcred
+ --docker-server=<your-registry-server> 
+ --docker-username=<your-name> 
+ --docker-password=<your-pword>
+ --docker-email=<your-email>
+
+
+kubectl create secret docker-registry dockerhublogin \
+    --docker-server=docker.io --docker-username=mylandmarktech \
+    --docker-password=admin123  
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-reg
+spec:
+  containers:
+  - name: private-reg-container
+    image: <your-private-image>
+  imagePullSecrets:
+  - name: regcred
+---
+---
+
+
+kubectl get rs 
+kubectl get rs -n <namespace>
+kubectl get all
+kubectl scale rs <rsName> --replicas <noOfReplicas>
+
+kubectl describe rs <rsName>
+kubectl delete rs <rsName>
+
+kubectl scale rs nodeapp --replicas 3 
+
+DaemonSet:
+==========
+https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+4 nodes  =    
+
+ds.yml  = kams 
+-=====--------
+kind: DaemonSet    
+apiVersion: apps/v1    
+metadata:
+  name: <RSName> 
+  labels:
+    <key>: <value> 
+spec:
+  selector:
+    matchLabels:
+      <key>: value           
+    matchExpressions:
+    - key: <key>
+      operator: <in /not in>  
+      values: 
+      - <value1> 
+      - <value3>      
+  template:
+    metadata:
+      name: podName  
+    labels:
+      <key>: <vales>  
+    spec:
+      containers:
+      - name: containerName
+
+hello_ds.yml   
+================
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: logmgt
+spec:
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      name: hello
+      labels:
+        app: hello
+    spec:
+      containers:
+      - name: hello
+        image: mylandmarktech/hello
+        ports:
+        - containerPort: 80
+
+k8s--->nodes--->pods---->Containers:
+  How can we deploy containerised applications in k8s?
+  We use kubernetes objects to deploy workloads in kubernetes:
+  1. Pods --- 
+        scaling is not supported  
+        lifecycle is very short  
+        lacks self-healing capacities
+    controllerManagers:
+  2. ReplicationControllers  
+       kubectl scale rc/rs/deploy  
+  3. ReplicaSets
+  4. DaemonSets
+  5. Deployment  
+  6. StatefulSets 
+
+1. Deploy an application which must have a pod running in each = ds  
+     logMgt / logshipper  
+2. Deploy an application with scaling capacities = rc/rs/Deployment/sts  
+3. Deploy an application with scaling capacities = pod  
+
+Master node is tainted / taint  
+=============================  
+  -- recommissioning / upgrades / updates / patching  
+
+
+node1    Ready 
+
+kubectl taint nodes node1 key1=value1:NoSchedule
+
+hello-ds.yml  
+===========
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: logmgt
+spec:
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      name: hello
+      labels:
+        app: hello
+    spec:
+      tolerations:
+      - operator: Exists
+        effect: "NoSchedule"
+      containers:
+      - name: hello
+        image: mylandmarktech/hello
+        ports:
+        - containerPort: 80
+
+Master node is tainted / taint  
+=============================  
+  -- recommissioning / upgrades / updates / patching  
+
+kubectl taint nodes node1 key1=value1:NoSchedule     [taint the node]
+kubectl taint nodes node1 key1=value1:NoSchedule-   [untaint the node]
+
+sudo vi /etc/kubernetes/manifests/
+
+imperative  
+declarative
+
+kubectl apply -f rc.yml 
+
+kubectl apply -f <ds-filename.yml>
+kubectl get ds 
+kubectl get ds -n <namespace>
+kubectl get all
+
+kubectl describe ds <dsName>
+kubectl delete ds <dsName>
+
+kubectl get/describe/delete/edit/apply/  
+
+==============================================
+
+Deployments  
+==========
+  Advantages:
+     Deploy a RS.
+     Updates pods (PodTemplateSpec).
+     Rollback to older Deployment versions.
+     Scale Deployment up or down.
+     Pause and resume the Deployment.
+     Use the status of the Deployment to determine state of replicas.
+     Clean up older RS that you don’t need anymore.
+
+kubectl apply deploy-app.yml :
+  rollout a ReplicaSet  
+
+---
+kind: Deployment   
+apiVersion: apps/v1    
+metadata:
+  name: <deploymentName> 
+  labels:
+    <key>: <value> 
+spec:
+  strategy:
+    rollingUpdates   
+    recreate  
+  selector:
+    matchLabels:
+      <key>: value           
+    matchExpressions:
+    - key: <key>
+      operator: <in /not in>  
+      values: 
+      - <value1> 
+      - <value3>      
+  template:
+    metadata:
+      name: podName  
+    labels:
+      <key>: <vales>  
+    spec:
+      containers:
+      - name: containerName
+---
+---
+app.yml  - kams
+------
+kind: Deployment
+apiVersion: apps/v1  
+metadata:
+  name:  webapp 
+  namespace: dev    
+  labels:
+    app: be  
+spec: 
+  replicas: 1     
+  selector:
+    matchLabels:
+      app: web  
+  template:
+    metadata:
+      name: webapp 
+      labels: 
+        app: web  
+    spec: 
+      containers:
+      - name: webappc
+        image: mylandmarktech/maven-web-app  
+        ports:
+        - containerPort: 8080  
+
+webappsvc.yml  
+-------------
+kind: Service  
+apiVersion: v1  
+metadata:
+  name: webappsvc  
+spec:
+  selector:
+    app: web  
+  type: NodePort 
+  ports:
+  - port: 80 
+    targetPort: 8080
+    nodePort: 31000 #[30000-32676]  
+
+
+44.192.109.203:31000/maven-web-app  
+
+curl 44.192.109.203:31000/java-web-app  
+
+
+-# Deployment ReCreate
+---------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello 
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello 
+  strategy:
+    type: Recreate    
+  template:
+    metadata:
+      name: hello
+      labels:
+        app: hello  
+    spec:
+      containers:
+      - name: helloworld    
+        image: 
+        ports:
+        - containerPort: 80   
+
+hello-svc.yml  
+-------------
+kind: Service  
+apiVersion: v1  
+metadata:
+  name: hellosvc  
+spec:
+  selector:
+    app: hello   
+  type: NodePort 
+  ports:
+  - port: 80 
+    targetPort: 80
+    nodePort: 32000 #[30000-32676]  
+
+44.192.109.203:32000 
+
+
+27 Nov 2023:
+
+
+Update Deployment Image using command 
+--------------------------------------
+
+kubectl set image deployment <deploymentName> <containerName>=<imageNameWithVersion> --record
+kubectl set image deployment myapp myappc=unitedcore/hello:v1
+
+
+kubectl set image deployment hello unitedcore/hello:1 --record  
+
+kubectl rollout status deployment <deploymentName>
+kubectl rollout status deployment myapp
+
+kubectl rollout history  deployment <deploymentName>
+kubectl rollout history  deployment myapp
+
+kubectl rollout history  deployment <deploymentName> --revision 1  
+kubectl rollout undo  deployment <deploymentName> --to-revision=1  
+kubectl scale deployment <deploymentName> --replicas <noOfReplicas>
+
+
+DeploymentRolling update strategy:
+----------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxSurge: 1
+       maxUnavailable: 1
+  minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: myapp
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myappc
+        image: unitedcore/hello:v1
+        ports:
+        - containerPort: 80
+---
+
+
+hello-svc.yml  
+-------------
+kind: Service  
+apiVersion: v1  
+metadata:
+  name: hellosvc  
+spec:
+  selector:
+    app: myapp   
+  type: NodePort 
+  ports:
+  - port: 80 
+    targetPort: 80
+    nodePort: 32000 #[30000-32676] 
+
+Resource, requests and limits:
+
+  Requests and limits are the mechanisms Kubernetes uses 
+  to control resources such as CPU and memory. 
+  Requests are what the container is guaranteed to get. 
+  If a container requests a resource, 
+  Kubernetes will only schedule it on a node that can give it that resource.
+
+  Limits, on the other hand, make sure a container never goes above a certain value. 
+  The container is only allowed to go up to the limit, and then it is restricted.
+
+  Resource request:
+---------------
+
+A request is the amount of that resources that the system 
+will guarantee for the container, and Kubernetes will use this value 
+to decide on which node to place the pod. 
+
+Resource Limit:
+A limit is the maximum amount of resources that 
+Kubernetes will allow the container to use.
+
+Cluster = node1[mem=4000mi/32MB]    cpu[8000m/4000m]     : million bytes
+          node2[mem=4000Mi/2200MB]  cpu[16000m/12000m]
+          node11[mem=4000Mi/2200MB] cpu[16000m/12000m]
+
+
+Pod3.yml:
+============
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: unitedwebapp   
+spec:
+  containers:
+  - name: unitedwebapp 
+    image: unitedcore/united-web-app   
+    ports:
+    - containerPort: 8080   
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "500m"          
+      limits:
+        memory: "512Mi"
+        cpu: "1000m"
+
+
+Commands to check resource usage
+
+ubuntu@master:~$ kubectl top pods
+NAME                    CPU(cores)   MEMORY(bytes)
+myapp-6db5fdfb6-wnqsx   1m           4Mi
+myapp-6db5fdfb6-ztrnc   1m           4Mi
+unitedwebapp            2m           127Mi
+ubuntu@master:~$ kubectl top nodes
+NAME     CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+master   74m          3%     2465Mi          64%
+node1    17m          1%     715Mi           84%
+node11   13m          1%     582Mi           68%
+
+
+Horizontal Pod AutoScaling  - HPA  :
+==================================
+
+POD AutoScaling --> Kuberenets POD AutoScaling Will make sure u have minimum number 
+pod replicas available at any time & based on the observed CPU/Memory utilization
+on pods it can scale PODS.
+HPA Will Scale up/down pod replicas of Deployment/ReplicaSet/ReplicationController 
+based on observerd CPU & Memory utilization base the target specified. 
+
+IQ: What is difference b/w Kubernetes AutoScaling(POD AutoScaling) & AWS AutoScaling?
+
+aws  
+  AutoScaling Group = ASG
+     minimum   10      20 [81%]  21
+     desired   10      20 [75%]
+     maximum   100 
+
+  ScalingPolicy:
+     memory utilization
+       cpu -gt 80% 
+       cpu -lt 40%     
+     cpu utilization
+difference b/w Kubernetes AutoScaling(POD AutoScaling) 
+                   & AWS AutoScaling?
+
+
+app2.yml  
+=======
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: webapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: webapp
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: webapp
+        image: unitedcore/united-web-app
+        resources:
+          requests:
+            cpu: "1000"
+            memory: "256Mi"
+          limits:
+            cpu: "1000"
+            memory: "256Mi"
+        ports:
+        - containerPort: 8080
+
+
+Configure a Metrics Server on our Cluster4??
+===========================================
+
+Configure a Metrics Server on our Cluster4??
+===========================================
+https://github.com/unitedcoresystems/metric-server
+git clone https://github.com/unitedcoresystems/metric-server
+
+
+wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+
+
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+
+wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+
+
+Metrics Collection: HPA continuously monitors the resource utilization metrics 
+                  (such as CPU utilization) or custom metrics defined by the user.
+
+Comparison with Target Value: The collected metrics are compared against a target 
+                  value or range specified by the user. For example, you might 
+                  set a target CPU utilization of 50%.
+
+Scaling Decisions: Based on the comparison, the HPA makes scaling decisions. 
+                  If the observed metrics are above the target, it means the 
+                  application is under load, and HPA can increase the number 
+                  of replicas. If the metrics are below the target, it may 
+                  decrease the number of replicas to save resources.
+
+Adjustment of Replicas: HPA communicates with the Kubernetes API server to adjust 
+                        the number of replicas in the deployment or replica set.
+
+
+Deployment with HPA
+==================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hpadeployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: hpapod
+  template:
+    metadata:
+      labels:
+        name: hpapod
+    spec:
+      containers:
+        - name: hpacontainer
+          image: k8s.gcr.io/hpa-example
+          ports:
+          - name: http
+            containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
+---
+apiVersion: autoscaling/v2 
+kind: HorizontalPodAutoscaler  
+metadata:
+  name: hpadeploymentautoscaler 
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment 
+    name: hpadeployment
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 40
+  - type: Resource
+    resource:
+     name: memory
+     target:
+      type: Utilization
+      averageUtilization: 40
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hpaclusterservice
+  labels:
+    name: hpaservice
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: hpapod
+  type: ClusterIP
+
+
+
+Commands
+-# Create temp POD using below command interatively and increase the 
+-# load on demo app by accessing the service.
+
+kubectl run -i --tty load-generator --rm  --image=busybox /bin/sh
+
+run after that duplicate the mobaxtem
+
+-# Access the service to increase the load.
+
+while true; do wget -q -O- http://hpaclusterservice; done 
+
+
+kubectl get hpa -w
+
+
+mongo database:
+===============
+
+mongodb:
+      host: ${MONGO_DB_HOSTNAME}
+      port: 27017
+      username: ${MONGO_DB_USERNAME}
+      password: ${MONGO_DB_PASSWORD}
+      database: users
+      authentication-database: admin
+
+
+mongodb-deployment
+-------------------
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: springapp
+  template:
+    metadata:
+      labels:
+        app: springapp
+    spec:
+      containers:
+      - name: springappcontainer
+        image: unitedcore/spring-boot-app
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MONGO_DB_HOSTNAME
+          value: mongosvc
+        - name: MONGO_DB_USERNAME
+          value: devdb
+        - name: MONGO_DB_PASSWORD
+          value: devdb@123
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springappsvc
+spec:
+  type: NodePort
+  selector:
+    app: springapp
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 31111 #[30000-32676] 
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mongodb
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      name: myapp
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongodbcontainer
+        image: mongo
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: devdb
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: devdb@123
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongosvc
+spec:
+  type: ClusterIP
+  selector:
+    app: mongo
+  ports:
+  - port: 27017
+    targetPort: 27017

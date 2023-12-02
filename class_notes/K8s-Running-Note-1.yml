@@ -1,0 +1,162 @@
+Kubernetes:
+
+CONTAINERISATION:
+  Rocket
+  CoreOS
+  Docker  - 85%
+    engine  / cli=docker and docker service/daemon / 
+    registry=dockerHub / ECR / Nexus/JFrog / DTR
+      docker build
+      docker /run/create/start/pull/push/login/ps/ps-a/kill/images
+    Dockerfile = List of instructions that will be executed 
+                 orderly from top to bottom to create docker images.
+                 This file contain key words
+                 FROM / CMD/ENTRYPOINT/ RUN/ EXPOSE / COPY/ADD/ENV/etc.       
+    BEST PRACTICES: use minimun RUN instructions to create lightweight 
+                    use docker official images 
+                    use alpine linux where possible  
+                    Avoid installation of unnecessary applications
+                    use docker-compose file for deployment  
+========================================================================
+
+
+Docker is not scalable 
+Docker does not support overlay network
+
+Overlay networks:
+
+An overlay network is a computer network that is built on top 
+of an existing network infrastructure, creating a virtual network 
+that can span multiple physical networks or data centers. Overlay 
+networks are commonly used in cloud computing and container 
+orchestration systems like Kubernetes to provide network 
+connectivity and isolation for applications and services.
+
+
+CONTAINER ORCHESTRATION:
+   Docker Swarm
+   Kubernetes
+   OpenShift
+
+
+Kubernetes:
+Containerization --> Docker, Rocket(Rkt),Container-d
+   Containerization involves writing/modifying Dockerfiles and using those files
+   to create images and shipping the images to image registries.  
+   From the registries these images can be distributed  
+
+  We could also use Containerization softwares like Docker to deploy and manage Containers
+
+Container Orchestration Tools --> 
+   Docker Swarm,
+   Kubernetes,
+   OpenShift
+
+Kubernetes:
+ 
+  21 July 2014  --- 2023-2014=8years 
+
+kubectl create/delete/apply/get/describe/run/expose 
+   authentication  = .kube/config  
+   authorisation   = RBAC  
+
+kubernetes architecture:
+controlPlane:
+  apiServer
+  etcd  
+  scheduler  
+  controllerManagers   
+workerNodes:
+  kubelet   
+  container runtime [Container-d]
+  kube-proxy
+kubernetes-client:
+  kubectl  
+      kubectl create/delete/get/describe/apply/run/expose 
+      kubeconfig [.kube/config ] file will authenticate 
+                                 the caller admin/Developer/Engineer  
+  ui  
+  api  
+
+kubernetes security - RBAC:
+  Developers [ Paul, Joyce, Chidi ] 
+  Engineers  [ James, Dominion, Janet ] 
+
+authentication via kubeconfig : 
+authorisation via RBAC:
+
+Installation:
+============
+Local K8s Cluster(Single Node K8s Cluster)
+------------------------------------------
+   minikube
+       choco install minikube
+       brew install minikube 
+       minikube start  
+   Kind   = 
+   Docker Desktop 
+      https://docs.docker.com/desktop/kubernetes/
+  POC = 
+
+
+
+P
+====
+POD --> Pod is the smallest building block which we can deploy applications in k8s.
+Pod represents running process. Pod can contains one or more containers.
+These container will share same network, storage and any other specifications.
+Pod will have unique IP Address in k8s cluster.
+
+Pods
+ SingleContainerPods --> Pod will have only one container. 98%
+
+
+   No more than 110 pods per node
+   No more than 5,000 nodes
+   No more than 150,000 total pods
+   No more than 300,000 total containers
+
+Installation:
+============
+Local K8s Cluster(Single Node K8s Cluster)
+------------------------------------------
+   minikube
+       choco install minikube
+       brew install minikube 
+       minikube start  
+   Kind   = 
+   Docker Desktop 
+      https://docs.docker.com/desktop/kubernetes/
+
+
+
+
+ creating  a K8s master and 2 worker nodes:  kubernetes
+
+Follow instruction on Git 
+
+ kubeadm join 172.31.44.24:6443 --token 6zb8rw.svzv6q6qq9daggmd \
+        --discovery-token-ca-cert-hash sha256:82c83fa5be39aa4216ac21229718554297220b67a272e6a8e7ff2adcfe6f8abc
+
+  RBAC - Security:
+  NameSpace
+  Role 
+  RoleBinding  
+  ClusterRole  
+  ClusterRoleBinding
+  ServiceAccounts  
+
+Namespace:
+  In Kubernetes, a namespace is a way to logically divide 
+  cluster resources between multiple users, teams, or projects. 
+  It provides a scope for names, avoiding naming collisions 
+  between different entities within the same cluster. 
+  Namespaces are a fundamental concept for multi-tenancy and 
+  organizational structuring within Kubernetes.
+  
+  fintech / 
+  ecommerce 
+
+kubernetes uses the kubectl client or the UI to run workloads.
+  kubectl get namespace
+  kubectl get ns
