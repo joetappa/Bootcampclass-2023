@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: javawebappcontainer
-        image: mylandmarktech/java-web-app
+        image: unitedcore/united-web-app
         ports:
         - containerPort: 8080
         readinessProbe:

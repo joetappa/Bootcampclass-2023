@@ -12,7 +12,7 @@ spec:
         name: springboot
     spec:
       containers:
-      - image: mylandmarktech/spring-boot-mongo
+      - image: unitedcore/spring-boot-mongo:latest
         name: springboot
         ports:
         - name: springboot
@@ -26,14 +26,9 @@ metadata:
     name: springboot
   name: springboot
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
-    - port: 80
-      name: http
+    - port: 8080
       targetPort: 8080
-    - port: 443
-      name: https
-      targetPort: 8080  
   selector:
     name: springboot
-

@@ -98,7 +98,7 @@ kops update cluster ${NAME} --yes
 ```
 # 10a) Validate your cluster(KOPS will take some time to create cluster ,Execute below commond after 3 or 4 mins)
 ```sh
-kops validate cluster
+ kops export kubecfg $NAME --admin
 ```	   
 	   Suggestions:
  * validate cluster: kops validate cluster --wait 10m
@@ -109,7 +109,7 @@ kops validate cluster
 
 ## 10b - Export the kubeconfig file to manage your kubernetes cluster from a remote server. For this demo, Our remote server shall be our kops server 
 ```sh
- kops export kubecfg $NAME --admin
+kops validate cluster
 ```
 ## 11a) To list nodes and pod to ensure that you can make calls to the kubernetes apiSAerver and run workloads
 	  kubectl get nodes 
