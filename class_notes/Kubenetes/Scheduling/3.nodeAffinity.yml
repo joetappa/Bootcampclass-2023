@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unitedwebapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: java
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 60
+  template:
+    metadata:
+      name: unitedwebapp
+      labels:
+        app: java
+    spec:
+      affinity:
+        nodeAffinity:
+         preferredDuringSchedulingIgnoredDuringExecution:
+           nodeSelectorTerms:
+           - matchExpressions:
+             - key: "name"
+               operator: In
+               values:
+               - workerOne
+               - worker2
+               - worker3
+      containers:
+      - name: unitedwebapp
+        image: unitedcore/united-web-app
+        ports:
+        - containerPort: 8080

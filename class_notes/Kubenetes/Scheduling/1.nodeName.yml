@@ -1,0 +1,25 @@
+kind: Pod  
+apiVersion: v1  
+metadata:
+  name: ngnix
+spec:  
+  containers:  
+   - name: ngnix
+     image: ngnix
+     ports:
+     - containerPort: 80
+  nodeName: master
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ngnix
+spec:
+  type: NodePort
+  ports:
+  - targetPort: 80
+    port: 80
+    nodePort: 31000
+  selector:
+    app: ngnix

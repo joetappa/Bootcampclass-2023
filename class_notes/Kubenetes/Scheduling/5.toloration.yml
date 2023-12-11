@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: javawebapp
+spec:
+  selector:
+    matchLabels:
+      app: javawebapp
+  template:
+    metadata:
+      name: javawebapp
+      labels:
+        app: javawebapp
+    spec:
+      tolerations:
+      - effect: NoSchedule
+        operator: "Exists"
+        key: node
+      - effect: NoExecute
+        operator: "Exists"
+        key: node        
+      containers:
+      - name: javawebapp
+        image: mylandmarktech/java-web-app
+        ports:
+        - containerPort: 8080
