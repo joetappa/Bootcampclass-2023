@@ -78,7 +78,8 @@ You Created. --> Save.
 	# Give Unique Name And S3 Bucket which you created.
 	export NAME=united2023.k8s.local
 	export KOPS_STATE_STORE=s3://united2023kops
- ##NB: Remember to change/personalize this united2023 on line 79 & 80. 
+        source .bashrc
+ ##NB: Remember to change/personalize  united2023 on line 79 & 80. 
       source .bashrc  
 	
 ### 7) Create sshkeys before creating cluster

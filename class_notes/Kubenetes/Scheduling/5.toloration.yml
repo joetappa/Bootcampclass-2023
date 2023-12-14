@@ -21,6 +21,6 @@ spec:
         key: node        
       containers:
       - name: javawebapp
-        image: mylandmarktech/java-web-app
+        image: unitedcore/java-web-app
         ports:
         - containerPort: 8080

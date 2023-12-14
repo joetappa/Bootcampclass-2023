@@ -237,7 +237,7 @@ We no need to do port publish to access containers.
 docker pull hello-world
 docker pull nginx 
 
-   docker run --name hello-app --network host -d mylandmarktech/hello 
+   docker run --name hello-app --network host -d unitedcore/hello 
    docker run --network host -d --name webserver nginx
 
 

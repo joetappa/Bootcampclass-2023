@@ -177,22 +177,22 @@ ebay-web-application:
     mysql db  
 
 docker run --name login -d -p 4000:8080 --network springboot-network -e MONGO_DB_USERNAME=root \
- -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb mylandmarktech/login
+ -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb unitedcore/login
 
 docker run --name registration -d -p  --network springboot-network -e MONGO_DB_USERNAME=root \
- -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb mylandmarktech/registration
+ -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb unitedcore/registration
 
 docker run --name cart -d -p  --network springboot-network -e MONGO_DB_USERNAME=root \
- -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb mylandmarktech/cart
+ -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb unitedcore/cart
 
 docker run --name checkout -d -p  --network springboot-network -e MONGO_DB_USERNAME=root \
- -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb mylandmarktech/checkout
+ -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb unitedcore/checkout
 
 docker run --name checkout -d -p  --network springboot-network -e MONGO_DB_USERNAME=root \
- -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb mylandmarktech/checkout
+ -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb unitedcore/checkout
 
 docker run --name springapp -d -p 4000:8080 --network springboot-network -e MONGO_DB_USERNAME=root \
- -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb mylandmarktech/spring-boot-mongo
+ -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb unitedcore/spring-boot-mongo
 
 
   docker network create ecommerce 
@@ -229,14 +229,14 @@ services:
 
 yaml/yml: kubernetes / ansible / docker-compose
 key:value pairs 
-  name: simon     
+  name: Issac     
 dictionary 
-  name: simon   
+  name: Issac   
   age: 25  
-  company: mylandmarktech 
+  company: unitedcore 
 list/array:
 students:
-  - simon  
+  - Issac  
   - james 
   - paul 
 environment:
@@ -245,13 +245,13 @@ environment:
 - password   
 
 docker run --name springapp -d -p 4000:8080 --network springboot-network -e MONGO_DB_USERNAME=root \
- -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb mylandmarktech/spring-boot-mongo
+ -e MONGO_DB_PASSWORD=admin123 -e MONGO_DB_HOSTNAME=mongodb unitedcore/spring-boot-mongo
 
 
 version: '3.1'
 services:
   springapp:
-    image: mylandmarktech/spring-boot-mongo
+    image: unitedcore/spring-boot-mongo
     restart: always
     ports:
       - 3000:8080 
@@ -289,7 +289,7 @@ deploy with existing network/volumes:
 version: '3.1'
 services:
   springapp:
-    image: mylandmarktech/spring-boot-mongo
+    image: unitedcore/spring-boot-mongo
     restart: always
     ports:
       - 3000:8080

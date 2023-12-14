@@ -227,13 +227,13 @@ How to deploy run/execute tasks/workloads in kubernetes??
 
 kubectl run <podName> --image=<imageName> --port=<containerPort> -n <namespaceName>
 
-kubectl run hello --image=mylandmarktech/hello --port=80 -n dev  
+kubectl run hello --image=unitedcore/hello --port=80 -n dev  
 
 Docker images = dockerHub other registries:
 -- python-web-app
    nodeweb-app 
    net-webapp 
-   mylandmarktech/hello
+   unitedcore/hello
    nginx 
    mysql  
    mongo  
@@ -251,14 +251,14 @@ Manifest files are written in yaml/yml language
 key:values pairs:
   key1: value1  
   key11: value11 
-  name: simon   
+  name: Issac   
 dictionary: number of key:values pairs: 
-  name: simon  
+  name: Issac  
   age: 50 
   sex: male   
 
 list:
-  - name: simon 
+  - name: Issac 
     age: 50 
   - name: paul 
     age: 55 
@@ -292,7 +292,7 @@ metadata:
 spec: 
   containers:
   - name: webapp 
-    image: mylandmarktech/hello
+    image: unitedcore/hello
     ports: 
     - containerPort: 80 
 
@@ -376,7 +376,7 @@ metadata:
 spec: 
   containers:
   - name: app 
-    image: mylandmarktech/maven-web-app
+    image: unitedcore/maven-web-app
     ports: 
     - containerPort: 8080 
 
@@ -422,7 +422,7 @@ spec:
     spec:  
       containers:
       - name: app 
-        image:  mylandmarktech/java-web-app
+        image:  unitedcore/java-web-app
         ports: 
         - containerPort: 8080
 
@@ -548,7 +548,7 @@ spec:
     spec:
       containers:
       - name: web 
-        image: mylandmarktech/python-flask-app:2    
+        image: unitedcore/python-flask-app:2    
         ports:
         - containerPort: 5000      
 
@@ -573,7 +573,7 @@ spec:
       - name: dockerhublogin      
       containers:
       - name: nodeapp   
-        image: mylandmarktech/nodejs-fe-app
+        image: unitedcore/nodejs-fe-app
         ports:
         - containerPort: 9981      
 ---
@@ -600,7 +600,7 @@ kubectl create secret docker-registry regcred
 
 
 kubectl create secret docker-registry dockerhublogin \
-    --docker-server=docker.io --docker-username=mylandmarktech \
+    --docker-server=docker.io --docker-username=unitedcore \
     --docker-password=admin123  
 
 apiVersion: v1
@@ -677,7 +677,7 @@ spec:
     spec:
       containers:
       - name: hello
-        image: mylandmarktech/hello
+        image: unitedcore/hello
         ports:
         - containerPort: 80
 
@@ -731,7 +731,7 @@ spec:
         effect: "NoSchedule"
       containers:
       - name: hello
-        image: mylandmarktech/hello
+        image: unitedcore/hello
         ports:
         - containerPort: 80
 
@@ -827,7 +827,7 @@ spec:
     spec: 
       containers:
       - name: webappc
-        image: mylandmarktech/maven-web-app  
+        image: unitedcore/maven-web-app  
         ports:
         - containerPort: 8080  
 

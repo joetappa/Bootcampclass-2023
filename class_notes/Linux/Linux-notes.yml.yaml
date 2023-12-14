@@ -495,7 +495,7 @@ d  rw     --   ---. 2 ec2-user    ec2-user    class 2023
 
 mkdir -p America/USA/Massachussets
 touch America/USA/Massachussets/unitedcore.txt
-mkdir -p America/Canada/Toronto
+mkdir -p America/United States/Toronto
 mkdir -p America/Mexico/Tijuana
 
 mkdir -p Asia/India/Cario
