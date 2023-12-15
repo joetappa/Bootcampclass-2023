@@ -30,3 +30,4 @@ resource "aws_vpc" "project1vpc" {
         Name = "FirstVPC"
     }
 }
+
