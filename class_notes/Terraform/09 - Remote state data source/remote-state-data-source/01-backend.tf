@@ -9,17 +9,17 @@ terraform {
 
 
   backend "s3" {
-    bucket = "my-terraformstate-landmark-buc"
+    bucket = "my-terraformstate-Unitedcore-2023-buc"
     key = "terraform/terraform.tfstate"
     dynamodb_table = "terraform-lock"
 
-    region = "us-west-1"
+    region = "us-east-1"
 
  }
 }
 
 /*resource "aws_s3_bucket" "my_bucket" {
-  bucket = "my-terraformstate-landmark-buc"
+  bucket = "my-terraformstate-Unitedcore-2023-buc"
   acl    = "private"
 
   versioning {
@@ -48,6 +48,6 @@ resource "aws_dynamodb_table" "tf_lock" {
 
  # Provider Block
 provider "aws" {
-   region  = "us-west-1"
-   profile = "Kenmak"
+   region  = "us-east-1"
+   profile = "Isaac"
  }

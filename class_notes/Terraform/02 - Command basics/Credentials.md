@@ -2,7 +2,7 @@ The AWS provider offers a flexible means of providing credentials for authentica
 
 - **Static credentials**
      provider "aws" {
-       region     = "us-west-2"
+       region     = "us-east-2"
        access_key = "my-access-key"
        secret_key = "my-secret-key"
     }
@@ -10,11 +10,11 @@ The AWS provider offers a flexible means of providing credentials for authentica
 - **Environment variables**
      $ export AWS_ACCESS_KEY_ID="accesskey"
      $ export AWS_SECRET_ACCESS_KEY="secretkey"
-     $ export AWS_DEFAULT_REGION="us-west-2"
+     $ export AWS_DEFAULT_REGION="us-east-1"
 
 - **Shared credentials/configuration file**
     provider "aws" {
-      region                  = "us-west-2"
+      region                  = "us-east-1"
       shared_credentials_file = "/Users/tf_user/.aws/creds"
       profile                 = "dev"
   }

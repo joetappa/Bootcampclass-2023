@@ -215,7 +215,7 @@ your user types in the domain name
 into their browser, and they navigate to Route 53.
 Route 53 sends 20% of the traffic
 over to US-EAST-1, and 80% of the traffic
-over to US-WEST-1.
+over to us-east-1.
 
 
 2:  go to route 53---Hosted sign----unitedcoresystems

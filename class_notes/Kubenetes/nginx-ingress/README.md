@@ -20,20 +20,20 @@ In the case of NGINX, the Ingress controller is deployed in a pod along with the
 
 ## 1. Clone Kubernetes Nginx Ingress Manifests into server where you have kubectl
 
-```
-$ git clone https://github.com/unitedcoresystems/Bootcampclass-2023.git
+```sh
+git clone https://github.com/unitedcoresystems/Bootcampclass-2023.git
 
-$ cd class_notes/Kubenetes/nginx-ingress/deployments
+cd Bootcampclass-2023/class_notes/Kubenetes/nginx-ingress/deployments
 ```
 ## 2. Create a Namespace And SA
 
-```
- $ kubectl apply -f common/ns-and-sa.yaml
+```sh
+kubectl apply -f common/ns-and-sa.yaml
 ```
 ## 3. Create RBAC, Default Secret And Config Map
 
-```
- $ kubectl apply -f common/
+```sh
+kubectl apply -f common/
 ```
 
 ## 4. Deploy the Ingress Controller
@@ -46,16 +46,17 @@ We include two options for deploying the Ingress controller:
 
 When you run the Ingress Controller by using a DaemonSet, Kubernetes will create an Ingress controller pod on every node of the cluster.
 
+```sh
+kubectl apply -f daemon-set/nginx-ingress.yaml
 ```
- $ kubectl apply -f daemon-set/nginx-ingress.yaml
- ```
 
 ## 5. Check that the Ingress Controller is Running
 
 Check that the Ingress Controller is Running
 Run the following command to make sure that the Ingress controller pods are running:
-```
-$ kubectl get pods --namespace=nginx-ingress
+
+```sh
+kubectl get pods --namespace=nginx-ingress
 ```
 
 ## 6. Get Access to the Ingress Controller
@@ -68,24 +69,27 @@ $ kubectl get pods --namespace=nginx-ingress
  Create a service with the type **LoadBalancer**. Kubernetes will allocate and configure a cloud load balancer for load balancing the Ingress controller pods.
 
 **For AWS, run:**
-```
-$ kubectl apply -f service/loadbalancer-aws-elb.yaml
+
+```sh
+kubectl apply -f service/loadbalancer-aws-elb.yaml
 ```
 
 To get the DNS name of the ELB, run:
-```
-$ kubectl describe svc nginx-ingress --namespace=nginx-ingress
+
+```sh
+kubectl describe svc nginx-ingress --namespace=nginx-ingress
 ```
 
 `OR`
 
-```
+```sh
 kubectl get svc -n nginx-ingress 
 ```
 
 You can resolve the DNS name into an IP address using `nslookup`:
-```
-$ nslookup <dns-name>
+
+```sh
+nslookup <dns-name>
 ```
 
 
@@ -94,7 +98,7 @@ $ nslookup <dns-name>
 ### 5.1 Define path based or host based routing rules for your services.
 
 ### Single DNS Sample with host and servcie place holders
-``` yaml
+```yml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -116,7 +120,7 @@ spec:
 ``` 
 
 ### Multiple DNS Sample with hosts and servcies place holders
-``` yaml
+```yml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -148,7 +152,7 @@ spec:
 ``` 		  
 
 ### Path Based Routing Example
-``` yaml		  
+```yml		  
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -197,27 +201,27 @@ spec:
 
 ### Generate self signed certificates
 ```
-$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out mithun-ingress-tls.crt -keyout mithun-ingress-tls.key -subj "/CN=javawebapp.mithuntechdevops.co.in/O=mithun-ingress-tls"
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out united-ingress-tls.crt -keyout united-ingress-tls.key -subj "/CN=javawebapp.unitedcoresystems.comtechdevops.co.in/O=united-ingress-tls"
 
 # Create secret for with your certificate .key & .crt file
 
-$ kubectl create secret tls mithun-ingress-tls --namespace default --key mithun-ingress-tls.key --cert mithun-ingress-tls.crt
+$ kubectl create secret tls united-ingress-tls --namespace default --key united-ingress-tls.key --cert united-ingress-tls.crt
 ```
 ### Mention tls/ssl(certificate) details in ingress
 ```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mithuntechappingressrule
+  name: unitedcoreappingressrule
   namespace: test-ns
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - mithuntechdevops.co.in
-    secretName: mithun-ingress-tls
+      - unitedcoresystems.comtechdevops.co.in
+    secretName: united-ingress-tls
   rules:
-  - host: mithuntechdevops.co.in
+  - host: unitedcoresystems.comtechdevops.co.in
     http:
       paths:
       - pathType: Prefix

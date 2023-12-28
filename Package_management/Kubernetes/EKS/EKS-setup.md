@@ -82,14 +82,14 @@ kubectl version --client
 aws configure
   AKIAZ4OOD*********BSER
   cmNqZPvgmYtT2wOZ8*****************U
-  us-west-1
+  us-east-1
   json
 
 ##### Get KubeConfig file #####
 
 aws eks update-kubeconfig --name <ClusterName> --region <RegionName> 
 
-aws eks update-kubeconfig --name eks-demo --region us-west-1 
+aws eks update-kubeconfig --name eks-demo --region us-east-1 
 
 ##### Verify Kubectl #####
 kubectl get nodes

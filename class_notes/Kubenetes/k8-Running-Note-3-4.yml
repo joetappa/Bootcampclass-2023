@@ -80,7 +80,7 @@ kubernetes-client:
 
 kubernetes security - RBAC:
   Developers [ Paul, Joyce, Chidi ] 
-  Engineers  [ James, Dominion, Janet ] 
+  Engineers  [ James, Isaac, Janet ] 
 
 authentication via kubeconfig : 
 authorisation via RBAC:

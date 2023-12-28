@@ -18,7 +18,7 @@ Software testing:
 
   Penetration = myUnitedcoretech.com/login = userName/Password  
                 td.com/login  
-                boa.com/login = dominion/  
+                boa.com/login = Isaac/  
 
 Code Quality tools:
  sonarqube
@@ -217,8 +217,7 @@ Free version  :
 
 Project for Zelle0045:
 ======================
-https://github.com/LandmakTechnology/maven-web-application
-1. Developers commit/push code to SCM   
+https://github.com/unitedcoresystems/Bootcampclass-2023/tree/main/Maven_Packages1. Developers commit/push code to SCM   
 2. Test + Build using maven  
     mvn package 
 

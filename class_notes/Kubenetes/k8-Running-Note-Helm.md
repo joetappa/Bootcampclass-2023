@@ -87,9 +87,11 @@ helm 2 Architecture:
 
 ### How to Install Helm 3 ?
 --------------
+```sh
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
+```
 ### How to deploy application using helm ? 
  -  Create deployment manifests (helm charts) for myapp
 $ sudo apt install tree # install tree to be able to view Helm in a tree format using the command:

@@ -39,7 +39,7 @@ kubernetes-client:
 
 kubernetes security - RBAC:
   Developers [ Paul, Joyce, Chidi ] 
-  Engineers  [ James, Dominion, Janet ] 
+  Engineers  [ James, Isaac, Janet ] 
 
 authentication via kubeconfig : 
 authorisation via RBAC:
@@ -104,7 +104,7 @@ Ticket 001:
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
 2. check the company's documentation for kubeadm setup  
-https://github.com/LandmakTechnology/package-management/blob/master/kubeadm/READme.md
+https://github.com/unitedcoresystems/Bootcampclass-2023/tree/main/Package_management/Kubernetes/Kube-adm
 
 kubeadm join 10.0.0.20:6443 --token pqupgp.skh0fxwca870hh3n \
         --discovery-token-ca-cert-hash sha256:72f30fc8be50aaf665f7837834736cfbfa80c00cdeb64326c5ddd4cafb7792d6
