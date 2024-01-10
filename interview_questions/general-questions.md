@@ -1,4 +1,4 @@
-# 35 General nterview Questions 
+# 35 General Interview Questions 
 
 - **Question 1: Tell me about yourself?**
 ANSWER:

@@ -648,3 +648,129 @@ ansible kops -a "kubectl get ds" --vault-password=vaultpass
 ansible kops -a "kops export kubecfg $NAME --admin"  --vault-password=vaultpass
 
 ansible kops -m shell -a "free -m" --vault-password=vaultpass
+
+
+
+
+
+Anisble:
+Dev-Ops Foundation
+    SDLC
+  Waterfall - 
+  Agile     - Scrum = sprint/1/2/3/4/5/6.../n    
+  Dev-Ops automation =   
+    Develops  , Tests, Builds, qualification, backup  
+     deploys & monitors applications 
+     Applications are the output from Softwares development 
+SCM/Versioning:
+   Git = Versioning
+   SVN
+   GitHub = SCM [IDEs] READme.md   .gitignore  
+   GitLab
+   BitBucket
+Testing:
+   TestNG
+   Selenium
+CodeQuality:
+  SonarCube = IaaS  
+   [quality benchmark] [DL <5% /CC>90%/Bugs<1/SHS<1/SMELLS <4]
+     Scanner server
+     SonarCube server [ db / webServer / searchEngine=ES, CE ]
+  SonarCloud = Serverless = SaaS    
+  codeChecker
+
+Build: 
+java applications  
+  Maven [Lifecycle = site/swagger | clean  | default]  
+     app.java=print('hello')   app.class [01245312012] JVM  
+     default = validate / compile / test  / package / sonar:sonar / deploy / install 
+  ANt/Graddle
+.net|
+  MSBuild.
+Artifacts Repository:
+  Nexus
+  JFrog
+Application Servers:
+  Tomcat        = java web applications  
+  Wildfly/JBoss = java web/enterprise applications 
+  java          = java standalone applications 
+   users ----> appServers  
+   users  ---> WebServers/LB  ----> appServers  
+WebServers/LB:
+  Self Managed: 
+    nginx /apache http/  = apt/yum install nginx httpd  
+    Nginx Ingress
+    HAProxy
+  managed:
+    ELB = NLB / ALB   
+
+CI/CD AUTOMATION:
+  Jenkins/ 
+  CloudBees Jenkins = enterprise version of Jenkins
+  Bamboo
+  circle CI   
+  Travis CI
+  CruiseControl
+  GitLab  
+APM1 = Application Performance Monitoring tools : 
+  NewRelic 
+  Prometheus/Grafana  
+  AppDynamics 
+  Nagios
+Log mgt and data analytics  :
+  EFK/ELK  
+  SPLUNK  
+CONTAINERISATION:
+  Rocket
+  CoreOS
+  Docker  - 85%
+    engine  / cli=docker and docker service/daemon / 
+    registry=dockerHub / ECR / Nexus/JFrog / DTR
+      docker build
+      docker /run/create/start/pull/push/login/ps/ps-a/kill/images
+    Dockerfile = List of instructions that will be executed 
+                 orderly from top to bottom to create docker images.
+                 This file contain key words
+                 FROM / CMD/ENTRYPOINT/ RUN/ EXPOSE / COPY/ADD/ENV/etc.       
+    BEST PRACTICES: use minimun RUN instructions to create lightweight 
+                    use docker official images 
+                    use alpine linux where possible  
+                    Avoid installation of unnecessary applications
+                    use docker-compose file for deployment  
+CONTAINER ORCHESTRATION:
+   Docker Swarm
+   Kubernetes
+   OpenShift
+Cloud PROVIDERS:
+   AWS = 
+   AZURE
+   GCP
+   IBM
+   VMWARE 
+   aws: 
+    server = ec2, rds, 
+    Serverless = Lambda, farget / 
+    storage=EBS/EFS/S3 
+    networking services: vpc / route53 / vpn /
+    elb/asg/lc/lt  
+    IAM / nACL / SG /    
+Infrastructure as a code - IaaC:
+   Terraform
+   CloudFormation
+
+Configuration Management: - 
+Tools:
+  Ansible - PUSH -- AGENTLESS 
+  Chef - Pull
+  Puppet
+  SaltStack
+
+Servers:
+    UsersMGT
+    FilesMGT
+    ServicesMGT
+    PackagesMGT
+Ansible is an open source AGENTLESS :
+  Configuration Management tool, 
+  deployment tool and/or  
+  provisioning tool maintained by Redhat

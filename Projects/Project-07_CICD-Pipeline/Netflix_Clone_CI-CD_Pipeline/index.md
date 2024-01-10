@@ -68,7 +68,6 @@ To launch an Ubuntu 22.04 T2 Large instance on AWS, follow these step-by-step in
     - Once the instance is running, click the "View Instances" button to go to the Instances page, where you can see your newly launched instance.
 
 
-
 ## Step 2: Install Jenkins, Docker, and Trivy. Create a Sonarqube Container using Docker.
 
 ### Install Jenkins
