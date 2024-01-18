@@ -1,22 +1,6 @@
-# LAUNCH AN EC2 INSTANCE THAT WILL SERVE AS “NFS SERVER”.
+# Configure NFS Server 
 
-Step 1 — Prepare a NFS Server Volumes 
-
-1. Launch an EC2 instance that will serve as "NFS Server". Create 3 volumes in the same AZ as your Web Server EC2, each of 10 GiB.
-
-![5022](https://user-images.githubusercontent.com/85270361/210136900-8369cbb5-47fc-4ea1-a8a0-4746881fab44.PNG)
-
-
-2. Attach all three volumes one by one to your NFS Server EC2 instance
-
-![5023](https://user-images.githubusercontent.com/85270361/210136972-6c812c34-9dfa-4605-92ec-afb0d7881bbb.PNG)
-
-
-3. Open up the Linux terminal to begin configuration
-
-4. Use lsblk command to inspect what block devices are attached to the server. Notice names of your newly created devices. All devices
-in Linux reside in /dev/ directory. Inspect it with ls /dev/ and make sure you see all 3 newly created block devices there – their 
-names will likely be xvdf, xvdh, xvdg.
+1. Use lsblk command to inspect what block devices are attached to the server. Notice names of your newly created devices. All devices in Linux reside in /dev/ directory. Inspect it with ls /dev/ and make sure you see all 3 newly created block devices there – their  names will likely be xvdf, xvdh, xvdg.
 
 ```
 lsblk
@@ -36,9 +20,7 @@ xvdg    202:96   0   10G  0 disk
 xvdh    202:112  0   10G  0 disk
 ```
 
-
-
-5. To create partitions Use gdisk utility to create a single partition on each of the 3 disks
+2. To create partitions Use gdisk utility to create a single partition on each of the 3 disks
 
 After launching gdisk, you can use the 'n' command to create a new partition and follow the prompts to set the partition size, type, etc. After defining your partitions, don't forget to use the 'w' command to write the changes to the disk.
 
@@ -64,7 +46,7 @@ Do you want to proceed? (Y/N): y
 This will create a new partition on /dev/xvdf. After this, you can format the partition and mount it as needed.
 Now,  your changes has been configured succesfuly, exit out of the gdisk console.
 
-6. Create partitions for other disks /dev/xvdh and /dev/xvdg.
+3. Create partitions for other disks /dev/xvdh and /dev/xvdg.
 
 ```
 sudo gdisk /dev/xvdh
@@ -74,7 +56,7 @@ sudo gdisk /dev/xvdh
 sudo gdisk /dev/xvdg
 ```
 
-7. Use lsblk utility to view the newly configured partition on each of the 3 disks.
+4. Use lsblk utility to view the newly configured partition on each of the 3 disks.
 
 ```
 lsblk
@@ -97,18 +79,18 @@ xvdh    202:112  0   10G  0 disk
 └─xvdh1 202:113  0   10G  0 part
 ```
 
-8. Install lvm2 package. 
+5. Install lvm2 package. 
 
 ```
 sudo yum install lvm2 -y 
 ```
-9. Run sudo lvmdiskscan command to check for available partitions.
+6. Run sudo lvmdiskscan command to check for available partitions.
 
 ```
 sudo lvmdiskscan
 ```
 
-10. Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by LVM
+7. Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by LVM
 
 ```
 sudo pvcreate /dev/xvdf1
@@ -116,7 +98,7 @@ sudo pvcreate /dev/xvdg1
 sudo pvcreate /dev/xvdh1
 ```
 
-11. Verify that your Physical volume has been created successfully
+8. Verify that your Physical volume has been created successfully
 
 ```
  sudo pvs
@@ -130,13 +112,13 @@ Outcome
   /dev/xvdh1    lvm2 ---  <10.00g <10.00g
 ```
 
-12. Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG webdata-vg
+9. Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG webdata-vg
 
 ```
 sudo vgcreate webdata-vg /dev/xvdh1 /dev/xvdg1 /dev/xvdf1
 ```
 
-13. Verify that your VG has been created successfully by running 
+10. Verify that your VG has been created successfully by running 
 
 ```
 sudo vgs
@@ -148,7 +130,7 @@ outcome
   webdata-vg   3   0   0 wz--n- <29.99g <29.99g
 ```
 
-14. Use lvcreate utility to create 2 logical volumes. apps-lv (Use half of the PV size), and logs-lv Use the remaining space of
+11. Use lvcreate utility to create 2 logical volumes. apps-lv (Use half of the PV size), and logs-lv Use the remaining space of
  the PV size. NOTE: apps-lv will be used to store data for the Website while, logs-lv will be used to store data for logs.
  
 ```
@@ -157,7 +139,7 @@ sudo lvcreate -n lv-logs -L 9G webdata-vg
 sudo lvcreate -n lv-opt -L 9G webdata-vg
 ```
 
-15. Verify that your Logical Volume has been created successfully by running 
+12. Verify that your Logical Volume has been created successfully by running 
 
 ```
 sudo lvs
@@ -171,14 +153,14 @@ sudo lvs
 ```
 
 
-16. Verify the entire setup
+13. Verify the entire setup
 
 ```
 sudo vgdisplay -v #view complete setup - VG, PV, and LV
 sudo lsblk 
 ```
 
-17. Use mkfs.xfs to format the logical volumes with xfs filesystem
+14. Use mkfs.xfs to format the logical volumes with xfs filesystem
 
 ```
 sudo mkfs -t xfs /dev/webdata-vg/lv-apps
@@ -187,7 +169,7 @@ sudo mkfs -t xfs /dev/webdata-vg/lv-opt
 
 ```
 
-18. - Create mount points on /mnt directory for the logical volumes as follow:
+15. - Create mount points on /mnt directory for the logical volumes as follow:
 
 Mount lv-apps on /mnt/apps – To be used by webservers
 Mount lv-logs on /mnt/logs – To be used by webserver logs
@@ -199,26 +181,26 @@ sudo mkdir /mnt/logs
 sudo mkdir /mnt/opt
 ```
 
-19. Mount lv-apps on /mnt/apps – To be used by webservers
+16. Mount lv-apps on /mnt/apps – To be used by webservers
 
 
 ```
 sudo mount /dev/webdata-vg/lv-apps /mnt/apps 
 ```
 
-20. Mount lv-logs on /mnt/logs – To be used by webserver logs
+17. Mount lv-logs on /mnt/logs – To be used by webserver logs
 
 ```
 sudo mount /dev/webdata-vg/lv-logs /mnt/logs
 ```
 
-21. Mount lv-opt on /mnt/opt – To be used by webserver logs
+18. Mount lv-opt on /mnt/opt – To be used by webserver logs
 
 ```
 sudo mount /dev/webdata-vg/lv-opt /mnt/opt
 ```
 
-22. Update /etc/fstab file so that the mount configuration will persist after restart of the server.
+19. Update /etc/fstab file so that the mount configuration will persist after restart of the server.
 
 -  The UUID of the device will be used to update the /etc/fstab file;
 
@@ -239,9 +221,9 @@ Outcome:
 /dev/xvdg1: UUID="IKgMpe-tdgd-Nghl-LzxM-IHRU-ipwp-XzMFoG" TYPE="LVM2_member" PARTLABEL="Linux filesystem" PARTUUID="ad9b4189-f2d7-4f6f-acc1-db7afe92a96c"
 ```
 Copy the the UUID from the following and add to /etc/fstab file
-/dev/mapper/webdata--vg-logs--lv: UUID="f3aeed0e-1f5b-4994-9c17-a95ae7984404" 
-/dev/mapper/webdata--vg-apps--lv: UUID="a8a79107-1ae6-4c20-bb5b-5e9db101b724" 
-/dev/mapper/webdata--vg-opt--lv: UUID="a9u7050n-1ar5-4887-dd9a-5e6264d520" 
+/dev/mapper/webdata--vg-lv--logs: UUID="e463452f-de1f-417c-a479-47ffa83517ad" TYPE="xfs"
+/dev/mapper/webdata--vg-lv--apps: UUID="5d1789ef-5a55-4aa8-8ea9-fbb714640984" TYPE="xfs"
+/dev/mapper/webdata--vg-lv--opt: UUID="1ba6954f-743e-40b8-be67-6de5ec6c5180" TYPE="xfs"
 
 
 ```
@@ -258,21 +240,20 @@ UUID=a9u7050n-1ar5-4887-dd9a-5e6264d520    /mnt/opt   default 0 0
 Note: Update /etc/fstab in this format using your own UUID and rememeber to remove the leading and ending quotes.
 
 
-23. Test the configuration and reload the daemon
+20. Test the configuration and reload the daemon
 
 ```
 sudo mount -a
 sudo systemctl daemon-reload
 ```
 
-24. Verify your setup by running df -h, output must look like this:
+21. Verify your setup by running df -h, output must look like this:
 
 ```
 df -h
 ```
 
-
-2.  Install NFS server 
+22.  Install NFS server 
 
 
 - Install NFS server, configure it to start on reboot and make sure it is up and running
@@ -284,15 +265,6 @@ sudo systemctl start nfs-server.service
 sudo systemctl enable nfs-server.service
 sudo systemctl status nfs-server.service
 ```
-
-- Export the mounts for webservers’ subnet cidr to connect as clients. For simplicity, you will install your all three Web Servers 
-inside the same subnet, but in production set up you would probably want to separate each tier inside its own subnet for higher 
-level of security.
-To check your subnet cidr – open your EC2 details in AWS web console and locate ‘Networking’ tab and open a Subnet link:
-
-
-![6001](https://user-images.githubusercontent.com/85270361/210139096-83606401-3872-4c41-819e-9bc8efd36aff.PNG)
-
 
 Make sure we set up permission that will allow our Web servers to read, write and execute files on NFS:
 

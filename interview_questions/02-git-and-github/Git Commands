@@ -1,0 +1,65 @@
+
+Here are Git commands along with explanations:
+
+##############Repository Setup#################
+1. git init: Initializes a new Git repository in the current directory.
+
+2. git clone <repository URL>: Copies a repository from a remote server to your local machine.
+
+##############Basic Workflow###################
+3. git status: Displays the status of the working directory.
+
+4. git add <file>: Adds changes in a specific file to the staging area.
+
+5. git add . or git add --all: Adds all changes in the working directory to the staging area.
+
+6. git commit -m "Commit message": Commits the staged changes with a descriptive message.
+
+##################Branching and Merging ###########
+7. git branch: Lists all local branches in the repository.
+
+8. git branch <branch_name>: Creates a new branch.
+
+9. git checkout <branch_name>: Switches to the specified branch.
+
+10. git checkout -b <branch_name>: Creates a new branch and switches to it.
+
+11. git merge <branch_name>: Merges changes from the specified branch into the current branch.
+
+12. git rebase <branch_name>: Moves or combines a sequence of commits to a new base commit.
+
+###############Inspecting Changes##################
+13. git diff: Shows changes between the working directory and the staging area.
+
+14. git diff --staged or git diff --cached: Displays changes between the staging area and the repository.
+
+15. git log: Shows a history of commits.
+
+#################Remote Repositories###############
+16. git remote add <name> <URL>: Adds a remote repository.
+
+17. git remote -v: Lists all remote repositories and their URLs.
+
+18. git push <remote> <branch>: Pushes commits from the local branch to the remote repository.
+
+19. git pull <remote> <branch>: Fetches changes from a remote repository and merges them into the current branch.
+
+##################Undoing Changes##################
+20. git reset <file>: Unstages changes in a specific file while keeping modifications.
+
+21. git reset --soft HEAD^ or git reset --soft HEAD~1: Resets the last commit, keeping changes staged.
+
+22. git reset --mixed HEAD^ or git reset --mixed HEAD~1: Resets the last commit and unstages changes.
+
+23. git reset --hard HEAD^ or git reset --hard HEAD~1: Resets the last commit and discards changes.
+
+#####################Tagging##################
+24. git tag: Lists all existing tags in the repository.
+
+25. git tag <tag_name>: Creates a lightweight tag at the current commit.
+
+26. git tag -a <tag_name> -m "Tag message": Creates an annotated tag with a message.
+
+#################Miscellaneous##################
+27. git config --global user.name "Your Name": Sets the author name for commits.
+28. git config --global user.email "your_email@example.com": Sets the author email for commits

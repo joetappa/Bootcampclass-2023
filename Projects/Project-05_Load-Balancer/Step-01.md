@@ -6,24 +6,32 @@
 
 ```
 sudo apt update
-sudo apt install nginx
+sudo apt install nginx -y
 ```
 
 2. Configure Nginx LB using Web Servers’ names defined in /etc/hosts
 
-Hint: Read this blog to read about /etc/host
+```
+sudo vi /etc/hosts
+```
+
+Example 
+172.31.6.156  WEB_SERVER_1
+172.31.6.14   WEB_SERVER_2
+172.31.14.181 WEB_SERVER_3
 
 3.  the default nginx configuration file
 
 sudo vi /etc/nginx/nginx.conf
 
-
 ```
 #insert following configuration into http section
 
  upstream myproject {
-    server Web1 weight=5;
-    server Web2 weight=5;
+    server WEB_SERVER_1 weight=5;
+    server WEB_SERVER_2 weight=5;
+    server WEB_SERVER_3 weight=5;
+
   }
 
 server {

@@ -3,40 +3,60 @@
 1. Install MySQL on your database server 
 
 - Install MySQL server
-- Create a database and name it project4
+- Create a database and name it wordpress
 - Create a database user and name it webaccess
 - Grant permission to webaccess user on project4 database to do anything only from the webservers subnet cidr
 
 1 — Install MySQL 
 
 ```
-sudo yum update
-sudo yum install mysql-server -y
+sudo apt update
+sudo apt install mysql-server -y
 ```
 
-Verify that the service is up and running by using sudo systemctl status mysqld, if it is not running, restart the service and 
-enable it so it will be running even after reboot:
+Verify that the service is up and running by using sudo systemctl status mysqld, if it is not running, restart the service and enable it so it will be running even after reboot:
 
 ```
-sudo systemctl restart mysqld
-sudo systemctl enable mysqld
+sudo systemctl restart mysql
+sudo systemctl enable mysql
 ```
 
 2. Create a database and database user and grant permission 
 
 ```
 sudo mysql
+```
+Enter this command in mysql > 
+
+```sql
 CREATE DATABASE wordpress;
-CREATE USER `webaccess`@`<Web-Server-Private-IP-Address>` IDENTIFIED BY 'web@123';
-GRANT ALL ON wordpress.* TO 'webaccess'@'<Web-Server-Private-IP-Address>';
+CREATE USER `webaccess`@`<Web-Server-private-ip>` IDENTIFIED BY 'web@123';
+CREATE USER `webaccess`@`<Web-Server-private-ip>` IDENTIFIED BY 'web@123';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'webaccess'@'<Web-Server-private-ip>';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'webaccess'@'<Web-Server-private-ip>';
 FLUSH PRIVILEGES;
 SHOW DATABASES;
+```
+```sql
 exit
 ```
 
-3. Configure WordPress to connect to remote database.
-Hint: Do not forget to open MySQL port 3306 on DB Server EC2. For extra security, you shall allow access to the DB server ONLY 
-from your Web Server’s IP address, so in the Inbound Rule configuration specify source as /32
+3. You might need to configure MySQL server to allow connections from remote hosts.
 
-![5034](https://user-images.githubusercontent.com/85270361/210138507-0b3b6372-958b-406a-9672-82f729d26b85.PNG)
+```
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+
+Replace ‘127.0.0.1’ to ‘0.0.0.0’ like this:
+
+<img width="1232" alt="Screenshot 2024-01-10 at 16 16 24" src="https://github.com/emortoo-projects/crispy-kitchen/assets/63193071/0969cbd6-9a5c-4495-8d9e-e8722d0ac400">
+
+4. Restart MySQL service 
+
+```sql
+sudo systemctl restart mysql
+```
+**Note:**  From mysql client Linux Server connect remotely to mysql server Database Engine without using SSH. You must use the mysql utility to perform this action.
+
+
 
