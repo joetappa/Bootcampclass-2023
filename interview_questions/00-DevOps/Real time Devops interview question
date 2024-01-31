@@ -1,0 +1,766 @@
+DevOps-Real-Time-Interview-Questions
+
+This is just for educational purpose. Questions to stimulate your mind and help your learning.
+
+Below DevOps Tools Are Covered
+AWS | Linux | Jenkins | Git | Docker | Kubernetes | Terraform | Monitoring | CICD Pipelines | General Interview Questions
+
+General Interview Questions
+
+Can you tell me a little bit about yourself?
+
+What are the roles & responsibilities in current company.
+
+Why did you apply for this position?
+
+Why are you looking to leave your current company?
+
+What are your good professional strengths?
+
+Tell me about a challenge you've faced at work and how you deal with it.
+
+How do you deal with pressure or stressful situations? any examples
+
+What is DevOps?
+
+Why organizations are implementing DevOps?
+
+What are the Benefits of using DevOps
+
+Why do you want to work here?
+
+Where do you see yourself in 5 years?
+
+How did you hear about the position?
+
+What do you know about our company?
+
+Why should we hire you?
+
+What are your greatest professional strengths?
+
+What is your dream job?
+
+What other companies are you interviewing with?
+
+What type of work environment do you prefer?
+
+What have you done in these years what are tools involved?
+
+Why do we need a DevOps?
+
+As a DevOps engineer why we use Jira Tool?
+
+What is the use of Jira tool?
+
+Can tell what are issues you faced in your project? How do you resolve it and how do you come to know the issues?
+
+Did you get got any awards?
+
+**AWS**
+What is the difference between stopping and terminating an EC2 instance?
+
+How can you add an existing instance to a new Auto Scaling group?
+
+How do you configure CloudWatch to recover an EC2 instance?
+
+How do you configure CloudWatch to recover an EC2 instance?
+
+What is the difference between Latency Based Routing and Geo DNS?
+
+How does Amazon Route 53 provide high availability and low latency?
+
+What is the difference between a Domain and a Hosted Zone?
+
+What are the elements of an AWS CloudFormation template?
+
+What happens in CloudFormation when one of the resources in a stack cannot be created successfully?
+
+What are the steps involved in a CloudFormation Solution?
+
+How does AWS config work with AWS CloudTrail?
+
+Can AWS Config aggregate data across different AWS accounts?
+
+How are reserved instances different from on-demand DB instances?
+
+Which type of scaling would you recommend for RDS and why?
+
+What is a maintenance window in Amazon RDS? Will your DB instance be available during maintenance events?
+
+What are the consistency models in DynamoDB?
+
+What type of query functionality does DynamoDB support?
+
+What are the different types of load balancers in AWS?
+
+What are the different uses of the various load balancers in AWS Elastic Load Balancing?
+
+How can you use AWS WAF in monitoring your AWS applications?
+
+What are the different AWS IAM categories that you can control?
+
+What is the difference between an IAM role and an IAM user?
+
+What are the managed policies in AWS IAM?
+
+Can you give an example of an IAM policy and a policy summary?
+
+How does AWS IAM help your business?
+
+What is the relation between the Availability Zone and Region?
+
+What is auto-scaling?
+
+What is geo-targeting in CloudFront?
+
+How do you upgrade or downgrade a system with near zero downtime?
+
+What are the tools and techniques that you can use in AWS to identify if you are paying more than you should be, and how to correct it?
+
+What services can be used to create a centralized logging solution?
+
+What are the native AWS Security logging capabilities?
+
+What is a DDoS attack and what services can minimize them?
+
+You are trying to provide a service in a particular region but you are not seeing the service in that region. Why is this happening and how do you fix it?
+
+Name some of the AWS services that are not region specific
+
+What are the differences between NAT Gateways and NAT Instances?
+
+What are the factors to consider while migrating to Amazon Web Services?
+
+What is RTO and RPO in AWS?
+
+If you would like to transfer huge amounts of data, which is the best option among Snowball, Snowball Edge, and Snowmobile?
+
+What are some key differences between AWS S3 and EBS?
+
+How do you allow a user to gain access to a certain S3 bucket?
+
+How can you monitor S3 cross region replication to ensure consistency without actually checking the bucket?
+
+VPC is not resolving the server through DNS. What might be the issue and how can you fix it?
+
+How do you connect multiple sites to a VPC?
+
+Name and explain some security products and features available in VPC?
+
+How do you monitor Amazon VPC?
+
+How can you automate EC2 backup using EBS?
+
+What is the difference between EBS and Instance Store?
+
+Can you take a backup of EFS like EBS, and if yes, how?
+
+What are Key-Pairs in AWS?
+
+What is the relation between the Availability Zone and Region?
+
+What is a Power User Access in AWS?
+
+What is the use of lifecycle hooks is Autoscaling?
+
+What is NAT Instance/NAT Gateway?
+
+What is Security group (SG)?
+
+If my RDS is running out of space how will you resolve that without launching other RDS?
+
+What is Lambda and how it works?
+
+How will you take backups using Lambda?
+
+Component of VPC
+
+Difference between EC2 and ECS
+
+Types of storage in AWS?
+
+What is DNS? Uses?
+
+Why you won’t go with EC2 for installing Database? Why RDS?
+
+What is Load Balancer
+
+What is VPC Peering
+
+What is CloudFront
+
+What is the use of the IAM role?
+
+How many subnets assign to the routing table?
+
+What is the static IP?
+
+How will get access to private subnets?
+
+Can you increase the size of root volume without shutdown the instance?
+
+What is ELB? How many types are there?
+
+What is autoscaling?
+
+What is hosted zone and uses of recordset?
+
+Types in R53?
+
+How will take up backup for volumes?
+
+How to encrypt the root volume?
+
+How will access AS account?
+
+What is the subnet group in DB?
+
+How do you connect to windows instances?
+
+Port numbers of RDP, SSH, and HTTPS?
+
+What is the difference between EBS, S3, and EFS?
+
+What type of data do you store in s3 and EBS?
+
+What is s3 Replication?
+
+Why use events in cloud watch in AWS?
+
+What is the difference between VPC level security and system level security?
+
+If you lost the pem file then how will you connect to EC2?
+
+You want to store temporary data on an EC2 instance. Which storage option is ideal for this purpose?
+
+How do you configures3 bucket?
+
+What are EC2 and VPC how we create & write a script?
+
+Difference between Vagrant and AWS?
+
+What is the use of EC2 AMI?
+
+What is the use case of S3 Bucket?
+
+My webservers are running in private subnet I want to route my ELB Traffic to web servers in private subnets?
+
+What is NAT Instance/NAT Gateway?
+
+What is NACL and Security Group?
+
+If my RDS is running out of space how will you resolve that without launching other RDS?
+
+What is Lambda and how it works?
+
+How will you take backups using Lambda?
+
+Types of storage in AWS?
+
+Difference between S3 & Glacier?
+
+Components of VPC?
+
+Difference between EC2 and ECS?
+
+What is DNS? Uses?
+
+Why you won’t go with EC2 for installing Database? Why RDS?
+
+What is AWS?
+
+What is a cloud?
+
+What is EC2?
+
+What is VPC?
+
+What is AZ?
+
+What is ELB?
+
+What is VPC peering?
+
+What is the aim of VPC peering?
+
+Why use VPC peering, real-time example?
+
+What is Security Group?
+
+What is cloud front/CDN?
+
+What is a lambda, what is the use of it?
+
+What have you developed using Lambda?
+
+What is automation have you done for with lambda?
+
+What is cloud watch?
+
+What is cloud formation?
+
+S3 lifecycle?
+
+What is the use of the IAM role?
+
+How many subnets assign to the routing table?
+
+What is a static IP?
+
+How will get access to private subnets?
+
+Can you increase the size of root volume without shutdown the instance?
+
+What is ELB? How many types are there?
+
+What is autoscaling?
+
+What is hosted zone and uses of recordset?
+
+How will take up backup for volumes?
+
+How to encrypt the root volume?
+
+How will access AS account?
+
+What is the subnet group in DB?
+
+How do you connect to windows instances?
+
+Port numbers of RDP, SSH, and HTTPS?
+
+What is the difference between EBS, S3, and EFS?
+
+What type of data do you store in s3 and EBS?
+
+Replication s3?
+
+Why use events in cloud watch in AWS?
+
+What is the difference between VPC level security and system level security?
+
+If you lost the pem file then how will you connect to EC2?
+
+What IAM Role and policy?
+
+How will run lambda and where you will configure lambda?
+
+How lambda run on secluding and event-based?
+
+What is cloud watch? Have you configured any custom metrics?
+
+What are the metrics available on your dashboard?
+
+How do you configure CPU Utilization on your dashboard?
+
+How can I attach SSL for the s3 bucket?
+
+S3 bucket having a policy for only read-only but you're having full access for you? Can you
+
+What is CDN?
+
+How will attach policy for IAM users by group or individual?
+
+Have you used any tool for creating customized AMIS?
+
+What is connection draining?
+
+How your ELB shares traffic?
+
+What is auto-scaling?
+
+Types of Load Balancers and example?
+
+What is the run time of Lambda?
+
+What is the memory size of lambda?
+
+How can I run lambda for more time?
+
+
+Why you’re not using boto3 for infrastructure provisioning?
+
+What are the modules you used in Lambda?
+
+Have created SNS topic?
+
+In your VPC all IPS are finished you have a requirement for resources how to provision it?
+
+What is access key and secret key?
+
+What is CORS in s3?
+
+What type of ELB you used in the project?
+
+Difference between EBS and NFS?
+
+Different types of storage in S3?
+
+Can you explain how you have used Amazon CloudFront to improve content delivery and performance, including any techniques you have used to set up caching, 
+SSL/TLS, or geo-restriction?
+
+How have you used AWS Identity and Access Management (IAM) to manage access control and permissions for AWS services and resources, 
+including any techniques you have used to set up policies or integrate with other authentication and authorization systems?
+
+Can you explain what AWS Cloud is and how it is used in software development and deployment?
+
+How have you used AWS Cloud to deploy and manage infrastructure, including any techniques you have used to set up virtual servers, databases, and storage?
+
+Can you describe your experience using AWS Cloud to manage and scale applications, including any techniques you have used to set up load balancing,
+auto-scaling, and fault tolerance?
+
+How have you used AWS Cloud to manage security and compliance, including any techniques you have used to set up network security, access control,
+and compliance audits?
+
+Can you explain how you have used AWS Cloud to integrate with other tools and services in the development pipeline, such as continuous integration and 
+deployment platforms or artifact repositories?
+
+How have you used AWS Cloud to monitor and troubleshoot applications and infrastructure, including any techniques you have used to set up logging,
+monitoring, and alerting?
+
+Can you describe your experience using AWS Cloud to manage data and analytics, including any techniques you have used to set up data pipelines, 
+data warehousing, and machine learning?
+
+How have you used AWS Cloud to manage hybrid or multi-cloud environments, including any techniques you have used to set up hybrid architectures, 
+manage data across different clouds, or integrate with on-premise infrastructure?
+
+Can you explain how you have used AWS Cloud to manage cost optimization and billing, including any techniques you have used to set up cost monitoring, 
+budgeting, and optimization?
+
+How have you used AWS Cloud to manage compliance and regulatory requirements, including any techniques you have used to set up compliance audits,
+implement data protection policies, or manage GDPR requirements?
+
+You have a web application that needs to scale dynamically to handle spikes in traffic. How would you use AWS Cloud to achieve this?
+
+You are tasked with setting up an architecture for a new application that must be highly available and fault-tolerant. How would you go about designing
+this architecture in AWS Cloud?
+
+Your company has a large amount of data that needs to be stored and analyzed. How would you use AWS Cloud to set up a data warehouse and analysis system?
+
+You are tasked with migrating an existing application to AWS Cloud. What steps would you take to ensure a successful migration?
+
+Your application requires a high level of security and compliance. How would you use AWS Cloud to ensure the security and compliance requirements are met?
+
+You are working with a team that needs to collaborate and share code in a secure and efficient manner. How would you use AWS Cloud to set up a secure
+code repository and collaboration environment?
+
+You need to implement a disaster recovery plan for your application. How would you use AWS Cloud to set up a disaster recovery solution that meets your
+needs?
+
+Your application has specific performance requirements. How would you use AWS Cloud to set up a performance monitoring and optimization solution?
+
+You need to set up a system to handle real-time streaming data. How would you use AWS Cloud to set up a real-time data processing and analysis system?
+
+You have a globally distributed user base that requires low-latency access to your application. How would you use AWS Cloud to set up a content delivery
+network (CDN) to improve performance?
+
+Can you describe your experience with AWS CloudFormation and how you have used it to manage infrastructure as code?
+
+How have you used AWS Lambda to automate tasks and build serverless applications, including any techniques you have used to set up event-driven 
+architecture or manage deployment and scaling?
+
+Can you discuss your experience using Amazon S3 to store and manage object data, including any techniques you have used to set up versioning, access control,
+or lifecycle policies?
+
+How have you used Amazon EC2 to manage virtual machines and scale applications, including any techniques you have used to manage instance types, 
+security groups, or autoscaling?
+
+Can you explain how you have used Amazon RDS to manage relational databases, including any techniques you have used to manage backups, scaling, 
+or replication?
+
+How have you used Amazon Elastic Load Balancing to distribute traffic across instances and improve application availability, 
+including any techniques you have used to set up health checks or manage cross-zone load balancing?
+
+Can you describe your experience using Amazon VPC to isolate and secure your cloud resources, including any techniques you have used to set up subnets,
+security groups, or VPN connections?
+
+How have you used Amazon Route 53 to manage DNS and routing for your cloud applications, including any techniques you have used to set up traffic policies 
+or integrate with other AWS services?
+
+My webservers are running in private subnet I want to route my ELB Traffic to web servers in private subnets?
+
+What is NAT Instance/NAT Gateway?
+
+If my RDS is running out of space how will you resolve that without launching other RDS?
+
+Difference between Vagrant and AWS?
+
+What is use of AMI?
+
+what at is the purpose and use of s3 bucket?
+
+Explain me how do you take backups for RDS?
+
+Do you any knowledge on setting up BigData cluster?
+
+How does auto scaling work?
+
+What type of ELB you used in the project?
+
+Are you only using cloud watch for monitoring?
+
+What is Lambda?
+
+How does it work?
+
+I want to run my job today at 5 pm how do you configure?
+
+Difference between Classic ELB and Application ELB?
+
+What is autoscaling?
+
+What is the launch configuration in auto scaling?
+
+Different types of storage in S3?
+
+Difference between EBS and NFS?
+
+What are Glacier and Snowball?
+
+What has required one resource in was to communicate with other resources?
+
+**Linux**
+In Ubuntu sever what is a public key and private key?
+Write a script what you are done daily?
+#chmod 444 <filename.txt?> in root user? Change the above permissions to 777?
+#curl www.google.com is not working and telnet www.google.com is working now?
+I am having two instances in public and private subnets, I am pinged from one server to another server and getting any response but by using 
+telnet on port 23 it's working now?
+What is SSL? And how it works internally?
+Mostly asked on networking, ports, and protocols
+What is Lambda and how it works?
+
+**Jenkins**
+How do you configure the job in Jenkins?
+Difference between ant and maven?
+Maven lifecycle?
+Where do you find errors in Jenkins?
+How do you integrate sonar Qube in Jenkins?
+In Jenkins how can you find log files?
+Jenkins workflow and write a script for this workflow?
+Have you worked on maven scripts?
+Maven lifecycle?
+About pom.xml?
+How build job in Jenkins?
+How to create continuous deployment in Jenkins?
+What is Poll SCM?
+In Jenkins how to give backup from one server to another server?
+The flow of SonarQube? why we use it?
+What is the use of quality gates in sonarqube?
+Suppose we give 30 % quality I want you to define in quality gates?
+Why we use pipeline in Jenkins? Flow?
+What is Release management due to production?
+The flow of SonarQube? why we use it?
+What is the use of quality gates in sonarqube?
+Suppose we give 30 % quality I want you to define in quality gates?
+Jenkins full flow?
+What is the build trigger?
+Did you use only SonarQube for static code analysis?
+What are the plugins have used in the project?
+Dependencies in pom.xml? what dependency have you used in your project?
+Jenkins Workflow
+How to build a job in Jenkins by using git and maven?
+What is the use of maven in Jenkins?
+Where can you find the particular error in logs?
+Explain Jenkins CI/CD?
+What type of deployments do you follow in your project?
+Where do you check build logs in Jenkins?
+What is the difference between a Jenkinsfile and a pipeline script?
+How do you create a pipeline in Jenkins?
+How can you schedule a build in Jenkins?
+What is the difference between a freestyle project and a pipeline in Jenkins?
+How do you create a backup of Jenkins?
+How to recover crashed jenkins master?
+How to configure jenkins master-slave architecture
+What are some common plugins used in Jenkins?
+How do you install Jenkins and configure a Jenkins job?
+What are some of the key features of Jenkins?
+How do you integrate Jenkins with other tools and technologies?
+What is a Jenkins pipeline and how do you create one?
+How do you secure your Jenkins instance?
+How do you troubleshoot issues with Jenkins builds?
+What are some best practices for using Jenkins?
+How do you configure Jenkins agents?
+
+**Git**
+Differences between git rebase and git merge?
+Git workflow?
+What is git init?
+What is git clone?
+If there is suddenly the file is deleted in git and how do you get it back?
+Difference between SVN and GIT?
+Difference between ant and maven?
+What are the version control tools are using in the present market?
+What is git commit
+Git push and fetch?
+How to create a repository in GitHub?
+How to push the file in the GitHub flow?
+About branching strategies?
+Difference between GitHub and BitBucket?
+Use of git commit and purpose?
+Difference between rebasing and merge?
+What is Maven repositories?
+Explain about GIT Branching in your project?
+Can you describe your experience with Git and GitHub, and how you have used these tools in your previous roles?
+What are some of the key benefits of using Git for version control, and how have you seen these benefits in your work?
+Can you discuss your experience using Git to manage changes to code and collaborate with other developers, including any techniques you have used to
+manage conflicts and merge changes?
+How have you used Git branching and tagging strategies to manage releases and versioning, particularly in large code bases or complex projects?
+Can you explain how Git hooks work and how you have used them to automate workflows or enforce coding standards?
+How have you used GitHub to implement code reviews and ensure code quality, including any techniques you have used to enforce coding standards or 
+identify and fix bugs?
+Can you discuss how you have used Git to manage changes to code and collaborate with other developers, including any techniques you have used to 
+manage conflicts and merge changes?
+How have you used Git tagging and release management strategies to manage releases and versioning, particularly in large code bases or complex projects?
+Can you explain how you have used Git hooks to automate workflows or enforce coding standards, and any techniques you have used to implement custom hooks?
+How have you used GitHub to implement continuous integration and continuous deployment workflows, including any techniques you have used to automate testing,
+building, and deploying code?
+Can you describe your experience using Git and GitHub for version control, and how you have used these tools in your previous roles?
+What are some of the key benefits of using Git for version control, and how have you seen these benefits in your work?
+
+**Docker**
+What is docker file how it works?
+What is docker volume?
+What is the purpose of Docker?
+Difference between Docker and ansible?
+What is the purpose and use of docker?
+How to write docker file?
+Explain any 5 docker commands?
+Explaion about COPY and ADD options
+Explain about ENTRYPOINT
+Docker file structure ?
+
+**Kubernetes**
+What is Kubernetes?
+Explain Kubernetes architecture?
+Can you describe your experience using Kubernetes to manage containerized applications and services in your previous roles?
+How have you used Kubernetes to orchestrate container deployments and manage container lifecycle, including techniques for scaling, updating, 
+and monitoring containers?
+Can you explain how you have used Kubernetes to manage network and storage resources, including any techniques you have used to configure load balancers or
+persistent storage?
+How have you used Kubernetes to manage configuration and secrets, including any techniques you have used to manage environment variables or securely 
+store sensitive information?
+Can you describe your experience using Kubernetes to manage multi-tenant environments and resource allocation, including any techniques you have used
+to manage namespaces or quotas?
+How have you used Kubernetes to implement fault tolerance and disaster recovery, including any techniques you have used to manage backups or
+implement rolling updates?
+Can you discuss your experience using Kubernetes for service discovery and load balancing, including any techniques you have used to implement
+ingress controllers or service meshes?
+How have you used Kubernetes to implement security controls, including any techniques you have used to manage user permissions or implement network policies?
+Can you explain how you have used Kubernetes to integrate with other tools or services, such as CI/CD pipelines or logging and monitoring platforms,
+to automate workflows or manage application deployments?
+How have you used Kubernetes to manage stateful applications and databases, including any techniques you have used to manage persistent storage or 
+implement StatefulSets?
+Can you describe your experience managing Kubernetes clusters, including any techniques you have used to automate cluster deployments or upgrades?
+How have you used Kubernetes to manage containerized applications, including any techniques you have used to scale, monitor, or secure applications 
+running in your clusters?
+Can you explain how you have used Kubernetes to manage networking and storage resources, including any techniques you have used to integrate 
+with external storage providers or load balancers?
+How have you used Kubernetes to manage stateful applications, including any techniques you have used to deploy and manage databases or other 
+stateful services?
+Can you describe your experience using Kubernetes to manage and deploy microservices architectures, including any techniques you have used to 
+manage service discovery or handle network traffic between services?
+How have you used Kubernetes to implement continuous integration and deployment pipelines, including any techniques you have used to automate testing,
+building, and deploying containerized applications?
+Can you discuss your experience using Kubernetes to implement security controls, including any techniques you have used to manage user access or 
+implement network policies?
+How have you used Kubernetes to manage different types of workloads, such as batch processing jobs or machine learning workloads, including any 
+techniques you have used to optimize performance or manage resources?
+Can you explain how you have used Kubernetes to manage multiple clusters or hybrid cloud environments, including any techniques you have used to
+manage workload portability or implement federation?
+How have you used Kubernetes to manage and troubleshoot issues in production environments, including any techniques you have used to diagnose and 
+resolve performance or availability issues?
+
+**Terraform**
+Why Terraform? why not others?
+Can Terraform used for another cloud provisioning?
+From where you run Terraform?
+How many environments your maintaining?
+Write Terraform code for an S3 bucket and attach a policy?
+Write a Terraform code for EC2?
+What is Terraform, and how have you used it in your previous roles?
+How does Terraform differ from other infrastructure as code tools like CloudFormation or Ansible?
+Can you explain how Terraform manages infrastructure resources across multiple providers, including public cloud, private cloud, 
+and on-premises infrastructure?
+How do you ensure that your Terraform code is reusable, modular, and maintainable over time?
+Can you describe how you have used Terraform to implement infrastructure as code in a CI/CD pipeline?
+Can you discuss how you have implemented version control for your Terraform code using tools like Git?
+How have you used Terraform modules to modularize your infrastructure code and reuse code across different environments?
+Can you explain how Terraform handles dependencies between resources, and how you have managed these dependencies in your code?
+Can you describe your experience using Terraform to manage Kubernetes resources and infrastructure?
+How have you used Terraform to implement security and compliance policies, particularly in multi-tenant and regulated environments?
+Can you describe your experience with Terraform and how you have used it in your previous roles?
+What are some of the key benefits of using Terraform for infrastructure as code, and how have you seen these benefits in your work?
+Can you explain how Terraform manages infrastructure resources across multiple providers, including public cloud, private cloud, and 
+on-premises infrastructure?
+How do you ensure that your Terraform code is reusable, modular, and maintainable over time?
+
+**Ansible**
+How to deploy to 100 servers at a time?
+Have you worked on ansible modules?
+How do you configure ansible in Jenkins?
+By using Ansible how to deploy in Jenkins?
+What is the use of ansible?
+What is configuration management?
+What are the modules you have used in ansible?
+Location and configuration file in ansible?
+Write a sample playbook?
+What is the ansible modules?
+Have used any pre-defined modules in your project?
+Write a sample boto3 script?
+Why ansible?
+What is Ansible, and how have you used it in your previous roles?
+Can you explain the difference between Ansible and other configuration management tools like Puppet or Chef?
+How have you used Ansible to automate the deployment of applications and infrastructure?
+Can you describe how you would use Ansible to manage a large, distributed infrastructure?
+How have you used Ansible to manage and maintain application configuration files and templates?
+Have you used Ansible in conjunction with other tools like Docker or Kubernetes, and if so, how did you integrate them?
+Can you explain how Ansible uses inventory files, and what strategies have you used to manage large inventories?
+Have you implemented custom Ansible modules or plugins, and if so, can you describe them?
+How do you ensure that your Ansible playbooks are idempotent, and what are some techniques you have used to test this?
+Can you describe a particularly challenging Ansible deployment or automation project you worked on and how you overcame any obstacles?
+How is Ansible different from other configuration management tools like Puppet and Chef?
+How does Ansible use YAML files, and what are the benefits of using YAML in Ansible?
+Monitoring
+Which monitoring tools are used in Project?
+How grafana monitoring works
+Explain about promethous
+How to export CloudWatch Logs to Grafana
+What is ELK?
+
+**Bash Scripting**
+Write a program to count no of times each word present in the string and save it in the dictionary?
+Three members have same password one I have to change write a script for this example?
+Write a script for how to push the repository and build the job in Jenkins?
+What are EC2 and VPC how we create & write a script?
+How have you used Bash shell scripts to implement version control and manage changes to code, including any techniques you have used to automate 
+testing or build processes?
+Can you describe your experience using bash shell scripts to automate tasks in your previous roles?
+How have you used bash scripting to manage and manipulate files and directories, including any techniques you have used to automate backups or
+file transfers?
+Can you explain how you have used bash scripts to manage processes and system resources, including any techniques you have used to monitor or 
+optimize performance?
+How have you used bash scripts to automate repetitive tasks, such as configuring system settings or setting up new users?
+Can you describe your experience using bash scripts for system administration tasks, including any techniques you have used to automate server 
+configurations or manage network settings?
+How have you used bash scripts to interact with APIs or web services, including any techniques you have used to parse and manipulate data?
+Can you discuss your experience using bash scripts for debugging and troubleshooting, including any techniques you have used to diagnose and 
+fix errors or issues?
+How have you used bash scripts to implement security controls, including any techniques you have used to manage user permissions or implement firewalls?
+Can you explain how you have used bash scripts to automate software installations and updates, including any techniques you have used to manage 
+dependencies or configure application settings?
+How have you used bash scripts to integrate with other tools or services, such as version control systems or continuous integration platforms, 
+to automate workflows or tasks?
+
+**CICD Pipelines**
+What is CI/CD?
+Explain complete CICD pipeline
+Real-Time Troubleshooting
+My application suddently stop working? explain process to resolve this issue
+My EC2 disk space getting full for Linux? How to increase disk space?
+Auto Scaling not working as expected? which parameter need to check?
+My application is working very slow? how to fix and what things to check?
+AWS account bill are huge, how to control the infra cost
+AWS bill suddenyl increase. Explain me process to figure out root case
+After deployment application is not working. How to roll back last stable version in Jenkins?

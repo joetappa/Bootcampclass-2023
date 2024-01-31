@@ -433,6 +433,8 @@ Make sure to replace "developers" and "john" with the actual group name and user
 
 =========================================================================================================>>>>>>>>>>>>>>>
 
+
+
 Maven:
 
 1 What is Maven, and what is its primary purpose in software development?
@@ -1163,6 +1165,9 @@ In this example, the version of `spring-core` in `module1` is overridden to `5.2
 By overriding a dependency version in a child module's `pom.xml`, you have the flexibility to use a different version for that specific module while benefiting from centralized version management for other dependencies.
 
 =====================================================================================================================================================
+
+
+
 Git:
 
 1 What is Git, and how is it different from other version control systems?
@@ -2055,6 +2060,8 @@ git log --graph --oneline --all
 These examples cover some of the common use cases for the `git log` command. Feel free to explore more options and customize the output according to your preferences and requirements.
 
 ============================================================================================================================================>>>>>>>>
+
+
 
 Jenkins:
 
@@ -2997,6 +3004,8 @@ By providing a flexible and parameterized build process, Jenkins allows users to
 
 =======================================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+
+
 Docker:
 1 What is Docker, and what are its advantages in application deployment?
 
@@ -3766,6 +3775,7 @@ The `docker logs` command is a useful tool for troubleshooting and monitoring th
 ================================================================================================================================================>>>>>
 
 
+Kubernetes:
 What is Kubernetes and what problem does it solve in the world of containerized applications?
 
 Kubernetes is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. It solves the challenges of deploying and managing applications in dynamic, scalable, and containerized environments.
@@ -3817,7 +3827,7 @@ What is Kubernetes and its primary purpose in containerized applications?
 Answer: Kubernetes is an open-source container orchestration platform designed to automate the deployment, scaling, and management of containerized applications. It addresses challenges in deploying and managing applications in dynamic and scalable container environments.
 
 Explain the key components of Kubernetes architecture.
-Answer: Kubernetes architecture comprises a Master node, which includes the API server, controller manager, and scheduler, and Worker nodes, consisting of the Kubelet and Container runtime. etcd serves as the cluster's distributed key-value store.
+Answer: Kubernetes architecture comprises a Master node, which includes the API server, controller manager, and scheduler, and Worker nodes, consisting of the Kubelet and Container runtime. etcd serves as the cluster's distributed key-value store.(please try to understand the functions of each component)
 
 How does Kubernetes manage container orchestration and scaling?
 Answer: Kubernetes automates container orchestration by deploying containers on clusters and manages their lifecycle. Scaling is achieved through features like horizontal pod autoscaling, adjusting the number of running instances based on resource usage.

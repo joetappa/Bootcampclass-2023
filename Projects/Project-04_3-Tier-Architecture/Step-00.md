@@ -2,7 +2,7 @@
 
 
 ## Prerequisites
-Make sure that you have following servers installed and configured within Project-7:
+Make sure that you are following servers installation and configuration within this Project:
 
 1. Two RHEL8 Web Servers
 2. One MySQL DB Server (based on Ubuntu 20.04)

@@ -30,10 +30,10 @@ Enter this command in mysql >
 
 ```sql
 CREATE DATABASE wordpress;
-CREATE USER `webaccess`@`<Web-Server-private-ip>` IDENTIFIED BY 'web@123';
-CREATE USER `webaccess`@`<Web-Server-private-ip>` IDENTIFIED BY 'web@123';
-GRANT ALL PRIVILEGES ON wordpress.* TO 'webaccess'@'<Web-Server-private-ip>';
-GRANT ALL PRIVILEGES ON wordpress.* TO 'webaccess'@'<Web-Server-private-ip>';
+CREATE USER `webaccess`@`<Web-Server-1-private-ip>` IDENTIFIED BY 'web@123';
+CREATE USER `webaccess`@`<Web-Server-2-private-ip>` IDENTIFIED BY 'web@123';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'webaccess'@'<Web-Server-1-private-ip>';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'webaccess'@'<Web-Server-2-private-ip>';
 FLUSH PRIVILEGES;
 SHOW DATABASES;
 ```

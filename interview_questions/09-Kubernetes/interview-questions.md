@@ -164,4 +164,33 @@ allowing users to define their own API objects and controllers.
 specific applications or use cases that are not covered by the Kubernetes core API. For
 instance, CRDs enable the creation of custom resources like databases, queues, etc., with
 specific behaviors managed by custom controllers.
+
+# How is Kubernetes different from Docker Swarm?
+ Docker Swarm is Docker’s native, open-source container orchestration 
+platform that is used to cluster and schedule Docker containers. Swarm 
+differs from Kubernetes in the following ways:
+
+Docker Swarm is more convenient to set up but doesn’t have a robust cluster, while 
+Kubernetes is more complicated to set up but the benefit of having the assurance 
+of a robust cluster
+
+ Docker Swarm can’t do auto-scaling (as can Kubernetes); however, Docker scaling 
+is five times faster than Kubernetes
+ 
+ Docker Swarm doesn’t have a GUI; Kubernetes has a GUI in the form of a dash
+board 
+
+Docker Swarm does automatic load balancing of traffic between containers in a 
+cluster, while Kubernetes requires manual intervention for load balancing such 
+traffic 
+
+Docker requires third-party tools like ELK stack for logging and monitoring, while 
+Kubernetes has integrated tools for the same 
+
+Docker Swarm can share storage volumes with any container easily, while Kuber
+netes can only share storage volumes with containers in the same pod
+ 
+ Docker can deploy rolling updates but can’t deploy automatic rollbacks; Kuberne
+tes can deploy rolling updates as well as automatic rollbacks
+
  

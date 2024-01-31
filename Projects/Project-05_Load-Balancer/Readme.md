@@ -40,5 +40,4 @@ Your target architecture will look like this:
 ![6030](https://user-images.githubusercontent.com/85270361/210153166-b5dc7221-7d15-47ed-ae34-f0ffeaecd9b4.PNG)
 
 
-
 Let us get started!
