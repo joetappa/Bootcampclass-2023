@@ -53,3 +53,41 @@ While Kubernetes offers many advantages, it might not fit every project best.
 Simple applications, smaller-scale deployments, or projects where the overhead of managing a Kubernetes cluster 
 outweighs its benefits might be better served by simpler solutions like basic container orchestration tools, 
 serverless platforms, or traditional deployment models.
+
+
+1. *Scalability and Autoscaling:*
+   
+ ✨Question: Your company's application experiences sudden spikes in traffic during certain hours of the day.
+How would you design your Kubernetes cluster to handle this variability in load efficiently?
+   
+ ✨Answer: I would utilize Kubernetes Horizontal Pod Autoscaling (HPA) to automatically adjust the number of pods based on resource 
+utilization metrics like CPU or memory. Additionally, I'd employ Cluster Autoscaler to scale the underlying infrastructure, 
+such as adding or removing nodes, to accommodate the increased workload dynamically.
+
+2. *High Availability and Fault Tolerance:*
+   
+✨ Question: A critical microservice in your Kubernetes cluster keeps failing intermittently. How would you ensure high availability and 
+fault tolerance for this service?
+   
+✨ Answer: I would deploy multiple replicas of the microservice behind a Kubernetes Service configured with a proper health check. 
+By using ReplicaSets or Deployments, Kubernetes ensures that the desired number of instances are always running, automatically replacing any 
+failed instances.Additionally, I might consider using StatefulSets if the microservice requires stable, unique identifiers or storage.
+
+
+3. *Storage:*
+   
+✨ Question: Your application requires persistent storage for its data. How would you provision and manage storage for your Kubernetes pods?
+   
+ ✨Answer: I would leverage Kubernetes PersistentVolumes (PVs) and PersistentVolumeClaims (PVCs) to provision storage from various providers such as NFS,
+AWS EBS, or Azure Disk. By defining storage classes, I can specify the type and properties of storage required by the application, 
+ensuring data persistence even when pods are rescheduled or migrated.
+
+4. *Security:*
+   
+ ✨ Question: Your company is concerned about the security of its Kubernetes cluster. How would you secure the cluster, including access control,
+network policies, and container security?
+   
+ ✨Answer: I would implement RBAC (Role-Based Access Control) to define granular permissions for users and service accounts, 
+limiting access to sensitive resources. Additionally, I'd enforce network policies to restrict communication between pods and namespaces. 
+For container security, I would regularly scan container images for vulnerabilities using tools like Clair or Trivy, 
+and employ Pod Security Policies to enforce security best practices.

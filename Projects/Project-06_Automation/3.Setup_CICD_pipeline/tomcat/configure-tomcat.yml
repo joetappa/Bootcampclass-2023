@@ -1,0 +1,33 @@
+---
+- name: Configure Tomcat Manager Access
+  hosts: webservers
+  become: true
+  vars:
+    tomcat_install_directory: "/opt/tomcat10"
+    tomcat_user: "tomcat"
+    tomcat_password: "s3cret"
+    allow_manager_access_from: "127.0.0.1" # Use specific IPs or use ".*" for global access (not recommended for production)
+
+  tasks:
+    - name: Template tomcat-users.xml with manager user
+      template:
+        src: tomcat-users.xml.j2
+        dest: "{{ tomcat_install_directory }}/conf/tomcat-users.xml"
+        owner: tomcat
+        group: tomcat
+        mode: '0777'
+
+    - name: Adjust Manager's context.xml to modify access restrictions
+      lineinfile:
+        path: "{{ tomcat_install_directory }}/webapps/manager/META-INF/context.xml"
+        regexp: 'Valve className="org.apache.catalina.valves.RemoteAddrValve"'
+        line: "<!-- Valve className=\"org.apache.catalina.valves.RemoteAddrValve\" allow=\"{{ allow_manager_access_from }}\" /-->"
+        state: present
+        backrefs: yes
+
+    - name: Restart Tomcat to apply changes
+      systemd:
+        name: tomcat
+        state: restarted
+        enabled: yes
+        daemon_reload: yes

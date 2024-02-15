@@ -1,0 +1,93 @@
+---
+- name: Install Apache Tomcat 10 using Ansible
+  hosts: webservers
+  remote_user: ec2-user
+  become: true
+  vars:
+    tomcat_version: "10.1.18" # Ensure this matches the desired Tomcat version
+    tomcat_download_url: "https://dlcdn.apache.org/tomcat/tomcat-10/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    tomcat_install_directory: "/opt/tomcat10"
+
+  tasks:
+    - name: Update necessary system packages
+      yum:
+        name:
+          - httpd # Example dependency, adjust as needed
+        state: latest
+        update_cache: yes
+
+    - name: Install Java
+      yum:
+        name: java-11-openjdk
+        state: present
+
+    - name: Create Tomcat Installation Directory
+      file:
+        path: "{{ tomcat_install_directory }}"
+        mode: 0777
+        state: directory
+
+    - name: Download & Unarchive Tomcat 10
+      unarchive:
+        src: "{{ tomcat_download_url }}"
+        dest: "{{ tomcat_install_directory }}"
+        remote_src: yes
+        extra_opts: [--strip-components=1]
+
+    - name: Set Correct Permissions for Tomcat Directory and Subdirectories
+      file:
+        path: "{{ item }}"
+        mode: "0777"
+        recurse: yes
+      loop:
+        - "{{ tomcat_install_directory }}"
+        - "{{ tomcat_install_directory }}/conf"
+        - "{{ tomcat_install_directory }}/webapps"
+        - "{{ tomcat_install_directory }}/logs"
+        - "{{ tomcat_install_directory }}/temp"
+        - "{{ tomcat_install_directory }}/bin"
+
+    - name: Creating a Tomcat Service File
+      become: yes
+      copy:
+        content: |
+          [Unit]
+          Description=Tomcat 10 Service
+          Requires=network.target
+          After=network.target
+
+          [Service]
+          Type=forking
+          Environment="CATALINA_PID={{ tomcat_install_directory }}/logs/tomcat.pid"
+          Environment="CATALINA_BASE={{ tomcat_install_directory }}"
+          Environment="CATALINA_HOME={{ tomcat_install_directory }}"
+          Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+          ExecStart={{ tomcat_install_directory }}/bin/startup.sh
+          ExecStop={{ tomcat_install_directory }}/bin/shutdown.sh
+          Restart=on-abnormal
+          RemainAfterExit=no
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/tomcat.service
+
+    - name: Reload systemd to re-read Tomcat service configuration
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and Start Tomcat Service
+      systemd:
+        name: tomcat
+        enabled: yes
+        state: started
+
+    - name: Verify Tomcat Service is Running
+      uri:
+        url: http://localhost:8080
+        method: GET
+      register: result
+      until: result.status == 200
+      retries: 5
+      delay: 10
+      changed_when: false
+      tags: test
